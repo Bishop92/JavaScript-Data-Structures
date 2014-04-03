@@ -145,7 +145,7 @@ DoubleLinkedList.prototype.removeAt = function (index) {
  * @return {Object|undefined}. It's undefined if index isn't in the queue bounds.
  */
 DoubleLinkedList.prototype.getItem = function (index) {
-	if (index < 0 || index > this.length)
+	if (index < 0 || index > this.length - 1)
 		return undefined;
 	var node;
 	var m = Math.floor(this.length / 2);
@@ -242,7 +242,12 @@ DoubleLinkedList.prototype.parallelSort = function () {
 /**
  * Sort the list.
  */
-DoubleLinkedList.prototype.sort = function () {
+DoubleLinkedList.prototype.sort = function (callback) {
+
+	if (!callback)
+		callback = function (item) {
+			return item;
+		};
 
 	var outerThis = this;
 
@@ -252,11 +257,11 @@ DoubleLinkedList.prototype.sort = function () {
 			var mNode = outerThis.getNode(fromNode, m - from);
 			partialSort(from, m, fromNode, mNode);
 			partialSort(m + 1, to, mNode.next, toNode);
-			merge(from, m, to, fromNode, mNode, toNode);
+			merge(from, m, to, fromNode);
 		}
 	}
 
-	function merge(from, m, to, fromNode, mNode, toNode) {
+	function merge(from, m, to, fromNode) {
 		var left = [];
 		var right = [];
 		var node = fromNode;
@@ -266,7 +271,7 @@ DoubleLinkedList.prototype.sort = function () {
 			right[j] = node.item;
 		var x = 0, y = 0;
 		for (var k = from; k < to + 1; k++, fromNode = fromNode.next) {
-			if (y > to - m - 1 || (left[x] <= right[y] && x < m - from + 1)) {
+			if (y > to - m - 1 || (callback(left[x]) <= callback(right[y]) && x < m - from + 1)) {
 				fromNode.item = left[x];
 				x++;
 			} else {
