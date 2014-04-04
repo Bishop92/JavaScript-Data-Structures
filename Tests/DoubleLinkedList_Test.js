@@ -92,3 +92,21 @@ test("DoubleLinkedList - Reverse test", function () {
 	deepEqual(list.getItem(0), 0, "Reverse");
 	deepEqual(list.getItem(length - 1), 99, "Reverse");
 });
+
+test("DoubleLinkedList - Iterator test", function () {
+	var list = new DoubleLinkedList();
+
+	for (var i = 0; i < 100; i++)
+		list.pushBack(i);
+
+	var it = list.getIterator();
+
+	var j = 0;
+	for (it.first(); !it.isDone(); it.next(), j++) {
+		deepEqual(it.getItem(), j, "Check iterator position");
+	}
+	for (it.last(); !it.isDone(); it.previous(), j--) {
+		deepEqual(it.getItem(), j - 1, "Check iterator position");
+	}
+
+});

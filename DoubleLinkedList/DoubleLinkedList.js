@@ -48,6 +48,13 @@ function DoubleLinkedList() {
 }
 
 /**
+ * @inheritDoc
+ */
+DoubleLinkedList.prototype.getIterator = function () {
+	return new DoubleLinkedListIterator(this);
+};
+
+/**
  * Add an item at the head of the list.
  * @param item {*} The item to add.
  * @return {void}

@@ -86,7 +86,7 @@ test("LinkedList - Iterator test", function () {
 
 	var j = 0;
 	for (it.first(); !it.isDone(); it.next(), j++) {
-		deepEqual(it.getItem(), j, "Filter on the pairs values");
+		deepEqual(it.getItem(), j, "Check iterator position");
 	}
 
 });
