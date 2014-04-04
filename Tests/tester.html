@@ -10,10 +10,12 @@
 <div id="qunit-fixture"></div>
 
 <!--classes to test-->
+<script type="text/javascript" src="Aggregate/Aggregate.js"></script>
 <script type="text/javascript" src="Stack/Stack.js"></script>
 <script type="text/javascript" src="Queue/Queue.js"></script>
 <script type="text/javascript" src="CircularBuffer/CircularBuffer.js"></script>
 <script type="text/javascript" src="LinkedList/LinkedList.js"></script>
+<script type="text/javascript" src="LinkedList/LinkedListIterator.js"></script>
 <script type="text/javascript" src="DoubleLinkedList/DoubleLinkedList.js"></script>
 
 <!--QUnit-->
@@ -29,7 +31,7 @@
 <script type="text/javascript" src="DoubleLinkedList_Test.js"></script>
 
 <script>
-    QUnit.jUnitReport = function(report) {
+    QUnit.jUnitReport = function (report) {
         console.log(report.xml);
     };
 </script>

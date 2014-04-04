@@ -54,13 +54,41 @@ test("DoubleLinkedList - Sort with callback test", function () {
 	const length = 100;
 
 	for (var i = 0; i < length; i++)
-		list.pushFront({value: i});
+		list.pushFront(i);
 
 	list.sort(
 		function (item) {
-			return item.value;
+			return -item;
 		}
 	);
-	deepEqual(list.getItem(0).value, 0, "Sort");
-	deepEqual(list.getItem(length - 1).value, length - 1, "Sort");
+	deepEqual(list.getItem(0), length - 1, "Sort with callback");
+	deepEqual(list.getItem(length - 1), 0, "Sort with callback");
+});
+
+test("DoubleLinkedList - Filter test", function () {
+	var list = new DoubleLinkedList();
+	const length = 100;
+
+	for (var i = 0; i < length; i++)
+		list.pushFront(i);
+
+	var result = list.filter(function (item) {
+		return 1 - item % 2;
+	});
+
+	deepEqual(result[0], 98, "Filter of the pairs values");
+	deepEqual(result[result.length - 1], 0, "Filter on the pairs values");
+});
+
+test("DoubleLinkedList - Reverse test", function () {
+	var list = new DoubleLinkedList();
+	const length = 100;
+
+	for (var i = 0; i < length; i++)
+		list.pushFront(i);
+
+	list.reverse();
+
+	deepEqual(list.getItem(0), 0, "Reverse");
+	deepEqual(list.getItem(length - 1), 99, "Reverse");
 });

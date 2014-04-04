@@ -16,7 +16,7 @@ onmessage = function (event) {
 			break;
 		case 'finished':
 			this.finished++;
-			if(this.finished > 1) {
+			if (this.finished > 1) {
 				this.array = data.array;
 				merge(this.from, this.to, this.array);
 				this.postMessage({cmd: 'finished', worker: this.worker});
@@ -26,18 +26,19 @@ onmessage = function (event) {
 		default :
 			this.postMessage('Something went wrong');
 	}
-}
+};
 
+//noinspection FunctionWithMultipleLoopsJS
 function merge(from, to, array) {
 	var m = Math.floor((from + to) / 2);
 	var left = [];
 	var right = [];
 	for (var i = 0; i < m - from + 1; i++)
 		left[i] = array[from + i];
-	for (var j = 0; j < to - m ; j++)
+	for (var j = 0; j < to - m; j++)
 		right[j] = array[m + j + 1];
 	var x = 0, y = 0;
-	for(var k = from; k < to + 1; k++) {
+	for (var k = from; k < to + 1; k++) {
 		if (y > to - m - 1 || (left[x] <= right[y] && x < m - from + 1)) {
 			this.postMessage({cmd: 'replace', index: k, value: left[x]});
 			x++;

@@ -4,7 +4,7 @@
 
 /**
  * Class for managing a circular buffer.
- * @param size The size of the buffer.
+ * @param size {Number} The size of the buffer.
  * @constructor
  */
 function CircularBuffer(size) {
@@ -20,7 +20,7 @@ function CircularBuffer(size) {
 	this.tail = 0;
 	/**
 	 * The items stored in the buffer.
-	 * @type {Array}
+	 * @type {Array<*>}
 	 */
 	this.items = new Array(size);
 	/**
@@ -42,44 +42,44 @@ function CircularBuffer(size) {
 
 /**
  * Write the item at the head of the buffer.
- * @param item The item to write.
+ * @param item {*} The item to write.
  * @return {void}
  */
-CircularBuffer.prototype.write = function(item) {
+CircularBuffer.prototype.write = function (item) {
 	this.empty = false;
-	if(this.full)
-		//if buffer is full tail must be set forward
+	if (this.full)
+	//if buffer is full tail must be set forward
 		this.tail = (this.tail + 1) % this.size;
 	this.items[this.head] = item;
 	//head is set forward
 	this.head = (this.head + 1) % this.size;
-	if(this.tail === this.head)
+	if (this.tail === this.head)
 		this.full = true;
 };
 
 /**
  * Free the buffer between indexes from and to.
  * If from > to, positions between from and the end of the buffer and between the start and to will be free.
- * @param from The index from which start to free (inclusive index)
- * @param to The index where stop to free (exclusive index)
+ * @param from {Number} The index from which start to free (inclusive index)
+ * @param to {Number} The index where stop to free (exclusive index)
  * @return {void}
  */
-CircularBuffer.prototype.free = function(from, to) {
-	if(from < 0)
+CircularBuffer.prototype.free = function (from, to) {
+	if (from < 0)
 		from = 0;
-	if(from > this.size - 1)
+	if (from > this.size - 1)
 		from = this.size - 1;
-	if(to < 0)
+	if (to < 0)
 		to = 0;
-	if(to > this.size - 1)
+	if (to > this.size - 1)
 		to = this.size - 1;
 	//if from < to then will be free allocation between from and to
 	//otherwise will be free allocations between from and the end and between the start and to
-	for(; from < to; from = (from + 1) % this.size)
+	for (; from < to; from = (from + 1) % this.size)
 		delete this.items[from];
 	//free could make buffer empty
-	for(var i = 0; i < this.size; i++)
-		if(this.items[i] !== undefined) {
+	for (var i = 0; i < this.size; i++)
+		if (this.items[i] !== undefined) {
 			this.empty = false;
 			return;
 		}
@@ -90,18 +90,18 @@ CircularBuffer.prototype.free = function(from, to) {
  * Free all the buffer.
  * @return {void}
  */
-CircularBuffer.prototype.freeAll = function() {
-	for(var i = 0; i < this.size; i++)
+CircularBuffer.prototype.freeAll = function () {
+	for (var i = 0; i < this.size; i++)
 		delete this.items[i];
 	this.empty = true;
 };
 
 /**
  * Read the item stored at the position index.
- * @param index The position of the item to read.
- * @return {Object} The item read.
+ * @param index {Number} The position of the item to read.
+ * @return {*} The item read.
  */
-CircularBuffer.prototype.read = function(index) {
+CircularBuffer.prototype.read = function (index) {
 	return this.items[index % this.size];
 };
 
@@ -109,7 +109,7 @@ CircularBuffer.prototype.read = function(index) {
  * Return true if the buffer is empty, false otherwise.
  * @return {boolean}
  */
-CircularBuffer.prototype.isEmpty = function() {
+CircularBuffer.prototype.isEmpty = function () {
 	return this.empty;
 };
 
@@ -117,6 +117,6 @@ CircularBuffer.prototype.isEmpty = function() {
  * Return true if the buffer is full, false otherwise.
  * @return {boolean}
  */
-CircularBuffer.prototype.isFull = function() {
+CircularBuffer.prototype.isFull = function () {
 	return this.full;
 };

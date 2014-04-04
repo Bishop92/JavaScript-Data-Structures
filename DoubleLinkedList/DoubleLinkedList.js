@@ -4,13 +4,13 @@
 
 /**
  * The single node of the list.
- * @param item The item to store in the node.
+ * @param item {*} The item to store in the node.
  * @constructor
  */
 function Node(item) {
 	/**
 	 * The item stored.
-	 * @type {Object}
+	 * @type {*}
 	 */
 	this.item = item;
 	/**
@@ -26,7 +26,7 @@ function Node(item) {
 }
 
 /**
- * Class for managing a linked list.
+ * Class for managing a double linked list.
  * @constructor
  */
 function DoubleLinkedList() {
@@ -49,7 +49,7 @@ function DoubleLinkedList() {
 
 /**
  * Add an item at the head of the list.
- * @param item The item to add.
+ * @param item {*} The item to add.
  * @return {void}
  */
 DoubleLinkedList.prototype.pushFront = function (item) {
@@ -66,7 +66,7 @@ DoubleLinkedList.prototype.pushFront = function (item) {
 
 /**
  * Add an item at the tail of the list.
- * @param item The item to add.
+ * @param item {*} The item to add.
  * @return {void}
  */
 DoubleLinkedList.prototype.pushBack = function (item) {
@@ -83,7 +83,7 @@ DoubleLinkedList.prototype.pushBack = function (item) {
 
 /**
  * Remove the first element of the list.
- * @return {Object|undefined} The element removed. It's undefined if the list is empty.
+ * @return {*} The element removed. It's undefined if the list is empty.
  */
 DoubleLinkedList.prototype.popFront = function () {
 	if (this.length) {
@@ -100,7 +100,7 @@ DoubleLinkedList.prototype.popFront = function () {
 
 /**
  * Remove the last element of the list.
- * @return {Object|undefined} The element removed. It's undefined if the list is empty.
+ * @return {*} The element removed. It's undefined if the list is empty.
  */
 DoubleLinkedList.prototype.popBack = function () {
 	if (this.length) {
@@ -117,8 +117,8 @@ DoubleLinkedList.prototype.popBack = function () {
 
 /**
  * Remove the item at the position index.
- * @param index The position of the item to remove.
- * @return {Object|undefined}
+ * @param index {Number} The position of the item to remove.
+ * @return {*} The item stored at the position index. It's undefined if the index is out of bounds.
  */
 DoubleLinkedList.prototype.removeAt = function (index) {
 	if (index < 0 || index > this.length - 1)
@@ -141,8 +141,8 @@ DoubleLinkedList.prototype.removeAt = function (index) {
 
 /**
  * Get the item at the position index.
- * @param index The position of the item.
- * @return {Object|undefined}. It's undefined if index isn't in the queue bounds.
+ * @param index {Number} The position of the item.
+ * @return {*}. It's undefined if index isn't in the queue bounds.
  */
 DoubleLinkedList.prototype.getItem = function (index) {
 	if (index < 0 || index > this.length - 1)
@@ -160,8 +160,8 @@ DoubleLinkedList.prototype.getItem = function (index) {
 
 /**
  * Get the node at the position index relative from the node.
- * @param node The node from which start the search.
- * @param index The index, relative to the node, of the node to return.
+ * @param node {Node} The node from which start the search.
+ * @param index {Number} The index, relative to the node, of the node to return.
  * @return {Node} The node at the position index.
  */
 DoubleLinkedList.prototype.getNode = function (node, index) {
@@ -176,6 +176,7 @@ DoubleLinkedList.prototype.getNode = function (node, index) {
  * Sort the list using web workers.
  * Using this method is discouraged. Many web browser set a limit to the maximum number of workers instantiated.
  * The items of the list, due to web workers implementation, will be serialized so they will lost own methods.
+ * @return {void}
  */
 DoubleLinkedList.prototype.parallelSort = function () {
 
@@ -205,7 +206,7 @@ DoubleLinkedList.prototype.parallelSort = function () {
 						_array[data.index] = data.value;
 						break;
 				}
-			}
+			};
 			workerRight.onmessage = function (event) {
 				var data = event.data;
 				switch (data.cmd) {
@@ -235,12 +236,14 @@ DoubleLinkedList.prototype.parallelSort = function () {
 			case 'replace':
 				_array[data.index] = data.value;
 		}
-	}
+	};
 	partialSort(0, this.length - 1, 0);
 };
 
 /**
  * Sort the list.
+ * @param callback {function} The function invoked in order to get the value for the evaluation of the sort criteria. That parameter could be omitted. In that case, will be returned the same item.
+ * @return {void}
  */
 DoubleLinkedList.prototype.sort = function (callback) {
 
@@ -286,18 +289,19 @@ DoubleLinkedList.prototype.sort = function (callback) {
 
 /**
  * Transform the list into an array.
- * @return {Array} The array built.
+ * @return {Array<*>} The array built.
  */
 DoubleLinkedList.prototype.toArray = function () {
 	var array = [];
 	for (var node = this.first, i = 0; node; node = node.next, i++)
 		array[i] = node.item;
 	return array;
-}
+};
 
 /**
  * Build the list from the array.
- * @param array The array from which build the list.
+ * @param array {Array<*>} The array from which build the list.
+ * @return {void}
  */
 DoubleLinkedList.prototype.fromArray = function (array) {
 	var node = this.first;
@@ -309,4 +313,30 @@ DoubleLinkedList.prototype.fromArray = function (array) {
 	else
 		for (var k = array.length; k < this.length;)
 			this.popBack();
-}
+};
+
+/**
+ * Return the items that satisfy the condition determined by the callback.
+ * @param callback {function} The function that implements the condition.
+ * @return {Array<Object>} The array that contains the items that satisfy the condition.
+ */
+DoubleLinkedList.prototype.filter = function (callback) {
+	var result = [];
+	for (var node = this.first; node; node = node.next) {
+		if (callback(node.item))
+			result.push(node.item);
+	}
+	return result;
+};
+
+/**
+ * Reverse the list. This method reverses only the items, not the nodes.
+ * @return {void}
+ */
+DoubleLinkedList.prototype.reverse = function () {
+	for (var start = this.first, end = this.last; start !== end && start.previous !== end; start = start.next, end = end.previous) {
+		var item = start.item;
+		start.item = end.item;
+		end.item = item;
+	}
+};
