@@ -7,7 +7,7 @@
  * @param item {*} The item to store in the node.
  * @constructor
  */
-function Node(item) {
+function DLLNode(item) {
 	/**
 	 * The item stored.
 	 * @type {*}
@@ -15,12 +15,12 @@ function Node(item) {
 	this.item = item;
 	/**
 	 * The next node. It's null if there's no a next node.
-	 * @type {Node|null}
+	 * @type {DLLNode|null}
 	 */
 	this.next = null;
 	/**
 	 * The previous node. It's null if there's no a previous node.
-	 * @type {Node|null}
+	 * @type {DLLNode|null}
 	 */
 	this.previous = null;
 }
@@ -32,12 +32,12 @@ function Node(item) {
 function DoubleLinkedList() {
 	/**
 	 * The first node of the list.
-	 * @type {Node|null}
+	 * @type {DLLNode|null}
 	 */
 	this.first = null;
 	/**
 	 * The last node of the list.
-	 * @type {Node|null}
+	 * @type {DLLNode|null}
 	 */
 	this.last = null;
 	/**
@@ -60,7 +60,7 @@ DoubleLinkedList.prototype.getIterator = function () {
  * @return {void}
  */
 DoubleLinkedList.prototype.pushFront = function (item) {
-	var node = new Node(item);
+	var node = new DLLNode(item);
 	node.next = this.first;
 	this.first = node;
 	//link the next node to the new node
@@ -77,7 +77,7 @@ DoubleLinkedList.prototype.pushFront = function (item) {
  * @return {void}
  */
 DoubleLinkedList.prototype.pushBack = function (item) {
-	var node = new Node(item);
+	var node = new DLLNode(item);
 	node.previous = this.last;
 	this.last = node;
 	//link the previous node to the new node
@@ -89,8 +89,8 @@ DoubleLinkedList.prototype.pushBack = function (item) {
 };
 
 /**
- * Remove the first element of the list.
- * @return {*} The element removed. It's undefined if the list is empty.
+ * Remove the first item of the list.
+ * @return {*} The item removed. It's undefined if the list is empty.
  */
 DoubleLinkedList.prototype.popFront = function () {
 	if (this.length) {
@@ -106,8 +106,8 @@ DoubleLinkedList.prototype.popFront = function () {
 };
 
 /**
- * Remove the last element of the list.
- * @return {*} The element removed. It's undefined if the list is empty.
+ * Remove the last item of the list.
+ * @return {*} The item removed. It's undefined if the list is empty.
  */
 DoubleLinkedList.prototype.popBack = function () {
 	if (this.length) {
@@ -147,6 +147,25 @@ DoubleLinkedList.prototype.removeAt = function (index) {
 };
 
 /**
+ * Delete the node from the list.
+ * @param node {DLLNode} The node to delete.
+ * @return {void}
+ */
+DoubleLinkedList.prototype.deleteNode = function (node) {
+	if (node === this.first) {
+		this.popFront();
+		return;
+	}
+	if (node === this.last) {
+		this.popBack();
+		return;
+	}
+	node.previous.next = node.next;
+	node.next.previous = node.previous;
+	this.length--;
+};
+
+/**
  * Get the item at the position index.
  * @param index {Number} The position of the item.
  * @return {*}. It's undefined if index isn't in the queue bounds.
@@ -167,13 +186,12 @@ DoubleLinkedList.prototype.getItem = function (index) {
 
 /**
  * Get the node at the position index relative from the node.
- * @param node {Node} The node from which start the search.
+ * @param [node = first] {DLLNode} The node from which start the search.
  * @param index {Number} The index, relative to the node, of the node to return.
- * @return {Node} The node at the position index.
+ * @return {DLLNode} The node at the position index.
  */
 DoubleLinkedList.prototype.getNode = function (node, index) {
-	if (!node)
-		node = this.head;
+	node = node || this.first;
 	for (; index > 0; index--)
 		node = node.next;
 	return node;
@@ -249,7 +267,10 @@ DoubleLinkedList.prototype.parallelSort = function () {
 
 /**
  * Sort the list.
- * @param callback {function} The function invoked in order to get the value for the evaluation of the sort criteria. That parameter could be omitted. In that case, will be returned the same item.
+ * @param [callback = function(item){return(item);}] {function} The function invoked in order to get the value for the evaluation of the sort criteria.
+ * @example
+ * callback = function(item) {return -item.key;}
+ * This function callback will return the opposite of the attribute key of the item. In this case the list will be sorted in descending order.
  * @return {void}
  */
 DoubleLinkedList.prototype.sort = function (callback) {
