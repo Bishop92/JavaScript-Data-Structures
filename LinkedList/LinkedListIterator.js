@@ -67,3 +67,12 @@ LinkedListIterator.prototype.isDone = function () {
 LinkedListIterator.prototype.getItem = function () {
 	return this.pointer.item;
 };
+
+/**
+ * Return the node stored at the position pointed by the iterator.
+ * @abstract
+ * @return {Node|null} The node stored or null if it's out of the bounds.
+ */
+LinkedListIterator.prototype.getNode = function () {
+	return this.pointer;
+};

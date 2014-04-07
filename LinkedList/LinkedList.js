@@ -7,7 +7,7 @@
  * @param item {*} The item to store in the node.
  * @constructor
  */
-function Node(item) {
+function LLNode(item) {
 	/**
 	 * The item stored.
 	 * @type {*}
@@ -15,7 +15,7 @@ function Node(item) {
 	this.item = item;
 	/**
 	 * The next node. It's null if there's no a next node.
-	 * @type {Node|null}
+	 * @type {LLNode|null}
 	 */
 	this.next = null;
 }
@@ -30,12 +30,12 @@ LinkedList.prototype.constructor = LinkedList;
 function LinkedList() {
 	/**
 	 * The first node of the list.
-	 * @type {Node|null}
+	 * @type {LLNode|null}
 	 */
 	this.first = null;
 	/**
 	 * The last node of the list.
-	 * @type {Node|null}
+	 * @type {LLNode|null}
 	 */
 	this.last = null;
 	/**
@@ -58,7 +58,7 @@ LinkedList.prototype.getIterator = function () {
  * @return {void}
  */
 LinkedList.prototype.pushFront = function (item) {
-	var node = new Node(item);
+	var node = new LLNode(item);
 	node.next = this.first;
 	this.first = node;
 	if (!this.last)
@@ -72,7 +72,7 @@ LinkedList.prototype.pushFront = function (item) {
  * @return {void}
  */
 LinkedList.prototype.pushBack = function (item) {
-	var node = new Node(item);
+	var node = new LLNode(item);
 	if (this.last)
 		this.last.next = node;
 	else
@@ -82,8 +82,8 @@ LinkedList.prototype.pushBack = function (item) {
 };
 
 /**
- * Remove the first element of the list.
- * @return {*} The element removed. It's undefined if the list is empty.
+ * Remove the first item of the list.
+ * @return {*} The item removed. It's undefined if the list is empty.
  */
 LinkedList.prototype.popFront = function () {
 	if (this.length) {
@@ -97,8 +97,8 @@ LinkedList.prototype.popFront = function () {
 };
 
 /**
- * Remove the last element of the list.
- * @return {*} The element removed. It's undefined if the list is empty.
+ * Remove the last item of the list.
+ * @return {*} The item removed. It's undefined if the list is empty.
  */
 LinkedList.prototype.popBack = function () {
 	if (this.length) {
