@@ -38,6 +38,19 @@ test("DoubleLinkedList - Remove at test", function () {
 	deepEqual(list.removeAt(0), 1, "Remove at 0");
 });
 
+test("DoubleLinkedList - Delete node test", function () {
+	var list = new DoubleLinkedList();
+	list.pushFront(0);
+	list.pushFront(1);
+	list.pushBack(2);
+	list.pushBack(3);
+	var it = list.getIterator();
+	for (it.first(); !it.isDone(); it.next())
+		if (it.getItem())
+			list.deleteNode(it.getNode());
+	deepEqual(list.getItem(0), 0, "Delete node");
+});
+
 test("DoubleLinkedList - Sort test", function () {
 	var list = new DoubleLinkedList();
 	const length = 100;
