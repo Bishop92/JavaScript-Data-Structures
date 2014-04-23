@@ -2,6 +2,10 @@
  * Created by Stefano on 08/04/2014.
  */
 
+/**
+ * The single node of the tree.
+ * @constructor
+ */
 function BNode() {
 	/**
 	 * The keys stored it the node.
@@ -20,8 +24,11 @@ function BNode() {
 	this.childs = [];
 }
 
+BTree.prototype = new Aggregate();
+BTree.prototype.constructor = BTree;
+
 /**
- * Class for managing a b-tree.
+ * Class for managing a B-Tree.
  * @param minimumDegree {number} The minimum number of keys of a node.
  * @constructor
  */
@@ -44,6 +51,13 @@ function BTree(minimumDegree) {
 	 */
 	this.size = 0;
 }
+
+/**
+ * @inheritDoc
+ */
+BTree.prototype.getIterator = function () {
+	return new BTreeIterator(this);
+};
 
 /**
  * Insert the item relatives to the key value in the tree.
@@ -418,6 +432,50 @@ BTree.prototype.predecessor = function (key, node) {
 };
 
 /**
+ * Gets the minimum key stored in the tree.
+ * @return {number} The key found.
+ */
+BTree.prototype.minimumKey = function () {
+	var node = this.root;
+	while (node.childs.length)
+		node = node.childs[0];
+	return node.keys[0];
+};
+
+/**
+ * Gets the maximum key stored in the tree.
+ * @return {node} The key found.
+ */
+BTree.prototype.maximumKey = function () {
+	var node = this.root;
+	while (node.childs.length)
+		node = node.childs[node.childs.length - 1];
+	return node.keys[node.keys - 1];
+};
+
+/**
+ * Gets the item relatives to the minimum key stored in the tree.
+ * @return {number} The item found.
+ */
+BTree.prototype.minimum = function () {
+	var node = this.root;
+	while (node.childs.length)
+		node = node.childs[0];
+	return node.items[0];
+};
+
+/**
+ * Gets the item relatives to the maximum key stored in the tree.
+ * @return {node} The item found.
+ */
+BTree.prototype.maximum = function () {
+	var node = this.root;
+	while (node.childs.length)
+		node = node.childs[node.childs.length - 1];
+	return node.items[node.items - 1];
+};
+
+/**
  * Returns the size of the tree.
  * @return {number} The size of the tree.
  */
@@ -470,4 +528,20 @@ BTree.prototype.filter = function (callback) {
 	for (var j = 0; j < node.childs.length; j++)
 		result.concat(this.filter(callback, node.childs[j]));
 	return result;
+};
+
+/**
+ * Clones the tree into a new tree.
+ * @return {BTree} The tree cloned from this tree.
+ */
+BTree.prototype.clone = function () {
+	var tree = new BTree(this.t);
+	var it = this.getIterator();
+	for (it.first(); !it.isDone(); it.next()) {
+		var item = it.getItem();
+		if (item.clone)
+			item = item.clone();
+		tree.insert(it.getKey(), item);
+	}
+	return tree;
 };
