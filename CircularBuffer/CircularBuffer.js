@@ -2,6 +2,9 @@
  * Created by Stefano on 31/03/14.
  */
 
+CircularBuffer.prototype = new Aggregate();
+CircularBuffer.prototype.constructor = CircularBuffer;
+
 /**
  * Class for managing a circular buffer.
  * @param size {Number} The size of the buffer.
@@ -41,6 +44,13 @@ function CircularBuffer(size) {
 }
 
 /**
+ * @inheritDoc
+ */
+CircularBuffer.prototype.getIterator = function () {
+	return new CircularBufferIterator(this);
+};
+
+/**
  * Write the item at the head of the buffer.
  * @param item {*} The item to write.
  * @return {void}
@@ -75,11 +85,28 @@ CircularBuffer.prototype.free = function (from, to) {
 		to = this.size - 1;
 	//if from < to then will be free allocation between from and to
 	//otherwise will be free allocations between from and the end and between the start and to
-	for (; from < to; from = (from + 1) % this.size)
-		delete this.items[from];
+	for (var i = from; i < to; i = (i + 1) % this.size)
+		delete this.items[i];
+
+	//adjust the position of the tail and of the head
+	if (this.tail > from - 1 || this.tail < to)
+		if (this.tail < this.head) {
+			this.tail = (from - 1) % this.size;
+		} else {
+			this.tail = to;
+		}
+	if (this.head > from || this.head < to)
+		if (this.tail < this.head) {
+			this.head = to;
+		} else {
+			this.head = from;
+		}
+	//check if something is free
+	if (from !== to)
+		this.full = false;
 	//free could make buffer empty
-	for (var i = 0; i < this.size; i++)
-		if (this.items[i] !== undefined) {
+	for (var j = 0; j < this.size; j++)
+		if (this.items[j] !== undefined) {
 			this.empty = false;
 			return;
 		}
@@ -94,6 +121,8 @@ CircularBuffer.prototype.freeAll = function () {
 	for (var i = 0; i < this.size; i++)
 		delete this.items[i];
 	this.empty = true;
+	this.head = 0;
+	this.tail = 0;
 };
 
 /**
@@ -119,4 +148,54 @@ CircularBuffer.prototype.isEmpty = function () {
  */
 CircularBuffer.prototype.isFull = function () {
 	return this.full;
+};
+
+/**
+ * Clones the circular buffer into a new circular buffer.
+ * @return {CircularBuffer} The circular buffer cloned from this circular buffer.
+ */
+CircularBuffer.prototype.clone = function () {
+	var buffer = new CircularBuffer(this.size);
+	buffer.head = this.head;
+	buffer.tail = this.tail;
+	for (var i = 0; i < this.items.length; i++)
+		buffer.items[i] = this.items[i];
+	buffer.empty = this.empty;
+	buffer.full = this.full;
+	return buffer;
+};
+
+/**
+ * Resize the buffer.
+ * @param size {number} The new size of the buffer.
+ * @return {void}
+ */
+CircularBuffer.prototype.resize = function (size) {
+	if (this.size < size) {
+		if (this.head < this.tail + 1) {
+			for (var i = 0; i < this.head; i++) {
+				this.items[(i + this.size) % size] = this.items[i];
+				delete this.items[i];
+			}
+			this.head = (this.head + this.size) % size;
+		}
+	} else if (this.size > size) {
+		if (this.head < this.tail + 1) {
+			//check if the tail is after the size
+			var start = size;
+			if (this.tail > size - 1) {
+				start = this.tail;
+				this.tail = 0;
+			}
+			//the items stored must be shift to a valid position
+			var step = this.size - start;
+			for (var j = this.head - step - 1; j > start - 1 || j < this.head - step; j--) {
+				this.items[(j + step) % this.size] = this.items[j];
+				if (!j)
+					j = this.size;
+			}
+			this.head = (this.head + step) % this.size;
+		}
+	}
+	this.size = size;
 };
