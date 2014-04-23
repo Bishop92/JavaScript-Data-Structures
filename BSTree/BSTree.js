@@ -39,6 +39,10 @@ function BSNode(key, item) {
 BSTree.prototype = new Aggregate();
 BSTree.prototype.constructor = BSTree;
 
+/**
+ * Class for managing a binary search tree.
+ * @constructor
+ */
 function BSTree() {
 	/**
 	 * The root of the tree.

@@ -7,7 +7,7 @@ function Aggregate() {
 }
 
 /**
- * Return the iterator relative to the aggregate.
+ * Returns the iterator relative to the aggregate.
  * @abstract
  * @return {Iterator} The iterator.
  */
