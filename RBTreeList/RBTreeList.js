@@ -453,7 +453,7 @@ RBTreeList.prototype.clone = function () {
 
 /**
  * Clones the tree into a new tree without cloning duplicated items.
- * @return {RBTreeList} The tree cloned from this queue.
+ * @return {RBTreeList} The tree cloned from this tree.
  */
 RBTreeList.prototype.cloneDistinct = function () {
 	var tree = new RBTreeList();

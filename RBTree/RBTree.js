@@ -405,7 +405,7 @@ RBTree.prototype.clone = function () {
 
 /**
  * Clones the tree into a new tree without cloning duplicated items.
- * @return {RBTree} The tree cloned from this queue.
+ * @return {RBTree} The tree cloned from this tree.
  */
 RBTree.prototype.cloneDistinct = function () {
 	var tree = new RBTree();
