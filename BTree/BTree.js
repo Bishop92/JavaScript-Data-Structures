@@ -37,6 +37,12 @@ function BTree(minimumDegree) {
 	 * @type {number}
 	 */
 	this.t = minimumDegree;
+
+	/**
+	 * The number of items stored in the tree.
+	 * @type {number}
+	 */
+	this.size = 0;
 }
 
 /**
@@ -54,6 +60,7 @@ BTree.prototype.insert = function (key, item) {
 		this.splitChild(newNode, 0);
 		node = newNode;
 	}
+	this.size++;
 	this.insertNonFull(node, key, item);
 };
 
@@ -168,9 +175,16 @@ BTree.prototype.deleteKey = function (key) {
 		this.deleteNonMin(this.root, key);
 		if (!this.root.keys.length && this.root.childs.length)
 			this.root = this.root.childs[0];
+		this.size--;
 	}
 };
 
+/**
+ * Deletes a node that's a number of keys greater than the minimum for a node.
+ * @param node {BNode} The node to delete.
+ * @param key {number} The key to delete.
+ * @return {void}
+ */
 BTree.prototype.deleteNonMin = function (node, key) {
 	var i = 0, j = node.keys.length;
 	while (i < j) {
@@ -218,6 +232,12 @@ BTree.prototype.deleteNonMin = function (node, key) {
 	}
 };
 
+/**
+ * Deletes a node that have the maximum number of keys for node.
+ * @param node {BNode} The node to delete.
+ * @param index {number} The key to delete in the node.
+ * @return {void}
+ */
 BTree.prototype.deleteMax = function (node, index) {
 	var child = node.childs[index];
 	var goAhead = true;
@@ -237,6 +257,12 @@ BTree.prototype.deleteMax = function (node, index) {
 	}
 };
 
+/**
+ * Augments the number of keys stored in the node preserving the order.
+ * @param node {BNode} The node to delete.
+ * @param index {number} The index of the position to augment.
+ * @return {void}
+ */
 BTree.prototype.augmentChild = function (node, index) {
 	var child = node.childs[index];
 	var brother;
@@ -309,4 +335,139 @@ BTree.prototype.augmentChild = function (node, index) {
 			}
 		}
 	}
+};
+
+/**
+ * Checks if the tree contains the key.
+ * @param key {number} The key to find.
+ * @return {boolean} True if the tree contains the key.
+ */
+BTree.prototype.contains = function (key) {
+	return this.search(key) !== undefined;
+};
+
+/**
+ * Get the key next to the param node key.
+ * @param key {number} The key of which search the successor.
+ * @param [node = root] The node from start the search of the successor.
+ * @return {number} The key found.
+ */
+BTree.prototype.successor = function (key, node) {
+	node = node || this.root;
+	var i = 0, j = node.keys.length;
+	//search the key in the node
+	while (i < j) {
+		var m = Math.floor((i + j) / 2);
+		if (key <= node.keys[m])
+			j = m;
+		else
+			i = m + 1;
+	}
+	//check if the key has been found
+	if (node.keys[i] === key)
+	//in this case the successor is the next key
+		i++;
+	//if it's a leaf
+	if (!node.childs.length) {
+		//check if the key hasn't been found
+		if (i > node.keys.length - 1)
+			return null;
+		else
+			return node.keys[i];
+	}
+	//if it's not a leaf check if the successor is in the i-child
+	var successor = this.successor(key, node.childs[i]);
+	//if it's not in the child and has been found a key then return it
+	if (successor === null && i < node.keys.length)
+		return node.keys[i];
+	//return the value of the successor even if it's null
+	return successor;
+};
+
+/**
+ * Get the key previous to the param key.
+ * @param key {number} The key of which search the predecessor.
+ * @param [node = root] The node from start the search of the predecessor.
+ * @return {number} The key found.
+ */
+BTree.prototype.predecessor = function (key, node) {
+	node = node || this.root;
+	var i = 0, j = node.keys.length;
+	//search the key in the node
+	while (i < j) {
+		var m = Math.floor((i + j) / 2);
+		if (key <= node.keys[m])
+			j = m;
+		else
+			i = m + 1;
+	}
+	i--;
+	//check if the node is a leaf
+	if (!node.childs.length) {
+		//check if a predecessor has been found
+		if (i < 0)
+			return null;
+		else
+			return node.keys[i];
+	}
+	var predecessor = this.predecessor(key, node.childs[i + 1]);
+	if (predecessor === null && key > node.keys[0]) {
+		return node.keys[i];
+	}
+	return predecessor;
+};
+
+/**
+ * Returns the size of the tree.
+ * @return {number} The size of the tree.
+ */
+BTree.prototype.getSize = function () {
+	return this.size;
+};
+
+/**
+ * Checks if the tree is empty.
+ * @return {boolean} True if the tree is empty, false otherwise.
+ */
+BTree.prototype.isEmpty = function () {
+	return !this.size;
+};
+
+/**
+ * Executes the callback function for each item of the tree.
+ * This method modifies the tree so if you don't need to modify it you must return the same item of the array.
+ * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
+ * @return {void}
+ */
+BTree.prototype.execute = function (callback) {
+	var node = arguments[1] || this.root;
+	for (var i = 0; i < node.items.length; i++)
+		node.items[i] = callback(node.items[i]);
+	for (var j = 0; j < node.childs.length; j++)
+		this.execute(callback, node.childs[j]);
+};
+
+/**
+ * Removes all the items stored in the tree.
+ * @return {void}
+ */
+BTree.prototype.clear = function () {
+	this.root = null;
+	this.size = 0;
+};
+
+/**
+ * Returns the items that satisfy the condition determined by the callback.
+ * @param callback {function} The function that implements the condition.
+ * @return {Array<*>} The array that contains the items that satisfy the condition.
+ */
+BTree.prototype.filter = function (callback) {
+	var result = [];
+	var node = arguments[1] || this.root;
+	for (var i = 0; i < node.items.length; i++)
+		if (callback(node.items[i]))
+			result.push(node.items[i]);
+	for (var j = 0; j < node.childs.length; j++)
+		result.concat(this.filter(callback, node.childs[j]));
+	return result;
 };
