@@ -2748,4 +2748,4 @@ StackIterator.prototype.isDone = function () {
 };
 StackIterator.prototype.getItem = function () {
 	return this.aggregate.getItem(this.pointer)
-}
+};
