@@ -75,9 +75,115 @@ test("RBTreeList - Delete node test", function () {
 		tree.insert(i, i);
 	var j = 0;
 	while (tree.minimum()) {
-		console.log(tree.minimum());
 		deepEqual(tree.minimum().item, j, "Deletion");
 		tree.deleteNode(tree.minimum());
 		j++;
 	}
+});
+
+test("RBTreeList - To array test", function () {
+	var tree = new RBTreeList();
+	for (var i = 0; i < 5; i++)
+		tree.insert(i, i);
+	deepEqual(tree.toArray(), [0, 1, 2, 3, 4], "To array");
+});
+
+test("RBTreeList - Filter test", function () {
+	var tree = new RBTreeList();
+	const length = 100;
+
+	for (var i = 0; i < length; i++)
+		tree.insert(i, i);
+
+	var result = tree.filter(function (item) {
+		return 1 - item % 2;
+	});
+
+	deepEqual(result[0], 0, "Filter of the even values");
+	deepEqual(result[result.length - 1], 98, "Filter on the even values");
+});
+
+test("RBTreeList - Clear test", function () {
+	var tree = new RBTreeList();
+	tree.insert(0, 0);
+	tree.insert(2, 2);
+	tree.clear();
+	deepEqual(tree.isEmpty(), true, "Clear tree");
+});
+
+test("RBTreeList - Is empty test", function () {
+	var tree = new RBTreeList();
+	tree.insert(0, 0);
+	tree.insert(2, 2);
+	deepEqual(tree.isEmpty(), false, "Is not empty");
+	tree.clear();
+	deepEqual(tree.isEmpty(), true, "Is empty");
+});
+
+test("RBTreeList - Contains test", function () {
+	var tree = new RBTreeList();
+	tree.insert(0, 0);
+	tree.insert(2, 2);
+	deepEqual(tree.contains(0), true, "Contains 0");
+	deepEqual(tree.contains(2), true, "Contains 2");
+	deepEqual(tree.contains(1), false, "Not contains 1");
+	var callback = function (item) {
+		return item > 0;
+	};
+	deepEqual(tree.fullContains(callback), true, "Contains a value > 0");
+	callback = function (item) {
+		return item < 0;
+	};
+	deepEqual(tree.fullContains(callback), false, "Contains a value < 0");
+});
+
+test("RBTreeList - Execute test", function () {
+	var tree = new RBTreeList();
+	tree.insert(0, 0);
+	tree.insert(2, 2);
+	var callback = function (item) {
+		return item * 2;
+	};
+	tree.execute(callback);
+	deepEqual(tree.search(0), 0, "Execute for key 0");
+	deepEqual(tree.search(2), 4, "Execute for key 1");
+});
+
+test("RBTreeList - Index of test", function () {
+	var tree = new RBTreeList();
+	for (var i = 0; i < 10; i++)
+		tree.insert(i, i);
+	var callback = function (item) {
+		return !(item % 2) && item > 5;
+	};
+	deepEqual(tree.indexOf(0), 0, "Index of 0");
+	deepEqual(tree.indexOf(15), -1, "Index of 15");
+	deepEqual(tree.indexOf(5), 5, "Index of 5");
+	deepEqual(tree.indexOf(null, callback), 6, "Index of the first even number greater than 5");
+});
+
+test("RBTreeList - Last index of test", function () {
+	var tree = new RBTreeList();
+	for (var i = 0; i < 10; i++)
+		tree.insert(i, i);
+	var callback = function (item) {
+		return !(item % 2) && item > 5;
+	};
+	deepEqual(tree.lastIndexOf(0), 0, "Last index of 0");
+	deepEqual(tree.lastIndexOf(15), -1, "Last index of 15");
+	deepEqual(tree.lastIndexOf(5), 5, "Last index of 5");
+	deepEqual(tree.lastIndexOf(null, callback), 8, "Index of the last even number greater than 5");
+});
+
+test("RBTreeList - Indexes of test", function () {
+	var tree = new RBTreeList();
+	for (var i = 0; i < 30; i++)
+		tree.insert(i, i % 10);
+	var callback = function (item) {
+		return !(item % 2) && item > 5;
+	};
+	deepEqual(tree.allIndexesOf(0), [0, 10, 20], "Indexes of 0");
+	deepEqual(tree.allIndexesOf(15), [], "Indexes of 15");
+	deepEqual(tree.allIndexesOf(5), [5, 15, 25], "Indexes of 5");
+	deepEqual(tree.allIndexesOf(null, callback), [6, 8, 16, 18, 26, 28], "Indexes of the even numbers greater than 5");
 });
