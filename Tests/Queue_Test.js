@@ -186,7 +186,7 @@ test("Queue - Clone test", function () {
 	var it = clone.getIterator();
 	var j = 0;
 	for (it.first(); !it.isDone(); it.next(), j++)
-		deepEqual(it.getItem(), j, "Clone of the list");
+		deepEqual(it.getItem(), j, "Clone of the queue");
 });
 
 test("Queue - Clone distinct test", function () {
@@ -194,7 +194,7 @@ test("Queue - Clone distinct test", function () {
 	for (var i = 0; i < 20; i++)
 		queue.enqueue(i % 10);
 	var clone = queue.cloneDistinct();
-	deepEqual(clone.allIndexesOf(2), [2], "Clone of the list");
+	deepEqual(clone.allIndexesOf(2), [2], "Clone of the queue");
 });
 
 test("Queue - Filter test", function () {

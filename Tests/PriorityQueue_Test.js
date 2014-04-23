@@ -176,8 +176,6 @@ test("PriorityQueue - Filter test", function () {
 		return 1 - item % 2;
 	});
 
-	console.log(result);
-
 	deepEqual(result[0], 98, "Filter of the even values");
 	deepEqual(result[result.length - 1], 0, "Filter on the even values");
 });

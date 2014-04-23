@@ -190,3 +190,22 @@ test("RBTree - Indexes of test", function () {
 	deepEqual(tree.allIndexesOf(5), [5, 15, 25], "Indexes of 5");
 	deepEqual(tree.allIndexesOf(null, callback), [6, 8, 16, 18, 26, 28], "Indexes of the even numbers greater than 5");
 });
+
+test("RBTree - Clone test", function () {
+	var tree = new RBTree();
+	for (var i = 0; i < 10; i++)
+		tree.insert(i, i);
+	var clone = tree.clone();
+	var it = clone.getIterator();
+	var j = 0;
+	for (it.first(); !it.isDone(); it.next(), j++)
+		deepEqual(it.getItem(), j, "Clone of the tree");
+});
+
+test("RBTree - Clone distinct test", function () {
+	var tree = new RBTree();
+	for (var i = 0; i < 20; i++)
+		tree.insert(i % 10, i % 10);
+	var clone = tree.cloneDistinct();
+	deepEqual(clone.allIndexesOf(2), [2], "Clone of the tree");
+});
