@@ -117,13 +117,17 @@ BTree.prototype.insertNonFull = function (node, key, item) {
 };
 
 /**
- * Search the item relatives to the key.
+ * Search the item relatives to the key that satisfy the condition represented by the callback function.
  * @param key {Number} The key to find.
  * @param [node = root] {RBNode} The node from which start the search.
+ * @param [callback = function(node,index){return(node.keys[index]===key);}] The condition to satisfy. The callback must accept the current node to check and optionally the position of the key.
  * @return {*} The item found or undefined if there isn't the key in the tree.
  */
-BTree.prototype.search = function (key, node) {
+BTree.prototype.search = function (key, node, callback) {
 	node = node || this.root;
+	callback = callback || function (node, index) {
+		return node.keys[index] === key;
+	};
 	while (node) {
 		var n = node.keys.length;
 		var i = 0, j = n;
@@ -134,7 +138,7 @@ BTree.prototype.search = function (key, node) {
 			else
 				i = m + 1;
 		}
-		if (i < n && key === node.keys[i])
+		if (i < n && callback(node, i))
 			return node.items[i];
 		else if (!node.childs.length)
 			return undefined;
@@ -354,10 +358,24 @@ BTree.prototype.augmentChild = function (node, index) {
 /**
  * Checks if the tree contains the key.
  * @param key {number} The key to find.
+ * @param [callback = function(node,index){return(node.keys[index]===key);}] The condition to satisfy. The callback must accept the current node to check and optionally the position of the key.
  * @return {boolean} True if the tree contains the key.
  */
-BTree.prototype.contains = function (key) {
-	return this.search(key) !== undefined;
+BTree.prototype.contains = function (key, callback) {
+	return this.search(key, null, callback) !== undefined;
+};
+
+/**
+ * Checks if the tree contains a node that satisfy the condition represented by the callback function.
+ * This method check all the tree avoiding the binary search.
+ * @param callback {function} The condition to satisfy. The callback must accept the current node to check.
+ * @return {boolean} True if the tree contains the node that satisfy the condition, false otherwise.
+ */
+BTree.prototype.fullContains = function (callback) {
+	var key = this.minimumKey();
+	while (key !== null && !callback(this.search(key)))
+		key = this.successor(key);
+	return key !== null;
 };
 
 /**
@@ -439,18 +457,22 @@ BTree.prototype.minimumKey = function () {
 	var node = this.root;
 	while (node.childs.length)
 		node = node.childs[0];
-	return node.keys[0];
+	if (node)
+		return node.keys[0];
+	return null;
 };
 
 /**
  * Gets the maximum key stored in the tree.
- * @return {node} The key found.
+ * @return {number} The key found.
  */
 BTree.prototype.maximumKey = function () {
 	var node = this.root;
 	while (node.childs.length)
 		node = node.childs[node.childs.length - 1];
-	return node.keys[node.keys - 1];
+	if (node)
+		return node.keys[node.keys.length - 1];
+	return null;
 };
 
 /**
@@ -472,7 +494,7 @@ BTree.prototype.maximum = function () {
 	var node = this.root;
 	while (node.childs.length)
 		node = node.childs[node.childs.length - 1];
-	return node.items[node.items - 1];
+	return node.items[node.items.length - 1];
 };
 
 /**
@@ -522,11 +544,14 @@ BTree.prototype.clear = function () {
 BTree.prototype.filter = function (callback) {
 	var result = [];
 	var node = arguments[1] || this.root;
-	for (var i = 0; i < node.items.length; i++)
+	for (var i = 0; i < node.items.length; i++) {
+		if (node.childs.length)
+			result = result.concat(this.filter(callback, node.childs[i]));
 		if (callback(node.items[i]))
 			result.push(node.items[i]);
-	for (var j = 0; j < node.childs.length; j++)
-		result.concat(this.filter(callback, node.childs[j]));
+	}
+	if (node.childs.length)
+		result = result.concat(this.filter(callback, node.childs[node.childs.length - 1]));
 	return result;
 };
 
@@ -544,4 +569,114 @@ BTree.prototype.clone = function () {
 		tree.insert(it.getKey(), item);
 	}
 	return tree;
+};
+
+/**
+ * Clones the tree into a new tree without cloning duplicated items.
+ * @return {BTree} The tree cloned from this tree.
+ */
+BTree.prototype.cloneDistinct = function () {
+	var tree = new BTree(this.t);
+	var it = this.getIterator();
+	for (it.first(); !it.isDone(); it.next()) {
+		var callback = function (item) {
+			return item === it.getItem();
+		};
+		if (!tree.fullContains(callback)) {
+			if (it.getItem().cloneDistinct)
+				tree.insert(it.getKey(), it.getItem().cloneDistinct());
+			else if (it.getItem().clone)
+				tree.insert(it.getKey(), it.getItem().clone());
+			else
+				tree.insert(it.getKey(), it.getItem());
+		}
+	}
+	return tree;
+};
+
+/**
+ * Transform the tree into an array without preserving keys.
+ * @return {Array<*>} The array that represents the tree.
+ */
+BTree.prototype.toArray = function () {
+	var result = [];
+	var it = this.getIterator();
+	for (it.first(); !it.isDone(); it.next())
+		result.push(it.getItem());
+	return result;
+};
+
+/**
+ * Returns the first position of the item in the tree.
+ * @param item {*} The item to search.
+ * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+ * @return {number} The first position of the item.
+ */
+BTree.prototype.indexOf = function (item, callback) {
+	callback = callback || function (it) {
+		return it === item;
+	};
+	var i = 0, key = this.minimumKey();
+	while (key !== null) {
+		if (callback(this.search(key)))
+			return i;
+		key = this.successor(key);
+		i++;
+	}
+	return -1;
+};
+
+/**
+ * Returns the last position of the item in the tree.
+ * @param item {*} The item to search.
+ * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+ * @return {number} The last position of the item.
+ */
+BTree.prototype.lastIndexOf = function (item, callback) {
+	callback = callback || function (it) {
+		return it === item;
+	};
+	var i = this.size - 1, key = this.maximumKey();
+	while (key !== null) {
+		if (callback(this.search(key)))
+			return i;
+		i--;
+		key = this.predecessor(key);
+	}
+	return -1;
+};
+
+/**
+ * Returns all the position in which the item has been found in the tree.
+ * @param item {*} The item to search.
+ * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+ * @return {Array<number>} The positions in which the item has been found.
+ */
+BTree.prototype.allIndexesOf = function (item, callback) {
+	callback = callback || function (it) {
+		return it === item;
+	};
+	var i = 0, key = this.minimumKey();
+	var indexes = [];
+	while (key !== null) {
+		if (callback(this.search(key)))
+			indexes.push(i);
+		i++;
+		key = this.successor(key);
+	}
+	return indexes;
+};
+
+/**
+ * Returns the item at the position index.
+ * @param index {number} The position of the item.
+ * @return {*} The item at the position. It's undefined if index isn't in the tree bounds.
+ */
+BTree.prototype.getItem = function (index) {
+	if (index < 0 || index > this.size - 1)
+		return undefined;
+	var key = this.minimum();
+	for (var i = 0; i < index; i++)
+		key = this.successor(key);
+	return this.search(key);
 };

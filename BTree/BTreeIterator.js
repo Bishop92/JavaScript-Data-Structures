@@ -56,7 +56,7 @@ BTreeIterator.prototype.previous = function () {
  * @inheritDoc
  */
 BTreeIterator.prototype.isDone = function () {
-	return !this.pointer;
+	return this.pointer === null;
 };
 
 /**
