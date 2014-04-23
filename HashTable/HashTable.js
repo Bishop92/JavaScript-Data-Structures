@@ -222,7 +222,7 @@ HashTable.prototype.getSize = function () {
 
 /**
  * Clones the hash table into a new hash table.
- * @return {HashTable} The hash table cloned from this hashtable.
+ * @return {HashTable} The hash table cloned from this hash table.
  */
 HashTable.prototype.clone = function () {
 	var table = new HashTable(this.size);

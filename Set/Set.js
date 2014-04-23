@@ -155,11 +155,19 @@ Set.prototype.cartesianProduct = function (set) {
 	return product;
 };
 
+/**
+ * Add the subset.
+ * @param set {Set} The subset.
+ */
 Set.prototype.addSubset = function (set) {
 	this.sets.pushBack(set);
 	this.size += set.size;
 };
 
+/**
+ * Add the subsets.
+ * @param sets {Array<Set>} The subsets.
+ */
 Set.prototype.addSubsets = function (sets) {
 	for (var i = 0; i < sets.length; i++)
 		this.addSubset(sets[i]);
@@ -200,4 +208,17 @@ Set.prototype.getCardinality = function () {
  */
 Set.prototype.isEmpty = function () {
 	return !this.size;
+};
+
+/**
+ * Clones the set into a new set.
+ * @return {Set} The set cloned from this set.
+ */
+Set.prototype.clone = function () {
+	var s = new Set();
+	s.parents = this.parents.clone();
+	s.elements = this.elements.clone();
+	s.sets = this.sets.clone();
+	s.size = this.size;
+	return s;
 };
