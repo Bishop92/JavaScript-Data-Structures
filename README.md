@@ -25,7 +25,7 @@ Supported data structures
 
 How to use
 ----------
-1. Download the minimized library [here](https://github.com/Bishop92/JavaScript-Data-Structures/blob/master/DataStructuresMinimized.js);
+1. Download the minimized library [here](https://raw.githubusercontent.com/Bishop92/JavaScript-Data-Structures/master/DataStructuresMinimized.js) (right click and save as...);
 
 2. Include the file in your project;
 
