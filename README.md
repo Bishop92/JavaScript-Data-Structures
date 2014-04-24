@@ -5,7 +5,7 @@
 DataStructures is a JavaScript library where you can find the most common data structures and also other data
 structures more advanced. Various method are also provided in order to manipulate data structures.
 
-This library implements also the [iterator] (http://en.wikipedia.org/wiki/Iterator_pattern) pattern in order to hide
+This library implements the [iterator] (http://en.wikipedia.org/wiki/Iterator_pattern) pattern in order to hide
 the data structure that work for storing your data.
 
 Supported data structures
