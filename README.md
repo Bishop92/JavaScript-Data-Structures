@@ -45,7 +45,7 @@ listA.toArray(); // [0, 1, 2, 3]
 Documentation
 -------------
 Follow this [link](https://github.com/Bishop92/JavaScript-Data-Structures/wiki) to read the full documentation.
-Follow this [link](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/files.html) to read the JSDoc.
+Follow this [link](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/index.html) to read the JSDoc.
 
 History
 -------
