@@ -45,7 +45,7 @@ listA.toArray(); // [0, 1, 2, 3]
 
 Documentation
 -------------
-Follow this link to read the full documentation.
+Follow this [link]() to read the full documentation.
 
 History
 -------

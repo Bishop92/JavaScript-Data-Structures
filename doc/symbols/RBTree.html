@@ -1,0 +1,1598 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="generator" content="JsDoc Toolkit"/>
+
+    <title>JsDoc Reference - RBTree</title>
+
+    <style type="text/css">
+        /* default.css */
+        body {
+            font: 12px "Lucida Grande", Tahoma, Arial, Helvetica, sans-serif;
+            width: 800px;
+        }
+
+        .header {
+            clear: both;
+            background-color: #ccc;
+            padding: 8px;
+        }
+
+        h1 {
+            font-size: 150%;
+            font-weight: bold;
+            padding: 0;
+            margin: 1em 0 0 .3em;
+        }
+
+        hr {
+            border: none 0;
+            border-top: 1px solid #7F8FB1;
+            height: 1px;
+        }
+
+        pre.code {
+            display: block;
+            padding: 8px;
+            border: 1px dashed #ccc;
+        }
+
+        #index {
+            margin-top: 24px;
+            float: left;
+            width: 160px;
+            position: absolute;
+            left: 8px;
+            background-color: #F3F3F3;
+            padding: 8px;
+        }
+
+        #content {
+            margin-left: 190px;
+            width: 600px;
+        }
+
+        .classList {
+            list-style-type: none;
+            padding: 0;
+            margin: 0 0 0 8px;
+            font-family: arial, sans-serif;
+            font-size: 1em;
+            overflow: auto;
+        }
+
+        .classList li {
+            padding: 0;
+            margin: 0 0 8px 0;
+        }
+
+        .summaryTable {
+            width: 100%;
+        }
+
+        h1.classTitle {
+            font-size: 170%;
+            line-height: 130%;
+        }
+
+        h2 {
+            font-size: 110%;
+        }
+
+        caption, div.sectionTitle {
+            background-color: #7F8FB1;
+            color: #fff;
+            font-size: 130%;
+            text-align: left;
+            padding: 2px 6px 2px 6px;
+            border: 1px #7F8FB1 solid;
+        }
+
+        div.sectionTitle {
+            margin-bottom: 8px;
+        }
+
+        .summaryTable thead {
+            display: none;
+        }
+
+        .summaryTable td {
+            vertical-align: top;
+            padding: 4px;
+            border-bottom: 1px #7F8FB1 solid;
+            border-right: 1px #7F8FB1 solid;
+        }
+
+        /*col#summaryAttributes {}*/
+        .summaryTable td.attributes {
+            border-left: 1px #7F8FB1 solid;
+            width: 140px;
+            text-align: right;
+        }
+
+        td.attributes, .fixedFont {
+            line-height: 15px;
+            color: #002EBE;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 13px;
+        }
+
+        .summaryTable td.nameDescription {
+            text-align: left;
+            font-size: 13px;
+            line-height: 15px;
+        }
+
+        .summaryTable td.nameDescription, .description {
+            line-height: 15px;
+            padding: 4px;
+            padding-left: 4px;
+        }
+
+        .summaryTable {
+            margin-bottom: 8px;
+        }
+
+        ul.inheritsList {
+            list-style: square;
+            margin-left: 20px;
+            padding-left: 0;
+        }
+
+        .detailList {
+            margin-left: 20px;
+            line-height: 15px;
+        }
+
+        .detailList dt {
+            margin-left: 20px;
+        }
+
+        .detailList .heading {
+            font-weight: bold;
+            padding-bottom: 6px;
+            margin-left: 0;
+        }
+
+        .light, td.attributes, .light a:link, .light a:visited {
+            color: #777;
+            font-style: italic;
+        }
+
+        .fineprint {
+            text-align: right;
+            font-size: 10px;
+        }
+    </style>
+</head>
+
+<body>
+<!-- ============================== header ================================= -->
+<!-- begin static/header.html -->
+<div id="header">
+</div>
+<!-- end static/header.html -->
+
+<!-- ============================== classes index ============================ -->
+<div id="index">
+    <!-- begin publish.classesIndex -->
+    <div align="center"><a href="../index.html">Class Index</a>
+        | <a href="../files.html">File Index</a></div>
+    <hr/>
+    <h2>Classes</h2>
+    <ul class="classList">
+
+        <li><i><a href="../symbols/_global_.html">_global_</a></i></li>
+
+        <li><a href="../symbols/Aggregate.html">Aggregate</a></li>
+
+        <li><a href="../symbols/BSTree.html">BSTree</a></li>
+
+        <li><a href="../symbols/BSTreeIterator.html">BSTreeIterator</a></li>
+
+        <li><a href="../symbols/BTree.html">BTree</a></li>
+
+        <li><a href="../symbols/BTreeIterator.html">BTreeIterator</a></li>
+
+        <li><a href="../symbols/CircularBuffer.html">CircularBuffer</a></li>
+
+        <li><a href="../symbols/CircularBufferIterator.html">CircularBufferIterator</a></li>
+
+        <li><a href="../symbols/DoubleLinkedList.html">DoubleLinkedList</a></li>
+
+        <li><a href="../symbols/DoubleLinkedListIterator.html">DoubleLinkedListIterator</a></li>
+
+        <li><a href="../symbols/HashTable.html">HashTable</a></li>
+
+        <li><a href="../symbols/Iterator.html">Iterator</a></li>
+
+        <li><a href="../symbols/LinkedList.html">LinkedList</a></li>
+
+        <li><a href="../symbols/LinkedListIterator.html">LinkedListIterator</a></li>
+
+        <li><a href="../symbols/PriorityQueue.html">PriorityQueue</a></li>
+
+        <li><a href="../symbols/PriorityQueueIterator.html">PriorityQueueIterator</a></li>
+
+        <li><a href="../symbols/Queue.html">Queue</a></li>
+
+        <li><a href="../symbols/QueueIterator.html">QueueIterator</a></li>
+
+        <li><a href="../symbols/RBTree.html">RBTree</a></li>
+
+        <li><a href="../symbols/RBTreeIterator.html">RBTreeIterator</a></li>
+
+        <li><a href="../symbols/RBTreeList.html">RBTreeList</a></li>
+
+        <li><a href="../symbols/RBTreeListIterator.html">RBTreeListIterator</a></li>
+
+        <li><a href="../symbols/Set.html">Set</a></li>
+
+        <li><a href="../symbols/Stack.html">Stack</a></li>
+
+        <li><a href="../symbols/StackIterator.html">StackIterator</a></li>
+
+    </ul>
+    <hr/>
+    <!-- end publish.classesIndex -->
+</div>
+
+<div id="content">
+<!-- ============================== class title ============================ -->
+<h1 class="classTitle">
+
+    Class RBTree
+</h1>
+
+<!-- ============================== class summary ========================== -->
+<p class="description">
+
+
+    <br/><i>Defined in: </i> <a href="../symbols/src/C__DataStructures_DataStructures.js.html">DataStructures.js</a>.
+
+</p>
+
+<!-- ============================== constructor summary ==================== -->
+
+<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class RBTree.">
+    <caption>Class Summary</caption>
+    <thead>
+    <tr>
+        <th scope="col">Constructor Attributes</th>
+        <th scope="col">Constructor Name and Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="attributes">&nbsp;</td>
+        <td class="nameDescription">
+            <div class="fixedFont">
+                <b><a href="../symbols/RBTree.html#constructor">RBTree</a></b>()
+            </div>
+            <div class="description">Class for managing a red-black tree.</div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+<!-- ============================== properties summary ===================== -->
+
+
+<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class RBTree.">
+    <caption>Field Summary</caption>
+    <thead>
+    <tr>
+        <th scope="col">Field Attributes</th>
+        <th scope="col">Field Name and Description</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr>
+        <td class="attributes">&nbsp;</td>
+        <td class="nameDescription">
+            <div class="fixedFont">
+                <b><a href="../symbols/RBTree.html#root">root</a></b>
+            </div>
+            <div class="description">The root of the tree.</div>
+        </td>
+    </tr>
+
+    <tr>
+        <td class="attributes">&nbsp;</td>
+        <td class="nameDescription">
+            <div class="fixedFont">
+                <b><a href="../symbols/RBTree.html#size">size</a></b>
+            </div>
+            <div class="description">The number of items stored in the tree.</div>
+        </td>
+    </tr>
+
+    </tbody>
+</table>
+
+
+<!-- ============================== methods summary ======================== -->
+
+
+<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class RBTree.">
+<caption>Method Summary</caption>
+<thead>
+<tr>
+    <th scope="col">Method Attributes</th>
+    <th scope="col">Method Name and Description</th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#allIndexesOf">allIndexesOf</a></b>(item, callback)
+        </div>
+        <div class="description">Returns all the position in which the item has been found in the tree.</div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#clear">clear</a></b>()
+        </div>
+        <div class="description">Removes all the items stored in the tree.</div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#clone">clone</a></b>()
+        </div>
+        <div class="description">Clones the queue into a new queue.</div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#cloneDistinct">cloneDistinct</a></b>()
+        </div>
+        <div class="description">Clones the tree into a new tree without cloning duplicated items.</div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#contains">contains</a></b>(key, callback)
+        </div>
+        <div class="description">Checks if the tree contains a key or a node that satisfy the condition represented by
+            the callback function.
+        </div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#deleteFixUp">deleteFixUp</a></b>(node, parent)
+        </div>
+        <div class="description">Preserves the properties of the tree after a deletion.</div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#deleteNode">deleteNode</a></b>(node)
+        </div>
+        <div class="description">Deletes the node from the tree.</div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#execute">execute</a></b>(callback)
+        </div>
+        <div class="description">Executes the callback function for each item of the tree.</div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#filter">filter</a></b>(callback)
+        </div>
+        <div class="description">Returns the items that satisfy the condition determined by the callback.</div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#fullContains">fullContains</a></b>(callback)
+        </div>
+        <div class="description">Checks if the tree contains a node that satisfy the condition represented by the
+            callback function.
+        </div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#getItem">getItem</a></b>(index)
+        </div>
+        <div class="description">Returns the item at the position index.</div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#getIterator">getIterator</a></b>()
+        </div>
+        <div class="description">Returns the iterator relative to the aggregate.</div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#getSize">getSize</a></b>()
+        </div>
+        <div class="description">Returns the size of the tree.</div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#indexOf">indexOf</a></b>(item, callback)
+        </div>
+        <div class="description">Returns the first position of the item in the tree.</div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#insert">insert</a></b>(key, item)
+        </div>
+        <div class="description">Inserts the item relatives to the key value in the tree.</div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#insertFixUp">insertFixUp</a></b>(node)
+        </div>
+        <div class="description">Preserves the properties of the tree after an insert.</div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#isEmpty">isEmpty</a></b>()
+        </div>
+        <div class="description">Checks if the tree is empty.</div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#lastIndexOf">lastIndexOf</a></b>(item, callback)
+        </div>
+        <div class="description">Returns the last position of the item in the tree.</div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#leftRotate">leftRotate</a></b>(node)
+        </div>
+        <div class="description">Rotates the node with its right child.</div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#maximum">maximum</a></b>(node)
+        </div>
+        <div class="description">Gets the item relatives to the maximum key stored in the tree.</div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#minimum">minimum</a></b>(node)
+        </div>
+        <div class="description">Gets the item relatives to the minimum key stored in the tree.</div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#predecessor">predecessor</a></b>(node)
+        </div>
+        <div class="description">Gets the node with the key previous to the param node key.</div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#rightRotate">rightRotate</a></b>(node)
+        </div>
+        <div class="description">Rotates the node with its left child.</div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#search">search</a></b>(key, node, callback)
+        </div>
+        <div class="description">Searches the item relatives to the key and to the nodes that satisfy the condition
+            represented by the callback function.
+        </div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#successor">successor</a></b>(node)
+        </div>
+        <div class="description">Gets the node with the key next to the param node key.</div>
+    </td>
+</tr>
+
+<tr>
+    <td class="attributes">&nbsp;</td>
+    <td class="nameDescription">
+        <div class="fixedFont"><b><a href="../symbols/RBTree.html#toArray">toArray</a></b>()
+        </div>
+        <div class="description">Transforms the tree into an array without preserving keys.</div>
+    </td>
+</tr>
+
+</tbody>
+</table>
+
+
+<!-- ============================== events summary ======================== -->
+
+
+<!-- ============================== constructor details ==================== -->
+
+<div class="details"><a name="constructor"> </a>
+
+    <div class="sectionTitle">
+        Class Detail
+    </div>
+
+    <div class="fixedFont">
+        <b>RBTree</b>()
+    </div>
+
+    <div class="description">
+        Class for managing a red-black tree.
+
+    </div>
+
+
+</div>
+
+
+<!-- ============================== field details ========================== -->
+
+<div class="sectionTitle">
+    Field Detail
+</div>
+
+<a name="root"> </a>
+
+<div class="fixedFont">
+
+
+    <b>root</b>
+
+</div>
+<div class="description">
+    The root of the tree.
+
+
+</div>
+
+
+<hr/>
+
+<a name="size"> </a>
+
+<div class="fixedFont">
+
+
+    <b>size</b>
+
+</div>
+<div class="description">
+    The number of items stored in the tree.
+
+
+</div>
+
+
+<!-- ============================== method details ========================= -->
+
+<div class="sectionTitle">
+    Method Detail
+</div>
+
+<a name="allIndexesOf"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{Array<number>}</span>
+    <b>allIndexesOf</b>(item, callback)
+
+</div>
+<div class="description">
+    Returns all the position in which the item has been found in the tree.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Parameters:</dt>
+
+    <dt>
+        <b>item</b>
+
+    </dt>
+    <dd>{*} The item to search.</dd>
+
+    <dt>
+        <b>callback</b>
+        <i>Optional, Default: function(item){return(it===item);}</i>
+    </dt>
+    <dd>The condition to satisfy. The callback must accept the current item to check.</dd>
+
+</dl>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{Array<number>}</span> The positions in which the item has been found.</dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="clear"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{void}</span>
+    <b>clear</b>()
+
+</div>
+<div class="description">
+    Removes all the items stored in the tree.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{void}</span></dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="clone"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{<a href="../symbols/RBTree.html">RBTree</a>}</span>
+    <b>clone</b>()
+
+</div>
+<div class="description">
+    Clones the queue into a new queue.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{<a href="../symbols/RBTree.html">RBTree</a>}</span> The tree cloned from this
+        queue.
+    </dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="cloneDistinct"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{<a href="../symbols/RBTree.html">RBTree</a>}</span>
+    <b>cloneDistinct</b>()
+
+</div>
+<div class="description">
+    Clones the tree into a new tree without cloning duplicated items.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{<a href="../symbols/RBTree.html">RBTree</a>}</span> The tree cloned from this
+        tree.
+    </dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="contains"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{boolean}</span>
+    <b>contains</b>(key, callback)
+
+</div>
+<div class="description">
+    Checks if the tree contains a key or a node that satisfy the condition represented by the callback function.
+    This method avoid to search in branches where the key won't be found.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Parameters:</dt>
+
+    <dt>
+        <b>key</b>
+
+    </dt>
+    <dd>{*} The key to find.</dd>
+
+    <dt>
+        <b>callback</b>
+        <i>Optional, Default: function(node){return(node.key===key);}</i>
+    </dt>
+    <dd>The condition to satisfy. The callback must accept the current node to check.</dd>
+
+</dl>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{boolean}</span> True if the tree contains the key or a node that satisfy the
+        condition, false otherwise.
+    </dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="deleteFixUp"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{void}</span>
+    <b>deleteFixUp</b>(node, parent)
+
+</div>
+<div class="description">
+    Preserves the properties of the tree after a deletion.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Parameters:</dt>
+
+    <dt>
+        <b>node</b>
+
+    </dt>
+    <dd>{RBNode} The node to delete.</dd>
+
+    <dt>
+        <b>parent</b>
+
+    </dt>
+    <dd>{RBNode} The parent of the node.</dd>
+
+</dl>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{void}</span></dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="deleteNode"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{void}</span>
+    <b>deleteNode</b>(node)
+
+</div>
+<div class="description">
+    Deletes the node from the tree.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Parameters:</dt>
+
+    <dt>
+        <b>node</b>
+
+    </dt>
+    <dd>{RBNode} The node to delete.</dd>
+
+</dl>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{void}</span></dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="execute"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{void}</span>
+    <b>execute</b>(callback)
+
+</div>
+<div class="description">
+    Executes the callback function for each item of the tree.
+    This method modifies the tree so if you don't need to modify it you must return the same item stored.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Parameters:</dt>
+
+    <dt>
+        <b>callback</b>
+
+    </dt>
+    <dd>{function} The function to execute for each item. The function must accept the current item on which execute the
+        function.
+    </dd>
+
+</dl>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{void}</span></dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="filter"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{Array<*>}</span>
+    <b>filter</b>(callback)
+
+</div>
+<div class="description">
+    Returns the items that satisfy the condition determined by the callback.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Parameters:</dt>
+
+    <dt>
+        <b>callback</b>
+
+    </dt>
+    <dd>{function} The function that implements the condition.</dd>
+
+</dl>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{Array<*>}</span> The array that contains the items that satisfy the condition.
+    </dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="fullContains"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{boolean}</span>
+    <b>fullContains</b>(callback)
+
+</div>
+<div class="description">
+    Checks if the tree contains a node that satisfy the condition represented by the callback function.
+    This method check all the tree avoiding the binary search.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Parameters:</dt>
+
+    <dt>
+        <b>callback</b>
+
+    </dt>
+    <dd>{function} The condition to satisfy. The callback must accept the current node to check.</dd>
+
+</dl>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{boolean}</span> True if the tree contains the node that satisfy the condition,
+        false otherwise.
+    </dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="getItem"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{*}</span>
+    <b>getItem</b>(index)
+
+</div>
+<div class="description">
+    Returns the item at the position index.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Parameters:</dt>
+
+    <dt>
+        <b>index</b>
+
+    </dt>
+    <dd>{number} The position of the item.</dd>
+
+</dl>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{*}</span> The item at the position. It's undefined if index isn't in the tree
+        bounds.
+    </dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="getIterator"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{<a href="../symbols/Iterator.html">Iterator</a>}</span>
+    <b>getIterator</b>()
+
+</div>
+<div class="description">
+    Returns the iterator relative to the aggregate.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{<a href="../symbols/Iterator.html">Iterator</a>}</span> The iterator.</dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="getSize"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{number}</span>
+    <b>getSize</b>()
+
+</div>
+<div class="description">
+    Returns the size of the tree.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{number}</span> The size of the tree.</dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="indexOf"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{number}</span>
+    <b>indexOf</b>(item, callback)
+
+</div>
+<div class="description">
+    Returns the first position of the item in the tree.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Parameters:</dt>
+
+    <dt>
+        <b>item</b>
+
+    </dt>
+    <dd>{*} The item to search.</dd>
+
+    <dt>
+        <b>callback</b>
+        <i>Optional, Default: function(item){return(it===item);}</i>
+    </dt>
+    <dd>The condition to satisfy. The callback must accept the current item to check.</dd>
+
+</dl>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{number}</span> The first position of the item.</dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="insert"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{void}</span>
+    <b>insert</b>(key, item)
+
+</div>
+<div class="description">
+    Inserts the item relatives to the key value in the tree.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Parameters:</dt>
+
+    <dt>
+        <b>key</b>
+
+    </dt>
+    <dd>{number} The key to store.</dd>
+
+    <dt>
+        <b>item</b>
+
+    </dt>
+    <dd>{*} The item to store.</dd>
+
+</dl>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{void}</span></dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="insertFixUp"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{void}</span>
+    <b>insertFixUp</b>(node)
+
+</div>
+<div class="description">
+    Preserves the properties of the tree after an insert.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Parameters:</dt>
+
+    <dt>
+        <b>node</b>
+
+    </dt>
+    <dd>{RBNode} The node to insert.</dd>
+
+</dl>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{void}</span></dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="isEmpty"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{boolean}</span>
+    <b>isEmpty</b>()
+
+</div>
+<div class="description">
+    Checks if the tree is empty.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{boolean}</span> True if the tree is empty, false otherwise.</dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="lastIndexOf"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{number}</span>
+    <b>lastIndexOf</b>(item, callback)
+
+</div>
+<div class="description">
+    Returns the last position of the item in the tree.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Parameters:</dt>
+
+    <dt>
+        <b>item</b>
+
+    </dt>
+    <dd>{*} The item to search.</dd>
+
+    <dt>
+        <b>callback</b>
+        <i>Optional, Default: function(item){return(it===item);}</i>
+    </dt>
+    <dd>The condition to satisfy. The callback must accept the current item to check.</dd>
+
+</dl>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{number}</span> The last position of the item.</dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="leftRotate"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{void}</span>
+    <b>leftRotate</b>(node)
+
+</div>
+<div class="description">
+    Rotates the node with its right child.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Parameters:</dt>
+
+    <dt>
+        <b>node</b>
+
+    </dt>
+    <dd>{RBNode} The node to rotate.</dd>
+
+</dl>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{void}</span></dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="maximum"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{RBNode}</span>
+    <b>maximum</b>(node)
+
+</div>
+<div class="description">
+    Gets the item relatives to the maximum key stored in the tree.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Parameters:</dt>
+
+    <dt>
+        <b>node</b>
+        <i>Optional, Default: root</i>
+    </dt>
+    <dd>{Node} The node from which start the search.</dd>
+
+</dl>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{RBNode}</span> The node found.</dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="minimum"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{RBNode}</span>
+    <b>minimum</b>(node)
+
+</div>
+<div class="description">
+    Gets the item relatives to the minimum key stored in the tree.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Parameters:</dt>
+
+    <dt>
+        <b>node</b>
+        <i>Optional, Default: root</i>
+    </dt>
+    <dd>{Node} The node from which start the search.</dd>
+
+</dl>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{RBNode}</span> The node found.</dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="predecessor"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{RBNode}</span>
+    <b>predecessor</b>(node)
+
+</div>
+<div class="description">
+    Gets the node with the key previous to the param node key.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Parameters:</dt>
+
+    <dt>
+        <b>node</b>
+
+    </dt>
+    <dd>{RBNode} The node of which search the predecessor.</dd>
+
+</dl>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{RBNode}</span> The node found.</dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="rightRotate"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{void}</span>
+    <b>rightRotate</b>(node)
+
+</div>
+<div class="description">
+    Rotates the node with its left child.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Parameters:</dt>
+
+    <dt>
+        <b>node</b>
+
+    </dt>
+    <dd>{RBNode} The node to rotate.</dd>
+
+</dl>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{void}</span></dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="search"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{*}</span>
+    <b>search</b>(key, node, callback)
+
+</div>
+<div class="description">
+    Searches the item relatives to the key and to the nodes that satisfy the condition represented by the callback
+    function.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Parameters:</dt>
+
+    <dt>
+        <b>key</b>
+
+    </dt>
+    <dd>{number} The key to find.</dd>
+
+    <dt>
+        <b>node</b>
+        <i>Optional, Default: root</i>
+    </dt>
+    <dd>{RBNode} The node from which start the search.</dd>
+
+    <dt>
+        <b>callback</b>
+        <i>Optional, Default: function(node){return(node.key===key);}</i>
+    </dt>
+    <dd>The condition to satisfy. The callback must accept the current node to check.</dd>
+
+</dl>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{*}</span> The item found or undefined if there isn't the key in the tree.</dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="successor"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{RBNode}</span>
+    <b>successor</b>(node)
+
+</div>
+<div class="description">
+    Gets the node with the key next to the param node key.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Parameters:</dt>
+
+    <dt>
+        <b>node</b>
+
+    </dt>
+    <dd>{RBNode} The node of which search the successor.</dd>
+
+</dl>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{RBNode}</span> The node found.</dd>
+
+</dl>
+
+
+<hr/>
+
+<a name="toArray"> </a>
+
+<div class="fixedFont">
+
+    <span class="light">{Array<*>}</span>
+    <b>toArray</b>()
+
+</div>
+<div class="description">
+    Transforms the tree into an array without preserving keys.
+
+
+</div>
+
+
+<dl class="detailList">
+    <dt class="heading">Returns:</dt>
+
+    <dd><span class="light fixedFont">{Array<*>}</span> The array that represents the tree.</dd>
+
+</dl>
+
+
+<!-- ============================== event details ========================= -->
+
+
+<hr/>
+</div>
+
+
+<!-- ============================== footer ================================= -->
+<div class="fineprint" style="clear:both">
+
+    Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0
+    on Wed Apr 23 2014 22:40:59 GMT+0200 (CEST)
+</div>
+</body>
+</html>
