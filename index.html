@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Javascript-data-structures by Bishop92</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/Bishop92/JavaScript-Data-Structures">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/Bishop92/JavaScript-Data-Structures/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/Bishop92/JavaScript-Data-Structures/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Javascript-data-structures</h1>
+          <p>A library for data structure in JavaScript</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/Bishop92">Bishop92</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>
+<a name="data-structures" class="anchor" href="#data-structures"><span class="octicon octicon-link"></span></a><a href="https://github.com/Bishop92/JavaScript-Data-Structures">Data Structures</a>
+</h1>
+
+<p><strong>A library for data structures in JavaScript</strong></p>
+
+<p>DataStructures is a JavaScript library where you can find the most common data structures and also other data
+structures more advanced. Various method are also provided in order to manipulate data structures.</p>
+
+<p>This library implements also the <a href="http://en.wikipedia.org/wiki/Iterator_pattern">iterator</a> pattern in order to hide
+the data structure that work for storing your data.</p>
+
+<h2>
+<a name="supported-data-structures" class="anchor" href="#supported-data-structures"><span class="octicon octicon-link"></span></a>Supported data structures</h2>
+
+<ul>
+<li><a href="https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/Stack.html">Stack</a></li>
+<li><a href="https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/Queue.html">Queue</a></li>
+<li><a href="https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/PriorityQueue.html">Priority Queue</a></li>
+<li><a href="https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/CircularBuffer.html">Circular Buffer</a></li>
+<li><a href="https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/HashTable.html">Hash Table</a></li>
+<li><a href="https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/LinkedList.html">Linked List</a></li>
+<li><a href="https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/DoubleLinkedList.html">Double Linked List</a></li>
+<li><a href="https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/BSTree.html">Binary Search Tree</a></li>
+<li><a href="https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/RBTree.html">Red-Black Tree</a></li>
+<li><a href="https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/RBTreeList.html">Red-Black Tree List</a></li>
+<li><a href="https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/BTree.html">B-Tree</a></li>
+<li><a href="https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/Set.html">Set</a></li>
+</ul><h2>
+<a name="how-to-use" class="anchor" href="#how-to-use"><span class="octicon octicon-link"></span></a>How to use</h2>
+
+<ol>
+<li><p>Download the minimized library <a href="https://github.com/Bishop92/JavaScript-Data-Structures/blob/master/DataStructuresMinimized.js">here</a>;</p></li>
+<li><p>Include the file in your project;</p></li>
+<li><p>Start to use it as any other class.</p></li>
+</ol><p>Example</p>
+
+<div class="highlight highlight-JavaScript"><pre><span class="kd">var</span> <span class="nx">listA</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">DoubleLinkedList</span><span class="p">();</span>
+<span class="kd">var</span> <span class="nx">listB</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">DoubleLinkedList</span><span class="p">();</span>
+<span class="nx">listA</span><span class="p">.</span><span class="nx">fromArray</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]);</span>
+<span class="nx">listB</span><span class="p">.</span><span class="nx">fromArray</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]);</span>
+<span class="nx">listA</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">listB</span><span class="p">);</span>
+<span class="nx">listA</span><span class="p">.</span><span class="nx">toArray</span><span class="p">();</span> <span class="c1">// [0, 1, 2, 3]</span>
+</pre></div>
+
+<h2>
+<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
+
+<p>Follow this <a href="https://github.com/Bishop92/JavaScript-Data-Structures/wiki">link</a> to read the full documentation.
+Follow this <a href="https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/index.html">link</a> to read the JSDoc.</p>
+
+<h2>
+<a name="history" class="anchor" href="#history"><span class="octicon octicon-link"></span></a>History</h2>
+
+<h3>
+<a name="future-implementations" class="anchor" href="#future-implementations"><span class="octicon octicon-link"></span></a>Future implementations</h3>
+
+<ul>
+<li>Persistence for data structures like array and lists.</li>
+</ul><h3>
+<a name="current-state-of-the-art" class="anchor" href="#current-state-of-the-art"><span class="octicon octicon-link"></span></a>Current state of the art</h3>
+
+<ul>
+<li>v 1.0.0 First release of the library.</li>
+</ul><h2>
+<a name="support" class="anchor" href="#support"><span class="octicon octicon-link"></span></a>Support</h2>
+
+<p>Battistella Stefano, <a href="mailto:stefano.battistella.92@gmail.com">stefano.battistella.92@gmail.com</a></p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
