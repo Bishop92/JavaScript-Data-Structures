@@ -55,7 +55,7 @@ History
 - Persistence for data structures like array and lists.
 
 ### Current state of the art
-- v 1.0.0 First release of the library.
+- v 1.0 First release of the library.
 
 Support
 -------
