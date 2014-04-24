@@ -10,23 +10,22 @@ the data structure that work for storing your data.
 
 Supported data structures
 -------------------------
-- [Stack]
-- [Queue]
-- [Priority Queue]
-- [Circular Buffer]
-- [Hash Table]
-- [Linked List]
-- [Double Linked List]
-- [Binary Search Tree]
-- [Red-Black Tree]
-- [Red-Black Tree List]
-- [B-Tree]
-- [Set]
+- [Stack](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/Stack.html)
+- [Queue](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/Queue.html)
+- [Priority Queue](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/PriorityQueue.html)
+- [Circular Buffer](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/CircularBuffer.html)
+- [Hash Table](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/HashTable.html)
+- [Linked List](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/LinkedList.html)
+- [Double Linked List](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/DoubleLinkedList.html)
+- [Binary Search Tree](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/BSTree.html)
+- [Red-Black Tree](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/RBTree.html)
+- [Red-Black Tree List](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/RBTreeList.html)
+- [B-Tree](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/BTree.html)
+- [Set](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/Set.html)
 
 How to use
 ----------
-1. Download the minimized library [here](https://github
-.com/Bishop92/JavaScript-Data-Structures/blob/master/DataStructuresMinimized.js);
+1. Download the minimized library [here](https://github.com/Bishop92/JavaScript-Data-Structures/blob/master/DataStructuresMinimized.js);
 
 2. Include the file in your project;
 
@@ -45,7 +44,8 @@ listA.toArray(); // [0, 1, 2, 3]
 
 Documentation
 -------------
-Follow this [link]() to read the full documentation.
+Follow this [link](https://github.com/Bishop92/JavaScript-Data-Structures/wiki) to read the full documentation.
+Follow this [link](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/files.html) to read the JSDoc.
 
 History
 -------
