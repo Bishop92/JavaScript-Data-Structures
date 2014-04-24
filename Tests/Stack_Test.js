@@ -12,8 +12,8 @@ test("Stack - Push test", function () {
 	stack.push(0);
 	deepEqual(stack.getItem(0), 0, "Push 0");
 	stack.push(2);
-	deepEqual(stack.getItem(0), 0, "Push 2");
-	deepEqual(stack.getItem(1), 2, "Push 2");
+	deepEqual(stack.getItem(0), 2, "Push 2");
+	deepEqual(stack.getItem(1), 0, "Push 2");
 });
 
 test("Stack - Pop test", function () {
@@ -113,8 +113,8 @@ test("Stack - execute", function () {
 		return item * 2;
 	};
 	stack.execute(callback);
-	deepEqual(stack.getItem(0), 0, "Execute for item 0");
-	deepEqual(stack.getItem(1), 4, "Execute for item 1");
+	deepEqual(stack.getItem(0), 4, "Execute for item 1");
+	deepEqual(stack.getItem(1), 0, "Execute for item 0");
 });
 
 test("Stack - Index of test", function () {

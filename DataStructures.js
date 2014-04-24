@@ -5258,7 +5258,7 @@ Stack.prototype.execute = function (callback) {
 Stack.prototype.getItem = function (index) {
 	if (index < 0 || index > this.items.length - 1)
 		return undefined;
-	return this.items[index];
+	return this.items[this.items.length - index - 1];
 };
 
 /**
@@ -5445,5 +5445,5 @@ StackIterator.prototype.isDone = function () {
  * @return {*} The item stored or undefined if it's out of the bounds.
  */
 StackIterator.prototype.getItem = function () {
-	return this.aggregate.getItem(this.pointer);
+	return this.aggregate.items[this.pointer];
 };

@@ -30,6 +30,11 @@ function BTreeIterator(e) {
 	this.aggregate = e;
 	this.pointer = null
 }
+function CircularBufferIterator(e) {
+	this.aggregate = e;
+	this.pointer = null;
+	this.start = true
+}
 function CircularBuffer(e) {
 	this.head = 0;
 	this.tail = 0;
@@ -37,11 +42,6 @@ function CircularBuffer(e) {
 	this.empty = true;
 	this.full = false;
 	this.size = e
-}
-function CircularBufferIterator(e) {
-	this.aggregate = e;
-	this.pointer = null;
-	this.start = true
 }
 function DLLNode(e) {
 	this.item = e;
@@ -663,6 +663,30 @@ BTreeIterator.prototype.getItem = function () {
 BTreeIterator.prototype.getKey = function () {
 	return this.pointer
 };
+CircularBufferIterator.prototype = new Iterator;
+CircularBufferIterator.prototype.constructor = CircularBufferIterator;
+CircularBufferIterator.prototype.first = function () {
+	this.pointer = this.aggregate.tail;
+	this.start = true
+};
+CircularBufferIterator.prototype.next = function () {
+	this.pointer = (this.pointer + 1) % this.aggregate.size;
+	this.start = false
+};
+CircularBufferIterator.prototype.last = function () {
+	this.pointer = (this.aggregate.head - 1) % this.aggregate.size;
+	this.start = true
+};
+CircularBufferIterator.prototype.previous = function () {
+	this.pointer = (this.pointer - 1) % this.aggregate.size;
+	this.start = false
+};
+CircularBufferIterator.prototype.isDone = function () {
+	return this.pointer === this.aggregate.head && !this.start || (this.pointer === this.aggregate.tail - 1) % this.aggregate.size || this.aggregate.isEmpty()
+};
+CircularBufferIterator.prototype.getItem = function () {
+	return this.aggregate.read(this.pointer)
+};
 CircularBuffer.prototype = new Aggregate;
 CircularBuffer.prototype.constructor = CircularBuffer;
 CircularBuffer.prototype.getIterator = function () {
@@ -747,30 +771,6 @@ CircularBuffer.prototype.resize = function (e) {
 		}
 	}
 	this.size = e
-};
-CircularBufferIterator.prototype = new Iterator;
-CircularBufferIterator.prototype.constructor = CircularBufferIterator;
-CircularBufferIterator.prototype.first = function () {
-	this.pointer = this.aggregate.tail;
-	this.start = true
-};
-CircularBufferIterator.prototype.next = function () {
-	this.pointer = (this.pointer + 1) % this.aggregate.size;
-	this.start = false
-};
-CircularBufferIterator.prototype.last = function () {
-	this.pointer = (this.aggregate.head - 1) % this.aggregate.size;
-	this.start = true
-};
-CircularBufferIterator.prototype.previous = function () {
-	this.pointer = (this.pointer - 1) % this.aggregate.size;
-	this.start = false
-};
-CircularBufferIterator.prototype.isDone = function () {
-	return this.pointer === this.aggregate.head && !this.start || (this.pointer === this.aggregate.tail - 1) % this.aggregate.size || this.aggregate.isEmpty()
-};
-CircularBufferIterator.prototype.getItem = function () {
-	return this.aggregate.read(this.pointer)
 };
 DoubleLinkedList.prototype = new Aggregate;
 DoubleLinkedList.prototype.constructor = DoubleLinkedList;
@@ -2668,7 +2668,7 @@ Stack.prototype.execute = function (e) {
 };
 Stack.prototype.getItem = function (e) {
 	if (e < 0 || e > this.items.length - 1)return undefined;
-	return this.items[e]
+	return this.items[this.items.length - e - 1]
 };
 Stack.prototype.getLength = function () {
 	return this.items.length
@@ -2747,5 +2747,5 @@ StackIterator.prototype.isDone = function () {
 	return this.pointer < 0 || this.pointer > this.aggregate.items.length - 1
 };
 StackIterator.prototype.getItem = function () {
-	return this.aggregate.getItem(this.pointer)
-};
+	return this.aggregate.items[this.pointer]
+}
