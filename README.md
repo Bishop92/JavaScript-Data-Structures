@@ -47,16 +47,6 @@ Documentation
 Follow this [link](https://github.com/Bishop92/JavaScript-Data-Structures/wiki) to read the full documentation.
 Follow this [link](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/index.html) to read the JSDoc.
 
-History
--------
-
-### Future implementations
-
-- Persistence for data structures like array and lists.
-
-### Current state of the art
-- v 1.0 First release of the library.
-
 Support
 -------
 Battistella Stefano, [stefano.battistella.92@gmail.com](mailto:stefano.battistella.92@gmail.com)
