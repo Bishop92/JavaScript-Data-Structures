@@ -3,13 +3,14 @@
 <head>
     <meta charset="utf-8">
     <title>QUnit basic example</title>
-    <link rel="stylesheet" href="resources/qunit-1.14.0.css">
+    <link rel="stylesheet" href="//code.jquery.com/qunit/qunit-1.17.1.css">
 </head>
 <body>
 <div id="qunit"></div>
 <div id="qunit-fixture"></div>
 
 <!--classes to test-->
+<script type="text/javascript" src="Lib/Range/Range.js"></script>
 <script type="text/javascript" src="Lib/Aggregate/Aggregate.js"></script>
 <script type="text/javascript" src="Lib/Aggregate/Iterator.js"></script>
 <script type="text/javascript" src="Lib/Stack/Stack.js"></script>
@@ -37,10 +38,10 @@
 
 <!--QUnit-->
 
-<script src="resources/qunit-1.14.0.js"></script>
-<script src="resources/qunit-reporter-junit.js"></script>
+<script src="//code.jquery.com/qunit/qunit-1.17.1.js"></script>
 
 <!--tests-->
+<script type="text/javascript" src="Range_Test.js"></script>
 <script type="text/javascript" src="Stack_Test.js"></script>
 <script type="text/javascript" src="Queue_Test.js"></script>
 <script type="text/javascript" src="PriorityQueue_Test.js"></script>

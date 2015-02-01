@@ -5,6 +5,13 @@
 test("Queue - Init test", function () {
 	var queue = new Queue(0, 2, 4, 6);
 	deepEqual(queue.multiDequeue(4), [0, 2, 4, 6], "Initializing");
+    queue = new Queue(0);
+    deepEqual(queue.multiDequeue(4), [0], "Initializing");
+});
+
+test("Queue - Init range test", function () {
+    var queue = new Queue(Range(0, 6, 2));
+    deepEqual(queue.multiDequeue(4), [0, 2, 4, 6], "Initializing");
 });
 
 test("Queue - Enqueue test", function () {

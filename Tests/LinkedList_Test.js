@@ -5,6 +5,13 @@
 test("LinkedList - Init test", function () {
 	var list = new LinkedList(0, 1, 2);
 	deepEqual(list.toArray(), [0, 1, 2], "Init list");
+    list = new LinkedList(0);
+    deepEqual(list.toArray(), [0], "Init list");
+});
+
+test("LinkedList - Init test with range", function () {
+    var list = new LinkedList(new Range(0, 5));
+    deepEqual(list.toArray(), [0, 1, 2, 3, 4, 5], "Init list with range");
 });
 
 test("LinkedList - Push test", function () {

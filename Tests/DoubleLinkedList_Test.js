@@ -5,6 +5,15 @@
 test("DoubleLinkedList - Init test", function () {
 	var list = new DoubleLinkedList(0, 1, 2);
 	deepEqual(list.toArray(), [0, 1, 2], "Init list");
+    list = new DoubleLinkedList(2);
+    deepEqual(list.toArray(), [2], "Init list");
+});
+
+test("DoubleLinkedList - Init range test", function () {
+    var list = new DoubleLinkedList(Range(0, 2));
+    deepEqual(list.toArray(), [0, 1, 2], "Init list");
+    list = new DoubleLinkedList(Range(2, -2, -0.5));
+    deepEqual(list.toArray(), [2, 1.5, 1, 0.5, 0, -0.5, -1, -1.5, -2], "Init list");
 });
 
 test("DoubleLinkedList - Push test", function () {
