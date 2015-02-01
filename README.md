@@ -10,18 +10,18 @@ the data structure that work for storing your data.
 
 Supported data structures
 -------------------------
-- [Stack](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/Stack.html)
-- [Queue](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/Queue.html)
-- [Priority Queue](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/PriorityQueue.html)
-- [Circular Buffer](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/CircularBuffer.html)
-- [Hash Table](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/HashTable.html)
-- [Linked List](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/LinkedList.html)
-- [Double Linked List](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/DoubleLinkedList.html)
-- [Binary Search Tree](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/BSTree.html)
-- [Red-Black Tree](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/RBTree.html)
-- [Red-Black Tree List](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/RBTreeList.html)
-- [B-Tree](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/BTree.html)
-- [Set](https://rawgit.com/Bishop92/JavaScript-Data-Structures/master/doc/symbols/Set.html)
+- [Stack](https://github.com/Bishop92/JavaScript-Data-Structures/wiki/Stack)
+- [Queue](https://github.com/Bishop92/JavaScript-Data-Structures/wiki/Queue)
+- [Priority Queue](https://github.com/Bishop92/JavaScript-Data-Structures/wiki/Priority-Queue)
+- [Circular Buffer](https://github.com/Bishop92/JavaScript-Data-Structures/wiki/Circular-Buffer)
+- [Hash Table](https://github.com/Bishop92/JavaScript-Data-Structures/wiki/Hash-Table)
+- [Linked List](https://github.com/Bishop92/JavaScript-Data-Structures/wiki/Linked-List)
+- [Double Linked List](https://github.com/Bishop92/JavaScript-Data-Structures/wiki/Double-Linked-List)
+- [Binary search Tree](https://github.com/Bishop92/JavaScript-Data-Structures/wiki/Binary-search-tree)
+- [Red-Black Tree](https://github.com/Bishop92/JavaScript-Data-Structures/wiki/Red-Black-Tree)
+- [Red-Black Tree List](https://github.com/Bishop92/JavaScript-Data-Structures/wiki/Red-Black-Tree-List)
+- [B-Tree](https://github.com/Bishop92/JavaScript-Data-Structures/wiki/B-Tree)
+- [Set](https://github.com/Bishop92/JavaScript-Data-Structures/wiki/Set)
 
 How to use
 ----------
