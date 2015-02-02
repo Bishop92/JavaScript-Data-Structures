@@ -22,6 +22,7 @@ Supported data structures
 - [Red-Black Tree List](https://github.com/Bishop92/JavaScript-Data-Structures/wiki/Red-Black-Tree-List)
 - [B-Tree](https://github.com/Bishop92/JavaScript-Data-Structures/wiki/B-Tree)
 - [Set](https://github.com/Bishop92/JavaScript-Data-Structures/wiki/Set)
+- [Trie](https://github.com/Bishop92/JavaScript-Data-Structures/wiki/Trie)
 
 How to use
 ----------
