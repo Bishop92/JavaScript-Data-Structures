@@ -1458,7 +1458,7 @@ DoubleLinkedList.prototype.peek = function () {
  * @return {void}
  */
 DoubleLinkedList.prototype.addAt = function (item, index) {
-	if (index < -1)
+	if (index < 0)
 		return;
 	if (!index) {
 		this.pushFront(item);
@@ -2527,7 +2527,7 @@ LinkedList.prototype.peek = function () {
  * @return {void}
  */
 LinkedList.prototype.addAt = function (item, index) {
-	if (index < -1)
+	if (index < 0)
 		return;
 	if (!index) {
 		this.pushFront(item);
