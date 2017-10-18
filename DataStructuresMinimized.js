@@ -828,7 +828,7 @@ DoubleLinkedList.prototype.peek = function () {
 	return this.first.item
 };
 DoubleLinkedList.prototype.addAt = function (e, t) {
-	if (t < -1)return;
+	if (t < 0)return;
 	if (!t) {
 		this.pushFront(e);
 		return
