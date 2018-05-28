@@ -1560,4 +1560,706 @@ QUnit.test("Range - Create inverse step test", function (assert) {
         assert.deepEqual(range[j], 15 - j * 2, "Check range values");
     }
 });
+/**
+ * Created by Stefano on 06/04/14.
+ */
+QUnit.test("RBTree - Insert test", function (assert) {
+    var tree = new ds.RBTree();
+    var keys = [];
+    for (var i = 0; i < 20; i++) {
+        keys.push(Math.random());
+        tree.insert(keys[i], keys[i]);
+    }
+    for (var j = 0; j < 20; j++)
+        assert.deepEqual(tree.search(keys[j]), keys[j], "Insert node");
+    keys.sort();
+    for (var k = 0; k < 20; k++)
+        assert.deepEqual(tree.getItem(k), keys[k], "Insert node");
+});
+QUnit.test("RBTree - Minimum test", function (assert) {
+    var tree = new ds.RBTree();
+    var keys = [];
+    var min = 10;
+    for (var i = 0; i < 20; i++) {
+        keys.push(Math.random());
+        tree.insert(keys[i], i);
+        if (keys[i] < min)
+            min = keys[i];
+    }
+    assert.deepEqual(tree.minimum().item, tree.search(min), "Minimum");
+});
+QUnit.test("RBTree - Maximum test", function (assert) {
+    var tree = new ds.RBTree();
+    var keys = [];
+    var max = -1;
+    for (var i = 0; i < 20; i++) {
+        keys.push(Math.random());
+        tree.insert(keys[i], i);
+        if (keys[i] > max)
+            max = keys[i];
+    }
+    assert.deepEqual(tree.maximum().item, tree.search(max), "Maximum");
+});
+QUnit.test("RBTree - Successor test", function (assert) {
+    var tree = new ds.RBTree();
+    for (var i = 0; i < 20; i++)
+        tree.insert(i, i);
+    var it = tree.getIterator();
+    var j = 1;
+    for (it.first(); !it.isDone(); it.next(), j++) {
+        var successor = tree.successor(it.getNode());
+        if (successor)
+            assert.deepEqual(successor.item, j, "Successor");
+        else
+            assert.deepEqual(successor, null, "No successor");
+    }
+});
+QUnit.test("RBTree - Predecessor test", function (assert) {
+    var tree = new ds.RBTree();
+    for (var i = 0; i < 20; i++)
+        tree.insert(i, i);
+    var it = tree.getIterator();
+    var j = 18;
+    for (it.last(); !it.isDone(); it.previous(), j--) {
+        var predecessor = tree.predecessor(it.getNode());
+        if (predecessor)
+            assert.deepEqual(predecessor.item, j, "Predecessor");
+        else
+            assert.deepEqual(predecessor, null, "No predecessor");
+    }
+});
+QUnit.test("RBTree - Delete node test", function (assert) {
+    var tree = new ds.RBTree();
+    for (var i = 0; i < 20; i++)
+        tree.insert(i, i);
+    var j = 0;
+    while (tree.minimum()) {
+        assert.deepEqual(tree.minimum().item, j, "Deletion");
+        tree.deleteNode(tree.minimum());
+        j++;
+    }
+});
+QUnit.test("RBTree - To array test", function (assert) {
+    var tree = new ds.RBTree();
+    for (var i = 0; i < 5; i++)
+        tree.insert(i, i);
+    assert.deepEqual(tree.toArray(), [0, 1, 2, 3, 4], "To array");
+});
+QUnit.test("RBTree - Filter test", function (assert) {
+    var tree = new ds.RBTree();
+    var length = 100;
+    for (var i = 0; i < length; i++)
+        tree.insert(i, i);
+    var result = tree.filter(function (item) {
+        return 1 - item % 2;
+    });
+    assert.deepEqual(result[0], 0, "Filter of the even values");
+    assert.deepEqual(result[result.length - 1], 98, "Filter on the even values");
+});
+QUnit.test("RBTree - Clear test", function (assert) {
+    var tree = new ds.RBTreeList();
+    tree.insert(0, 0);
+    tree.insert(2, 2);
+    tree.clear();
+    assert.deepEqual(tree.isEmpty(), true, "Clear tree");
+});
+QUnit.test("RBTree - Is empty test", function (assert) {
+    var tree = new ds.RBTree();
+    tree.insert(0, 0);
+    tree.insert(2, 2);
+    assert.deepEqual(tree.isEmpty(), false, "Is not empty");
+    tree.clear();
+    assert.deepEqual(tree.isEmpty(), true, "Is empty");
+});
+QUnit.test("RBTree - Contains test", function (assert) {
+    var tree = new ds.RBTree();
+    tree.insert(0, 0);
+    tree.insert(2, 2);
+    assert.deepEqual(tree.contains(0), true, "Contains 0");
+    assert.deepEqual(tree.contains(2), true, "Contains 2");
+    assert.deepEqual(tree.contains(1), false, "Not contains 1");
+    var callback = function (item) {
+        return item > 0;
+    };
+    assert.deepEqual(tree.fullContains(callback), true, "Contains a value > 0");
+    callback = function (item) {
+        return item < 0;
+    };
+    assert.deepEqual(tree.fullContains(callback), false, "Contains a value < 0");
+});
+QUnit.test("RBTree - Execute test", function (assert) {
+    var tree = new ds.RBTree();
+    tree.insert(0, 0);
+    tree.insert(2, 2);
+    var callback = function (item) {
+        return item * 2;
+    };
+    tree.execute(callback);
+    assert.deepEqual(tree.search(0), 0, "Execute for key 0");
+    assert.deepEqual(tree.search(2), 4, "Execute for key 1");
+});
+QUnit.test("RBTree - Index of test", function (assert) {
+    var tree = new ds.RBTree();
+    for (var i = 0; i < 10; i++)
+        tree.insert(i, i);
+    var callback = function (item) {
+        return !(item % 2) && item > 5;
+    };
+    assert.deepEqual(tree.indexOf(0), 0, "Index of 0");
+    assert.deepEqual(tree.indexOf(15), -1, "Index of 15");
+    assert.deepEqual(tree.indexOf(5), 5, "Index of 5");
+    assert.deepEqual(tree.indexOf(null, callback), 6, "Index of the first even number greater than 5");
+});
+QUnit.test("RBTree - Last index of test", function (assert) {
+    var tree = new ds.RBTree();
+    for (var i = 0; i < 10; i++)
+        tree.insert(i, i);
+    var callback = function (item) {
+        return !(item % 2) && item > 5;
+    };
+    assert.deepEqual(tree.lastIndexOf(0), 0, "Last index of 0");
+    assert.deepEqual(tree.lastIndexOf(15), -1, "Last index of 15");
+    assert.deepEqual(tree.lastIndexOf(5), 5, "Last index of 5");
+    assert.deepEqual(tree.lastIndexOf(null, callback), 8, "Index of the last even number greater than 5");
+});
+QUnit.test("RBTree - Indexes of test", function (assert) {
+    var tree = new ds.RBTree();
+    for (var i = 0; i < 30; i++)
+        tree.insert(i, i % 10);
+    var callback = function (item) {
+        return !(item % 2) && item > 5;
+    };
+    assert.deepEqual(tree.allIndexesOf(0), [0, 10, 20], "Indexes of 0");
+    assert.deepEqual(tree.allIndexesOf(15), [], "Indexes of 15");
+    assert.deepEqual(tree.allIndexesOf(5), [5, 15, 25], "Indexes of 5");
+    assert.deepEqual(tree.allIndexesOf(null, callback), [6, 8, 16, 18, 26, 28], "Indexes of the even numbers greater than 5");
+});
+QUnit.test("RBTree - Clone test", function (assert) {
+    var tree = new ds.RBTree();
+    for (var i = 0; i < 10; i++)
+        tree.insert(i, i);
+    var clone = tree.clone();
+    var it = clone.getIterator();
+    var j = 0;
+    for (it.first(); !it.isDone(); it.next(), j++)
+        assert.deepEqual(it.getItem(), j, "Clone of the tree");
+});
+QUnit.test("RBTree - Clone distinct test", function (assert) {
+    var tree = new ds.RBTree();
+    for (var i = 0; i < 20; i++)
+        tree.insert(i % 10, i % 10);
+    var clone = tree.cloneDistinct();
+    assert.deepEqual(clone.allIndexesOf(2), [2], "Clone of the tree");
+});
+/**
+ * Created by Stefano on 06/04/14.
+ */
+QUnit.test("RBTreeList - Insert test", function (assert) {
+    var tree = new ds.RBTreeList();
+    var keys = [];
+    for (var i = 0; i < 20; i++) {
+        keys.push(Math.random());
+        tree.insert(keys[i], i);
+    }
+    for (var j = 0; j < 20; j++)
+        assert.deepEqual(tree.search(keys[j]), j, "Insert node");
+});
+QUnit.test("RBTreeList - Minimum test", function (assert) {
+    var tree = new ds.RBTreeList();
+    var keys = [];
+    var min = 10;
+    for (var i = 0; i < 20; i++) {
+        keys.push(Math.random());
+        tree.insert(keys[i], i);
+        if (keys[i] < min)
+            min = keys[i];
+    }
+    assert.deepEqual(tree.minimum().item, tree.search(min), "Minimum");
+});
+QUnit.test("RBTreeList - Maximum test", function (assert) {
+    var tree = new ds.RBTreeList();
+    var keys = [];
+    var max = -1;
+    for (var i = 0; i < 20; i++) {
+        keys.push(Math.random());
+        tree.insert(keys[i], i);
+        if (keys[i] > max)
+            max = keys[i];
+    }
+    assert.deepEqual(tree.maximum().item, tree.search(max), "Maximum");
+});
+QUnit.test("RBTreeList - Successor test", function (assert) {
+    var tree = new ds.RBTreeList();
+    for (var i = 0; i < 20; i++)
+        tree.insert(i, i);
+    var it = tree.getIterator();
+    var j = 1;
+    for (it.first(); !it.isDone(); it.next(), j++) {
+        var successor = tree.successor(it.getNode());
+        if (successor)
+            assert.deepEqual(successor.item, j, "Successor");
+        else
+            assert.deepEqual(successor, null, "No successor");
+    }
+});
+QUnit.test("RBTreeList - Predecessor test", function (assert) {
+    var tree = new ds.RBTreeList();
+    for (var i = 0; i < 20; i++)
+        tree.insert(i, i);
+    var it = tree.getIterator();
+    var j = 18;
+    for (it.last(); !it.isDone(); it.previous(), j--) {
+        var predecessor = tree.predecessor(it.getNode());
+        if (predecessor)
+            assert.deepEqual(predecessor.item, j, "Predecessor");
+        else
+            assert.deepEqual(predecessor, null, "No predecessor");
+    }
+});
+QUnit.test("RBTreeList - Delete node test", function (assert) {
+    var tree = new ds.RBTreeList();
+    for (var i = 0; i < 20; i++)
+        tree.insert(i, i);
+    var j = 0;
+    while (tree.minimum()) {
+        assert.deepEqual(tree.minimum().item, j, "Deletion");
+        tree.deleteNode(tree.minimum());
+        j++;
+    }
+});
+QUnit.test("RBTreeList - To array test", function (assert) {
+    var tree = new ds.RBTreeList();
+    for (var i = 0; i < 5; i++)
+        tree.insert(i, i);
+    assert.deepEqual(tree.toArray(), [0, 1, 2, 3, 4], "To array");
+});
+QUnit.test("RBTreeList - Filter test", function (assert) {
+    var tree = new ds.RBTreeList();
+    for (var i = 0; i < 100; i++)
+        tree.insert(i, i);
+    var result = tree.filter(function (item) {
+        return 1 - item % 2;
+    });
+    assert.deepEqual(result[0], 0, "Filter of the even values");
+    assert.deepEqual(result[result.length - 1], 98, "Filter on the even values");
+});
+QUnit.test("RBTreeList - Clear test", function (assert) {
+    var tree = new ds.RBTreeList();
+    tree.insert(0, 0);
+    tree.insert(2, 2);
+    tree.clear();
+    assert.deepEqual(tree.isEmpty(), true, "Clear tree");
+});
+QUnit.test("RBTreeList - Is empty test", function (assert) {
+    var tree = new ds.RBTreeList();
+    tree.insert(0, 0);
+    tree.insert(2, 2);
+    assert.deepEqual(tree.isEmpty(), false, "Is not empty");
+    tree.clear();
+    assert.deepEqual(tree.isEmpty(), true, "Is empty");
+});
+QUnit.test("RBTreeList - Contains test", function (assert) {
+    var tree = new ds.RBTreeList();
+    tree.insert(0, 0);
+    tree.insert(2, 2);
+    assert.deepEqual(tree.contains(0), true, "Contains 0");
+    assert.deepEqual(tree.contains(2), true, "Contains 2");
+    assert.deepEqual(tree.contains(1), false, "Not contains 1");
+    var callback = function (item) {
+        return item > 0;
+    };
+    assert.deepEqual(tree.fullContains(callback), true, "Contains a value > 0");
+    callback = function (item) {
+        return item < 0;
+    };
+    assert.deepEqual(tree.fullContains(callback), false, "Contains a value < 0");
+});
+QUnit.test("RBTreeList - Execute test", function (assert) {
+    var tree = new ds.RBTreeList();
+    tree.insert(0, 0);
+    tree.insert(2, 2);
+    var callback = function (item) {
+        return item * 2;
+    };
+    tree.execute(callback);
+    assert.deepEqual(tree.search(0), 0, "Execute for key 0");
+    assert.deepEqual(tree.search(2), 4, "Execute for key 1");
+});
+QUnit.test("RBTreeList - Index of test", function (assert) {
+    var tree = new ds.RBTreeList();
+    for (var i = 0; i < 10; i++)
+        tree.insert(i, i);
+    var callback = function (item) {
+        return !(item % 2) && item > 5;
+    };
+    assert.deepEqual(tree.indexOf(0), 0, "Index of 0");
+    assert.deepEqual(tree.indexOf(15), -1, "Index of 15");
+    assert.deepEqual(tree.indexOf(5), 5, "Index of 5");
+    assert.deepEqual(tree.indexOf(null, callback), 6, "Index of the first even number greater than 5");
+});
+QUnit.test("RBTreeList - Last index of test", function (assert) {
+    var tree = new ds.RBTreeList();
+    for (var i = 0; i < 10; i++)
+        tree.insert(i, i);
+    var callback = function (item) {
+        return !(item % 2) && item > 5;
+    };
+    assert.deepEqual(tree.lastIndexOf(0), 0, "Last index of 0");
+    assert.deepEqual(tree.lastIndexOf(15), -1, "Last index of 15");
+    assert.deepEqual(tree.lastIndexOf(5), 5, "Last index of 5");
+    assert.deepEqual(tree.lastIndexOf(null, callback), 8, "Index of the last even number greater than 5");
+});
+QUnit.test("RBTreeList - Indexes of test", function (assert) {
+    var tree = new ds.RBTreeList();
+    for (var i = 0; i < 30; i++)
+        tree.insert(i, i % 10);
+    var callback = function (item) {
+        return !(item % 2) && item > 5;
+    };
+    assert.deepEqual(tree.allIndexesOf(0), [0, 10, 20], "Indexes of 0");
+    assert.deepEqual(tree.allIndexesOf(15), [], "Indexes of 15");
+    assert.deepEqual(tree.allIndexesOf(5), [5, 15, 25], "Indexes of 5");
+    assert.deepEqual(tree.allIndexesOf(null, callback), [6, 8, 16, 18, 26, 28], "Indexes of the even numbers greater than 5");
+});
+QUnit.test("RBTreeList - Clone test", function (assert) {
+    var tree = new ds.RBTreeList();
+    for (var i = 0; i < 10; i++)
+        tree.insert(i, i);
+    var clone = tree.clone();
+    var it = clone.getIterator();
+    var j = 0;
+    for (it.first(); !it.isDone(); it.next(), j++)
+        assert.deepEqual(it.getItem(), j, "Clone of the tree");
+});
+QUnit.test("RBTreeList - Clone distinct test", function (assert) {
+    var tree = new ds.RBTreeList();
+    for (var i = 0; i < 20; i++)
+        tree.insert(i % 10, i % 10);
+    var clone = tree.cloneDistinct();
+    assert.deepEqual(clone.allIndexesOf(2), [2], "Clone of the tree");
+});
+/**
+ * Created by Stefano on 06/04/14.
+ */
+QUnit.test("Set - Insert test", function (assert) {
+    var setA = new ds.Set();
+    var e0 = new ds.Element(0);
+    var e1 = new ds.Element(1);
+    setA.multiInsert([e0, e1]);
+    assert.deepEqual(setA.getItems(), [0, 1], "Insert elements");
+    assert.deepEqual(setA.getCardinality(), 2, "Insert elements");
+});
+QUnit.test("Set - Union test", function (assert) {
+    var setA = new ds.Set();
+    var setB = new ds.Set();
+    var e0 = new ds.Element(0);
+    var e1 = new ds.Element(1);
+    var e2 = new ds.Element(2);
+    var e3 = new ds.Element(3);
+    setA.multiInsert([e0, e1]);
+    setA.multiInsert([e2, e3]);
+    var union = setA.union(setB);
+    assert.deepEqual(setA.parents.contains(union), true, "Union of sets");
+    assert.deepEqual(setB.parents.contains(union), true, "Union of sets");
+    assert.deepEqual(union.getCardinality(), 4, "Union of sets");
+});
+QUnit.test("Set - Intersection test", function (assert) {
+    var setA = new ds.Set();
+    var setB = new ds.Set();
+    var e = [];
+    for (var i = 0; i < 6; i++) {
+        e.push(new ds.Element(i));
+        if (i < 4)
+            setA.insert(e[i]);
+        if (i > 1)
+            setB.insert(e[i]);
+    }
+    var intersection = setA.intersect(setB);
+    for (var k = 0; k < 2; k++)
+        assert.deepEqual(intersection.elements.getItem(k).item, k + 2, "Intersection of sets");
+    assert.deepEqual(intersection.getCardinality(), 2, "Intersection of sets");
+});
+QUnit.test("Set - Difference test", function (assert) {
+    var setA = new ds.Set();
+    var setB = new ds.Set();
+    var e = [];
+    for (var i = 0; i < 6; i++) {
+        e.push(new ds.Element(i));
+        if (i < 4)
+            setA.insert(e[i]);
+        if (i > 1)
+            setB.insert(e[i]);
+    }
+    var diffA = setA.difference(setB);
+    var diffB = setB.difference(setA);
+    for (var j = 0; j < 2; j++)
+        assert.deepEqual(diffA.elements.getItem(j).item, j, "Difference of sets");
+    assert.deepEqual(diffA.getCardinality(), 2, "Difference of sets");
+    for (var k = 0; k < 2; k++)
+        assert.deepEqual(diffB.elements.getItem(k).item, k + 4, "Difference of sets");
+    assert.deepEqual(diffB.getCardinality(), 2, "Difference of sets");
+});
+QUnit.test("Set - Cartesian product test", function (assert) {
+    var setA = new ds.Set();
+    var setB = new ds.Set();
+    var e = [];
+    for (var i = 0; i < 6; i++) {
+        e.push(new ds.Element(i));
+        if (i < 3)
+            setA.insert(e[i]);
+        if (i > 2)
+            setB.insert(e[i]);
+    }
+    var productA = setA.cartesianProduct(setB);
+    var productB = setB.cartesianProduct(setA);
+    assert.deepEqual(productA.getItems(), [
+        [0, 3],
+        [0, 4],
+        [0, 5],
+        [1, 3],
+        [1, 4],
+        [1, 5],
+        [2, 3],
+        [2, 4],
+        [2, 5]
+    ], "Cartesian product of sets");
+    assert.deepEqual(productA.getCardinality(), 9, "Cartesian product of sets");
+    assert.deepEqual(productB.getItems(), [
+        [3, 0],
+        [3, 1],
+        [3, 2],
+        [4, 0],
+        [4, 1],
+        [4, 2],
+        [5, 0],
+        [5, 1],
+        [5, 2]
+    ], "Cartesian product of sets");
+    assert.deepEqual(productB.getCardinality(), 9, "Cartesian product of sets");
+});
+/**
+ * Created by Battistella Stefano on 31/03/14.
+ */
+QUnit.test("Stack - Init test", function (assert) {
+    var stack = new ds.Stack(0, 2, 4, 6);
+    assert.deepEqual(stack.multiPop(4), [6, 4, 2, 0], "Initializing");
+    stack = new ds.Stack(0);
+    assert.deepEqual(stack.multiPop(4), [0], "Initializing");
+});
+QUnit.test("Stack - Init range test", function (assert) {
+    var stack = new ds.Stack(ds.Range(0, 6, 2));
+    assert.deepEqual(stack.multiPop(4), [6, 4, 2, 0], "Initializing");
+});
+QUnit.test("Stack - Push test", function (assert) {
+    var stack = new ds.Stack();
+    stack.push(0);
+    assert.deepEqual(stack.getItem(0), 0, "Push 0");
+    stack.push(2);
+    assert.deepEqual(stack.getItem(0), 2, "Push 2");
+    assert.deepEqual(stack.getItem(1), 0, "Push 2");
+});
+QUnit.test("Stack - Pop test", function (assert) {
+    var stack = new ds.Stack();
+    stack.push(0);
+    stack.push(2);
+    assert.deepEqual(stack.pop(), 2, "Pop");
+    assert.deepEqual(stack.pop(), 0, "Check length");
+    assert.deepEqual(stack.pop(), undefined, "Check length if too much pop");
+});
+QUnit.test("Stack - MultiPop test", function (assert) {
+    var stack = new ds.Stack();
+    stack.push(0);
+    stack.push(2);
+    assert.deepEqual(stack.multiPop(1), [2], "MultiPop 1 time");
+    stack.push(4);
+    stack.push(5);
+    stack.push(8);
+    assert.deepEqual(stack.multiPop(7), [8, 5, 4, 0], "MultiPop 7 times");
+    assert.deepEqual(stack.multiPop(1), [], "MultiPop 1 time with stack empty");
+});
+QUnit.test("Stack - Iterator test", function (assert) {
+    var stack = new ds.Stack();
+    for (var i = 0; i < 10; i++)
+        stack.push(i);
+    var j = 9;
+    var it = stack.getIterator();
+    for (it.first(); !it.isDone(); it.next(), j--)
+        assert.deepEqual(it.getItem(), j, "Get next item " + (10 - j));
+    j++;
+    for (it.last(); !it.isDone(); it.previous(), j++)
+        assert.deepEqual(it.getItem(), j, "Get previous item " + (10 - j));
+});
+QUnit.test("Stack - Get length test", function (assert) {
+    var stack = new ds.Stack();
+    assert.deepEqual(stack.getLength(), 0, "Length 0");
+    stack.push(0);
+    assert.deepEqual(stack.getLength(), 1, "Length 1");
+    stack.push(2);
+    assert.deepEqual(stack.getLength(), 2, "Length 2");
+    stack.pop();
+    stack.pop();
+    assert.deepEqual(stack.getLength(), 0, "Length 0");
+});
+QUnit.test("Stack - Peek test", function (assert) {
+    var stack = new ds.Stack();
+    stack.push(0);
+    assert.deepEqual(stack.peek(), 0, "Peek 0");
+    stack.push(2);
+    assert.deepEqual(stack.peek(), 2, "Peek 2");
+});
+QUnit.test("Stack - Clear test", function (assert) {
+    var stack = new ds.Stack();
+    stack.push(0);
+    stack.push(2);
+    stack.clear();
+    assert.deepEqual(stack.isEmpty(), true, "Clear stack");
+});
+QUnit.test("Stack - Is empty test", function (assert) {
+    var stack = new ds.Stack();
+    stack.push(0);
+    stack.push(2);
+    assert.deepEqual(stack.isEmpty(), false, "Is empty");
+    stack.clear();
+    assert.deepEqual(stack.isEmpty(), true, "Is empty");
+});
+QUnit.test("Stack - contains", function (assert) {
+    var stack = new ds.Stack();
+    stack.push(0);
+    stack.push(2);
+    assert.deepEqual(stack.contains(0), true, "Contains 0");
+    assert.deepEqual(stack.contains(2), true, "Contains 2");
+    assert.deepEqual(stack.contains(1), false, "Not contains 1");
+    var callback = function (item) {
+        return item > 0;
+    };
+    assert.deepEqual(stack.contains(null, callback), true, "Contains a value > 0");
+    callback = function (item) {
+        return item < 0;
+    };
+    assert.deepEqual(stack.contains(null, callback), false, "Contains a value < 0");
+});
+QUnit.test("Stack - execute", function (assert) {
+    var stack = new ds.Stack();
+    stack.push(0);
+    stack.push(2);
+    var callback = function (item) {
+        return item * 2;
+    };
+    stack.execute(callback);
+    assert.deepEqual(stack.getItem(0), 4, "Execute for item 1");
+    assert.deepEqual(stack.getItem(1), 0, "Execute for item 0");
+});
+QUnit.test("Stack - Index of test", function (assert) {
+    var stack = new ds.Stack();
+    for (var i = 0; i < 10; i++)
+        stack.push(i);
+    var callback = function (item) {
+        return !(item % 2) && item > 5;
+    };
+    assert.deepEqual(stack.indexOf(0), 0, "Index of 0");
+    assert.deepEqual(stack.indexOf(15), -1, "Index of 15");
+    assert.deepEqual(stack.indexOf(5), 5, "Index of 5");
+    assert.deepEqual(stack.indexOf(null, callback), 8, "Index of the first even number greater than 5");
+});
+QUnit.test("Stack - Last index of test", function (assert) {
+    var stack = new ds.Stack();
+    for (var i = 0; i < 10; i++)
+        stack.push(i);
+    var callback = function (item) {
+        return !(item % 2) && item > 5;
+    };
+    assert.deepEqual(stack.lastIndexOf(0), 0, "Last index of 0");
+    assert.deepEqual(stack.lastIndexOf(15), -1, "Last index of 15");
+    assert.deepEqual(stack.lastIndexOf(5), 5, "Last index of 5");
+    assert.deepEqual(stack.lastIndexOf(null, callback), 6, "Index of the last even number greater than 5");
+});
+QUnit.test("Stack - Indexes of test", function (assert) {
+    var stack = new ds.Stack();
+    for (var i = 0; i < 30; i++)
+        stack.push(i % 10);
+    var callback = function (item) {
+        return !(item % 2) && item > 5;
+    };
+    assert.deepEqual(stack.allIndexesOf(0), [20, 10, 0], "Indexes of 0");
+    assert.deepEqual(stack.allIndexesOf(15), [], "Indexes of 15");
+    assert.deepEqual(stack.allIndexesOf(5), [25, 15, 5], "Indexes of 5");
+    assert.deepEqual(stack.allIndexesOf(null, callback), [28, 26, 18, 16, 8, 6], "Indexes of the even numbers greater than 5");
+});
+QUnit.test("Stack - Clone test", function (assert) {
+    var stack = new ds.Stack();
+    for (var i = 0; i < 10; i++)
+        stack.push(i);
+    var clone = stack.clone();
+    var it = clone.getIterator();
+    var j = 9;
+    for (it.first(); !it.isDone(); it.next(), j--)
+        assert.deepEqual(it.getItem(), j, "Clone of the list");
+});
+QUnit.test("Stack - Clone distinct test", function (assert) {
+    var stack = new ds.Stack();
+    for (var i = 0; i < 20; i++)
+        stack.push(i % 10);
+    var clone = stack.cloneDistinct();
+    assert.deepEqual(clone.allIndexesOf(2), [2], "Clone of the list");
+});
+QUnit.test("Stack - Filter test", function (assert) {
+    var stack = new ds.Stack();
+    var length = 100;
+    for (var i = 0; i < length; i++)
+        stack.push(i);
+    var result = stack.filter(function (item) {
+        return 1 - item % 2;
+    });
+    assert.deepEqual(result[0], 98, "Filter of the even values");
+    assert.deepEqual(result[result.length - 1], 0, "Filter on the even values");
+});
+/**
+ * Created by Stefano on 06/04/14.
+ */
+QUnit.test("Trie - Insert test", function (assert) {
+    var trie = new ds.Trie();
+    trie.insert("Blue");
+    trie.insert("Bleu");
+    var strings = [];
+    trie.stringsToArray(strings);
+    assert.deepEqual(strings, ["Bleu", "Blue"], "Insert node");
+    trie.insert("Abba", 0);
+    trie.insert("Hello", 0);
+    trie.insert("World", 0);
+    assert.deepEqual(trie.getItem("Abba"), 0, "Insert node");
+    assert.deepEqual(trie.getItem("Hello"), 0, "Insert node");
+    assert.deepEqual(trie.getItem("World"), 0, "Insert node");
+});
+QUnit.test("Trie - Suggest test", function (assert) {
+    var trie = new ds.Trie();
+    trie.insert("Blue");
+    trie.insert("Boing");
+    trie.insert("Yellow");
+    trie.insert("Hello");
+    trie.insert("He");
+    trie.insert("Hola");
+    assert.deepEqual(trie.suggest(""), ["Blue", "Boing", "He", "Hello", "Hola", "Yellow"], "Suggest empty string");
+    assert.deepEqual(trie.suggest("B"), ["Blue", "Boing"], "Suggest B string");
+    assert.deepEqual(trie.suggest("Bo"), ["Boing"], "Suggest Bo string");
+    assert.deepEqual(trie.suggest("Ho"), ["Hola"], "Suggest Ho string");
+    assert.deepEqual(trie.suggest("A"), [], "Suggest A string");
+    assert.deepEqual(trie.suggest("Ready"), [], "Suggest Ready string");
+});
+QUnit.test("Trie - Update Item test", function (assert) {
+    var trie = new ds.Trie();
+    trie.insert("Blue", 0);
+    trie.insert("Boing", 0);
+    trie.insert("Yellow", 0);
+    trie.insert("Hello", 0);
+    trie.insert("He", 0);
+    trie.insert("Hola", 0);
+    var callback = function (item) {
+        return item + 1;
+    };
+    var strings = trie.suggest("");
+    for (var i = 0; i < strings.length; ++i) {
+        trie.updateItem(strings[i], callback);
+        assert.deepEqual(trie.getItem(strings[i]), 1, "Value Updated");
+    }
+});
 //# sourceMappingURL=tests.js.map

@@ -426,7 +426,7 @@ namespace ds
 		 * @param [node = root] {Node} The node from which start the search.
 		 * @return {RBLNode} The node found.
 		 */
-		minimum(node)
+		minimum(node?)
 		{
 			if (node)
 				while (node && node.left)
@@ -609,7 +609,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The first position of the item.
 		 */
-		indexOf(item, callback)
+		indexOf(item, callback?)
 		{
 			callback = callback || function (it)
 			{
@@ -632,7 +632,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The last position of the item.
 		 */
-		lastIndexOf(item, callback)
+		lastIndexOf(item, callback?)
 		{
 			callback = callback || function (it)
 			{
@@ -655,7 +655,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {Array<number>} The positions in which the item has been found.
 		 */
-		allIndexesOf(item, callback)
+		allIndexesOf(item, callback?)
 		{
 			callback = callback || function (it)
 			{

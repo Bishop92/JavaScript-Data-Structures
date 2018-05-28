@@ -5381,9 +5381,9 @@ var ds;
              */
             _this.items = [];
             _this.items = [];
-            if (args && args.length) {
+            if (args && args.length == 1 && args[0] instanceof Array) {
                 //builds the stack from the range passed from the constructor
-                _this.multiPush(args);
+                _this.multiPush(args[0]);
             }
             else {
                 //builds the stack from the parameters of the constructor

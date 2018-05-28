@@ -1867,7 +1867,7 @@ declare namespace ds {
          * @param [callback = function(node){return(node.key===key);}] The condition to satisfy. The callback must accept the current node to check.
          * @return {*} The item found or undefined if there isn't the key in the tree.
          */
-        search(key: any, node: any, callback: any): any;
+        search(key: any, node?: any, callback?: any): any;
         /**
          * Checks if the tree contains a key or a node that satisfy the condition represented by the callback function.
          * This method avoid to search in branches where the key won't be found.
@@ -1875,7 +1875,7 @@ declare namespace ds {
          * @param [callback = function(node){return(node.key===key);}] The condition to satisfy. The callback must accept the current node to check.
          * @return {boolean} True if the tree contains the key or a node that satisfy the condition, false otherwise.
          */
-        contains(key: any, callback: any): boolean;
+        contains(key: any, callback?: any): boolean;
         /**
          * Checks if the tree contains a node that satisfy the condition represented by the callback function.
          * This method check all the tree avoiding the binary search.
@@ -1956,21 +1956,21 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The first position of the item.
          */
-        indexOf(item: any, callback: any): number;
+        indexOf(item: any, callback?: any): number;
         /**
          * Returns the last position of the item in the tree.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The last position of the item.
          */
-        lastIndexOf(item: any, callback: any): number;
+        lastIndexOf(item: any, callback?: any): number;
         /**
          * Returns all the position in which the item has been found in the tree.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback: any): any[];
+        allIndexesOf(item: any, callback?: any): any[];
         /**
          * Returns the item at the position index.
          * @param index {number} The position of the item.
@@ -2174,7 +2174,7 @@ declare namespace ds {
          * @param [node = root] {Node} The node from which start the search.
          * @return {RBLNode} The node found.
          */
-        minimum(node: any): any;
+        minimum(node?: any): any;
         /**
          * Get the item relatives to the maximum key stored in the tree.
          * @param [node = root] {Node} The node from which start the search.
@@ -2242,21 +2242,21 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The first position of the item.
          */
-        indexOf(item: any, callback: any): number;
+        indexOf(item: any, callback?: any): number;
         /**
          * Returns the last position of the item in the tree.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The last position of the item.
          */
-        lastIndexOf(item: any, callback: any): number;
+        lastIndexOf(item: any, callback?: any): number;
         /**
          * Returns all the position in which the item has been found in the tree.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback: any): any[];
+        allIndexesOf(item: any, callback?: any): any[];
         /**
          * Returns the item at the position index.
          * @param index {number} The position of the item.
@@ -2521,21 +2521,21 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The first position of the item.
          */
-        indexOf(item: any, callback: any): number;
+        indexOf(item: any, callback?: any): number;
         /**
          * Returns the last position of the item in the stack.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The last position of the item.
          */
-        lastIndexOf(item: any, callback: any): number;
+        lastIndexOf(item: any, callback?: any): number;
         /**
          * Returns all the position in which the item has been found in the stack.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback: any): any[];
+        allIndexesOf(item: any, callback?: any): any[];
         /**
          * Clones the stack into a new stack.
          * @return {Stack} The stack cloned from this stack.
@@ -2655,7 +2655,7 @@ declare namespace ds {
          * @param [item = null] The item to store.
          * @return {void}
          */
-        insert(string: any, item: any): void;
+        insert(string: any, item?: any): void;
         /**
          * Suggest the possible conclusion for the string.
          * @param string {string} The start of the string.
@@ -2668,7 +2668,7 @@ declare namespace ds {
          * @param [node {TNode|null} = null] The node from which start searching the strings.
          * @return {void}
          */
-        stringsToArray(result: any, node: any): void;
+        stringsToArray(result: any, node?: any): void;
         /**
          * Update the item related to the string searched.
          * @param string {string} The string for finding the item.

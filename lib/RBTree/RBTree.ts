@@ -325,7 +325,7 @@ namespace ds
 		 * @param [callback = function(node){return(node.key===key);}] The condition to satisfy. The callback must accept the current node to check.
 		 * @return {*} The item found or undefined if there isn't the key in the tree.
 		 */
-		search(key, node, callback)
+		search(key, node?, callback?)
 		{
 			node = node || this.root;
 			callback = callback || function (node)
@@ -349,7 +349,7 @@ namespace ds
 		 * @param [callback = function(node){return(node.key===key);}] The condition to satisfy. The callback must accept the current node to check.
 		 * @return {boolean} True if the tree contains the key or a node that satisfy the condition, false otherwise.
 		 */
-		contains(key, callback)
+		contains(key, callback?)
 		{
 			return this.search(key, null, callback) !== undefined;
 		};
@@ -554,7 +554,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The first position of the item.
 		 */
-		indexOf(item, callback)
+		indexOf(item, callback?)
 		{
 			callback = callback || function (it)
 			{
@@ -577,7 +577,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The last position of the item.
 		 */
-		lastIndexOf(item, callback)
+		lastIndexOf(item, callback?)
 		{
 			callback = callback || function (it)
 			{
@@ -600,7 +600,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {Array<number>} The positions in which the item has been found.
 		 */
-		allIndexesOf(item, callback)
+		allIndexesOf(item, callback?)
 		{
 			callback = callback || function (it)
 			{

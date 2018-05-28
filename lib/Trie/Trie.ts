@@ -83,7 +83,7 @@ namespace ds
          * @param [item = null] The item to store.
          * @return {void}
          */
-        insert(string, item)
+        insert(string, item?)
         {
             var node = this.root;
 
@@ -136,7 +136,7 @@ namespace ds
          * @param [node {TNode|null} = null] The node from which start searching the strings.
          * @return {void}
          */
-        stringsToArray(result, node)
+        stringsToArray(result, node?)
         {
             node = node || this.root;
 
