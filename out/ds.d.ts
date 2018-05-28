@@ -479,3 +479,144 @@ declare class BTreeIterator implements Iterator {
      */
     getKey(): any;
 }
+/**
+ * Created by Stefano on 31/03/14.
+ */
+declare class CircularBuffer extends Aggregate {
+    /**
+     * The index of the position of the head of the buffer.
+     * @type {number}
+     */
+    head: number;
+    /**
+     * The index of the position of the tail of the buffer.
+     * @type {number}
+     */
+    tail: number;
+    /**
+     * The items stored in the buffer.
+     * @type {Array<*>}
+     */
+    items: any[];
+    /**
+     * Is true if buffer is empty, false otherwise.
+     * @type {boolean}
+     */
+    empty: boolean;
+    /**
+     * Is false if buffer is full, false otherwise.
+     * @type {boolean}
+     */
+    full: boolean;
+    /**
+     * The size of the buffer.
+     * @type {Number}
+     */
+    size: number;
+    /**
+     * Class for managing a circular buffer.
+     * @param size {Number} The size of the buffer.
+     * @constructor
+     */
+    constructor(size: any);
+    /**
+     * @inheritDoc
+     */
+    getIterator(): CircularBufferIterator;
+    /**
+     * Write the item at the head of the buffer.
+     * @param item {*} The item to write.
+     * @return {void}
+     */
+    write(item: any): void;
+    /**
+     * Free the buffer between indexes from and to.
+     * If from > to, positions between from and the end of the buffer and between the start and to will be free.
+     * @param from {Number} The index from which start to free (inclusive index)
+     * @param to {Number} The index where stop to free (exclusive index)
+     * @return {void}
+     */
+    free(from: any, to: any): void;
+    /**
+     * Free all the buffer.
+     * @return {void}
+     */
+    freeAll(): void;
+    /**
+     * Read the item stored at the position index.
+     * @param index {Number} The position of the item to read.
+     * @return {*} The item read.
+     */
+    read(index: any): any;
+    /**
+     * Return true if the buffer is empty, false otherwise.
+     * @return {boolean}
+     */
+    isEmpty(): boolean;
+    /**
+     * Return true if the buffer is full, false otherwise.
+     * @return {boolean}
+     */
+    isFull(): boolean;
+    /**
+     * Clones the circular buffer into a new circular buffer.
+     * @return {CircularBuffer} The circular buffer cloned from this circular buffer.
+     */
+    clone(): CircularBuffer;
+    /**
+     * Resize the buffer.
+     * @param size {number} The new size of the buffer.
+     * @return {void}
+     */
+    resize(size: any): void;
+}
+/**
+ * Created by Stefano on 06/04/2014.
+ */
+declare class CircularBufferIterator implements Iterator {
+    /**
+     * The aggregate relates to this iterator.
+     * @type {CircularBuffer}
+     */
+    aggregate: CircularBuffer;
+    /**
+     * The pointer to the position.
+     * @type {number}
+     */
+    pointer: number;
+    /**
+     * Discriminator for full buffer
+     * @type {bool}
+     */
+    start: boolean;
+    /**
+     * Class that implements the iterator for a circular buffer.
+     * @param aggregate {CircularBuffer} The aggregate to scan.
+     * @constructor
+     */
+    constructor(aggregate: any);
+    /**
+     * @inheritDoc
+     */
+    first(): void;
+    /**
+     * @inheritDoc
+     */
+    next(): void;
+    /**
+     * @inheritDoc
+     */
+    last(): void;
+    /**
+     * @inheritDoc
+     */
+    previous(): void;
+    /**
+     * @inheritDoc
+     */
+    isDone(): boolean;
+    /**
+     * @inheritDoc
+     */
+    getItem(): any;
+}
