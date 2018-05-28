@@ -2385,47 +2385,47 @@ declare namespace ds {
          * @param element {Element} The element to add.
          * @return {void}
          */
-        insert(element: any): void;
+        insert(element: Element): void;
         /**
          * Add the elements to the set.
          * @param elements {Array<Element>} The elements to add.
          * @return {void}
          */
-        multiInsert(elements: any): void;
+        multiInsert(elements: Element[]): void;
         /**
          * Returns the set that represents the union of two sets.
          * @param set {Set} The set with make the union.
          * @return {Set} The set that represents the union.
          */
-        union(set: any): Set;
+        union(set: Set): Set;
         /**
          * Returns the set that represents the intersection of two sets.
          * @param set {Set} The set to intersect with this.
          * @return {Set} The set that represents the intersection.
          */
-        intersect(set: any): Set;
+        intersect(set: Set): Set;
         /**
          * Returns the set that represents the difference of two sets.
          * @param set {Set} The set to difference with this.
          * @return {Set} The set that represents the difference.
          */
-        difference(set: any): Set;
+        difference(set: Set): Set;
         /**
          * Returns the set that represents the cartesian product of two sets.
          * @param set {Set} The set to make the cartesian product with this.
          * @return {Set} The set that represents the cartesian product .
          */
-        cartesianProduct(set: any): Set;
+        cartesianProduct(set: Set): Set;
         /**
          * Add the subset.
          * @param set {Set} The subset.
          */
-        addSubset(set: any): void;
+        addSubset(set: Set): void;
         /**
          * Add the subsets.
          * @param sets {Array<Set>} The subsets.
          */
-        addSubsets(sets: any): void;
+        addSubsets(sets: Set[]): void;
         /**
          * Returns the items that are stored in the set.
          * @return {Array} The items stored.
@@ -2457,7 +2457,7 @@ declare namespace ds {
          * The list of the items in the stack.
          * @type {Array<*>}
          */
-        items: never[];
+        items: any[];
         /**
          * Class for managing a stack.
          * @param {...*} [args] The items for initializing the stack.
@@ -2479,23 +2479,23 @@ declare namespace ds {
          * @param items {Array<*>} The items to add.
          * @return {void}
          */
-        multiPush(items: any): void;
+        multiPush(items: any[]): void;
         /**
          * Removes the item at the top of the stack.
          * @return {*} The item at the top of the stack. It's undefined if the stack is empty.
          */
-        pop(): undefined;
+        pop(): any;
         /**
          * Removes the more item at the top of the stack.
          * @param times {number} The number of times to repeat the pop method.
          * @return {Array<*>} The items at the top of the stack.
          */
-        multiPop(times: any): undefined[];
+        multiPop(times: number): any[];
         /**
          * Returns the item at the top of the stack without remove it.
          * @return {*} The item at the top of the stack. It's undefined if the stack is empty.
          */
-        peek(): undefined;
+        peek(): any;
         /**
          * Removes all the items stored in the stack.
          * @return {void}
@@ -2507,20 +2507,20 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {boolean} True if the stack contains the item that satisfy the condition, false otherwise.
          */
-        contains(item: any, callback?: any): boolean;
+        contains(item: any, callback?: (item: any) => boolean): boolean;
         /**
          * Executes the callback function for each item of the stack.
          * This method modifies the stack so if you don't need to modify it you must return the same item of the array.
          * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
          * @return {void}
          */
-        execute(callback: any): void;
+        execute(callback: (item: any) => any): void;
         /**
          * Returns the item at the position index.
          * @param index The position of the item.
          * @return {*} The item at the position. It's undefined if index isn't in the stack bounds.
          */
-        getItem(index: any): undefined;
+        getItem(index: number): any;
         /**
          * Returns the length of the stack.
          * @return {Number} The length of the stack.
@@ -2536,28 +2536,28 @@ declare namespace ds {
          * @param callback {function} The function that implements the condition.
          * @return {Array<*>} The array that contains the items that satisfy the condition.
          */
-        filter(callback: any): any[];
+        filter(callback: (item: any) => boolean): any[];
         /**
          * Returns the first position of the item in the stack.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The first position of the item.
          */
-        indexOf(item: any, callback?: any): number;
+        indexOf(item: any, callback?: (item: any) => boolean): number;
         /**
          * Returns the last position of the item in the stack.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The last position of the item.
          */
-        lastIndexOf(item: any, callback?: any): number;
+        lastIndexOf(item: any, callback?: (item: any) => boolean): number;
         /**
          * Returns all the position in which the item has been found in the stack.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback?: any): number[];
+        allIndexesOf(item: any, callback?: (item: any) => boolean): number[];
         /**
          * Clones the stack into a new stack.
          * @return {Stack} The stack cloned from this stack.
@@ -2580,7 +2580,7 @@ declare namespace ds {
          * The aggregate relates to this iterator.
          * @type {Stack}
          */
-        aggregate: any;
+        aggregate: Stack;
         /**
          * The pointer to the position.
          * @type {number}
@@ -2591,7 +2591,7 @@ declare namespace ds {
          * @param aggregate {Stack} The aggregate to scan.
          * @constructor
          */
-        constructor(aggregate: any);
+        constructor(aggregate: Stack);
         /**
          * @inheritDoc
          */

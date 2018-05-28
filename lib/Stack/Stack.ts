@@ -9,13 +9,13 @@ namespace ds
 		 * The list of the items in the stack.
 		 * @type {Array<*>}
 		 */
-		items = [];
+		items: any[] = [];
 		/**
 		 * Class for managing a stack.
 		 * @param {...*} [args] The items for initializing the stack.
 		 * @constructor
 		 */
-		constructor(...args)
+		constructor(...args: any[])
 		{
 			super();
 			this.items = [];
@@ -27,7 +27,7 @@ namespace ds
 			} else
 			{
 				//builds the stack from the parameters of the constructor
-				this.multiPush(arguments);
+				this.multiPush(args);
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace ds
 		 * @param item {*} The item to add.
 		 * return {void}
 		 */
-		push(item)
+		push(item: any)
 		{
 			this.items.push(item);
 		};
@@ -54,7 +54,7 @@ namespace ds
 		 * @param items {Array<*>} The items to add.
 		 * @return {void}
 		 */
-		multiPush(items)
+		multiPush(items: any[])
 		{
 			for (var i = 0; i < items.length; i++)
 				this.push(items[i]);
@@ -76,7 +76,7 @@ namespace ds
 		 * @param times {number} The number of times to repeat the pop method.
 		 * @return {Array<*>} The items at the top of the stack.
 		 */
-		multiPop(times)
+		multiPop(times: number)
 		{
 			var result = [];
 			for (var i = 0; i < times && this.items.length; i++)
@@ -110,7 +110,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {boolean} True if the stack contains the item that satisfy the condition, false otherwise.
 		 */
-		contains(item, callback?)
+		contains(item: any, callback?: (item: any) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -128,7 +128,7 @@ namespace ds
 		 * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
 		 * @return {void}
 		 */
-		execute(callback)
+		execute(callback: (item: any) => any)
 		{
 			for (var i = this.items.length - 1; i > -1; i--)
 				this.items[i] = callback(this.items[i]);
@@ -139,7 +139,7 @@ namespace ds
 		 * @param index The position of the item.
 		 * @return {*} The item at the position. It's undefined if index isn't in the stack bounds.
 		 */
-		getItem(index)
+		getItem(index: number)
 		{
 			if (index < 0 || index > this.items.length - 1)
 				return undefined;
@@ -169,7 +169,7 @@ namespace ds
 		 * @param callback {function} The function that implements the condition.
 		 * @return {Array<*>} The array that contains the items that satisfy the condition.
 		 */
-		filter(callback)
+		filter(callback: (item: any) => boolean)
 		{
 			var result = [];
 			for (var i = this.items.length - 1; i > -1; i--)
@@ -186,7 +186,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The first position of the item.
 		 */
-		indexOf(item, callback?)
+		indexOf(item: any, callback?: (item: any) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -208,7 +208,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The last position of the item.
 		 */
-		lastIndexOf(item, callback?)
+		lastIndexOf(item: any, callback?: (item: any) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -230,7 +230,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {Array<number>} The positions in which the item has been found.
 		 */
-		allIndexesOf(item, callback?)
+		allIndexesOf(item: any, callback?: (item: any) => boolean)
 		{
 			callback = callback || function (it)
 			{

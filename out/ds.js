@@ -5425,7 +5425,7 @@ var ds;
             }
             else {
                 //builds the stack from the parameters of the constructor
-                _this.multiPush(arguments);
+                _this.multiPush(args);
             }
             return _this;
         }

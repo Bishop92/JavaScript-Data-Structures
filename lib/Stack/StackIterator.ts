@@ -10,7 +10,7 @@ namespace ds
 		 * The aggregate relates to this iterator.
 		 * @type {Stack}
 		 */
-		aggregate;
+		aggregate: Stack;
 
 		/**
 		 * The pointer to the position.
@@ -22,7 +22,7 @@ namespace ds
 		 * @param aggregate {Stack} The aggregate to scan.
 		 * @constructor
 		 */
-		constructor(aggregate)
+		constructor(aggregate: Stack)
 		{
 			this.aggregate = aggregate;
 			this.pointer = -1;

@@ -7,13 +7,13 @@ namespace ds
 	export class Element
 	{
 		parents: DoubleLinkedList;
-		item;
+		item: any;
 		/**
 		 * Class for representing an element of a set.
 		 * @param item {*} The item to store in the element.
 		 * @constructor
 		 */
-		constructor(item)
+		constructor(item: any)
 		{
 			this.parents = new DoubleLinkedList();
 			this.item = item;
@@ -62,7 +62,7 @@ namespace ds
 		 * @param element {Element} The element to add.
 		 * @return {void}
 		 */
-		insert(element)
+		insert(element: Element)
 		{
 			this.elements.pushBack(element);
 			element.parents.pushBack(this);
@@ -74,7 +74,7 @@ namespace ds
 		 * @param elements {Array<Element>} The elements to add.
 		 * @return {void}
 		 */
-		multiInsert(elements)
+		multiInsert(elements: Element[])
 		{
 			for (var i = 0; i < elements.length; i++)
 			{
@@ -89,7 +89,7 @@ namespace ds
 		 * @param set {Set} The set with make the union.
 		 * @return {Set} The set that represents the union.
 		 */
-		union(set)
+		union(set: Set)
 		{
 			var parent = new Set();
 			parent.addSubsets([this, set]);
@@ -97,7 +97,7 @@ namespace ds
 			set.parents.pushBack(parent);
 			//change the parent of the subset
 			var that = this;
-			var f = function (item)
+			var f = function (item: any)
 			{
 				if (item === that)
 					return parent;
@@ -121,7 +121,7 @@ namespace ds
 		 * @param set {Set} The set to intersect with this.
 		 * @return {Set} The set that represents the intersection.
 		 */
-		intersect(set)
+		intersect(set: Set)
 		{
 			var intersection = new Set();
 			//intersect this set with the set
@@ -147,7 +147,7 @@ namespace ds
 		 * @param set {Set} The set to difference with this.
 		 * @return {Set} The set that represents the difference.
 		 */
-		difference(set)
+		difference(set: Set)
 		{
 			var diff = new Set();
 			//intersect this set with the set
@@ -173,7 +173,7 @@ namespace ds
 		 * @param set {Set} The set to make the cartesian product with this.
 		 * @return {Set} The set that represents the cartesian product .
 		 */
-		cartesianProduct(set)
+		cartesianProduct(set: Set)
 		{
 			var el1 = this.getItems();
 			var el2 = set.getItems();
@@ -188,7 +188,7 @@ namespace ds
 		 * Add the subset.
 		 * @param set {Set} The subset.
 		 */
-		addSubset(set)
+		addSubset(set: Set)
 		{
 			this.sets.pushBack(set);
 			this.size += set.size;
@@ -198,7 +198,7 @@ namespace ds
 		 * Add the subsets.
 		 * @param sets {Array<Set>} The subsets.
 		 */
-		addSubsets(sets)
+		addSubsets(sets: Set[])
 		{
 			for (var i = 0; i < sets.length; i++)
 				this.addSubset(sets[i]);
