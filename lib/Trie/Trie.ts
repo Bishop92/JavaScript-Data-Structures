@@ -15,7 +15,7 @@ namespace ds
          * The key of the node.
          * @type {string|null}
          */
-        string = null;
+        string: string = <any>null;
         /**
          * The parent node. It's null if there's no a parent node.
          * @type {TNode|null}
@@ -25,7 +25,7 @@ namespace ds
          * The children of the node.
          * @type {Array<TNode>}
          */
-        childs = [];
+        childs: TNode[] = [];
 
         /**
          * The single node of the tree.
@@ -33,14 +33,13 @@ namespace ds
          * @param [item = null] The item to store in the node.
          * @constructor
          */
-        constructor(string?, item?)
+        constructor(string?: string, item?: any)
         {
             this.item = item || null;
-            this.string = string || null;
+            this.string = string || <any>null;
             this.parent = null;
             this.childs = [];
         }
-
 
     }
 
@@ -84,7 +83,7 @@ namespace ds
          * @param [item = null] The item to store.
          * @return {void}
          */
-        insert(string, item?)
+        insert(string: string, item?: any)
         {
             var node = this.root;
 
@@ -114,7 +113,7 @@ namespace ds
          * @param string {string} The start of the string.
          * @return {Array<string>} The array of possible string conclusion to fill.
          */
-        suggest(string)
+        suggest(string: string)
         {
             var node = this.root;
 
@@ -123,7 +122,7 @@ namespace ds
                 node = node.childs[string.charCodeAt(i)];
             }
 
-            var results = [];
+            var results: string[] = [];
             if (node)
             {
                 this.stringsToArray(results, node);
@@ -137,7 +136,7 @@ namespace ds
          * @param [node {TNode|null} = null] The node from which start searching the strings.
          * @return {void}
          */
-        stringsToArray(result, node?)
+        stringsToArray(result: string[], node?: TNode)
         {
             node = node || this.root;
 
@@ -162,7 +161,7 @@ namespace ds
          * @param callback {function} The function to execute to update the item. It should accept the item the iteration is working on.
          * @return {void}
          */
-        updateItem(string: string, callback)
+        updateItem(string: string, callback: (item: any) => any)
         {
             var node = this.root;
 
@@ -185,7 +184,7 @@ namespace ds
          * @param string {string} The string for finding the item.
          * @returns {*} The item found. Undefined if the string is not in the trie
          */
-        getItem(string)
+        getItem(string: string)
         {
             var node = this.root;
 
@@ -219,7 +218,7 @@ namespace ds
          * @param [node = root] {Node} The node from which start the search.
          * @return {string} The string found.
          */
-        minimum(node)
+        minimum(node?: TNode)
         {
             node = node || this.root;
             return node.string;
@@ -230,7 +229,7 @@ namespace ds
          * @param [node = root] {Node} The node from which start the search.
          * @return {string} The string found.
          */
-        maximum(node)
+        maximum(node?: TNode)
         {
             node = node || this.root;
             while (node && node.childs[node.childs.length - 1])

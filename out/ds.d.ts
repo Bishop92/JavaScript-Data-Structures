@@ -2633,7 +2633,7 @@ declare namespace ds {
          * The key of the node.
          * @type {string|null}
          */
-        string: null;
+        string: string;
         /**
          * The parent node. It's null if there's no a parent node.
          * @type {TNode|null}
@@ -2643,14 +2643,14 @@ declare namespace ds {
          * The children of the node.
          * @type {Array<TNode>}
          */
-        childs: never[];
+        childs: TNode[];
         /**
          * The single node of the tree.
          * @param [string = null] The string of the node.
          * @param [item = null] The item to store in the node.
          * @constructor
          */
-        constructor(string?: any, item?: any);
+        constructor(string?: string, item?: any);
     }
     class Trie extends Aggregate {
         /**
@@ -2679,33 +2679,33 @@ declare namespace ds {
          * @param [item = null] The item to store.
          * @return {void}
          */
-        insert(string: any, item?: any): void;
+        insert(string: string, item?: any): void;
         /**
          * Suggest the possible conclusion for the string.
          * @param string {string} The start of the string.
          * @return {Array<string>} The array of possible string conclusion to fill.
          */
-        suggest(string: any): any[];
+        suggest(string: string): string[];
         /**
          * Return all the string saved under the node in the array.
          * @param result {Array<string>} The array to fill.
          * @param [node {TNode|null} = null] The node from which start searching the strings.
          * @return {void}
          */
-        stringsToArray(result: any, node?: any): void;
+        stringsToArray(result: string[], node?: TNode): void;
         /**
          * Update the item related to the string searched.
          * @param string {string} The string for finding the item.
          * @param callback {function} The function to execute to update the item. It should accept the item the iteration is working on.
          * @return {void}
          */
-        updateItem(string: string, callback: any): void;
+        updateItem(string: string, callback: (item: any) => any): void;
         /**
          * Return the item related to the string searched.
          * @param string {string} The string for finding the item.
          * @returns {*} The item found. Undefined if the string is not in the trie
          */
-        getItem(string: any): null | undefined;
+        getItem(string: string): null | undefined;
         /**
          * Return the size of the trie.
          * @returns {number} The size of the tree.
@@ -2716,13 +2716,13 @@ declare namespace ds {
          * @param [node = root] {Node} The node from which start the search.
          * @return {string} The string found.
          */
-        minimum(node: any): any;
+        minimum(node?: TNode): string;
         /**
          * Get the maximum string stored in the tree.
          * @param [node = root] {Node} The node from which start the search.
          * @return {string} The string found.
          */
-        maximum(node: any): any;
+        maximum(node?: TNode): string;
     }
 }
 /**
@@ -2735,18 +2735,18 @@ declare namespace ds {
          * The aggregate relates to this iterator.
          * @type {Trie}
          */
-        aggregate: any;
+        aggregate: Trie;
         /**
          * The pointer to the position.
          * @type {TNode|null}
          */
-        pointer: null;
+        pointer: string;
         /**
          * Class that implements the iterator for a trie.
          * @param aggregate {Trie} The aggregate to scan.
          * @constructor
          */
-        constructor(aggregate: any);
+        constructor(aggregate: Trie);
         /**
          * @inheritDoc
          */
@@ -2770,6 +2770,6 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getItem(): any;
+        getItem(): void;
     }
 }

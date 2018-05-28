@@ -5954,7 +5954,9 @@ var ds;
          * @inheritDoc
          */
         TrieIterator.prototype.next = function () {
-            this.pointer = this.aggregate.successor(this.pointer);
+            debugger;
+            console.error("此处有bug，以下代码注释");
+            // this.pointer = this.aggregate.successor(this.pointer);
         };
         ;
         /**
@@ -5968,7 +5970,9 @@ var ds;
          * @inheritDoc
          */
         TrieIterator.prototype.previous = function () {
-            this.pointer = this.aggregate.predecessor(this.pointer);
+            debugger;
+            console.error("此处有bug，以下代码注释");
+            // this.pointer = this.aggregate.predecessor(this.pointer);
         };
         ;
         /**
@@ -5982,7 +5986,9 @@ var ds;
          * @inheritDoc
          */
         TrieIterator.prototype.getItem = function () {
-            return this.pointer.item;
+            debugger;
+            console.error("此处有bug，以下代码注释");
+            // return this.pointer.item;
         };
         ;
         return TrieIterator;

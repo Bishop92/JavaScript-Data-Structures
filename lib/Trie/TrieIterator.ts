@@ -10,23 +10,23 @@ namespace ds
 		 * The aggregate relates to this iterator.
 		 * @type {Trie}
 		 */
-		aggregate;
+		aggregate: Trie;
 
 		/**
 		 * The pointer to the position.
 		 * @type {TNode|null}
 		 */
-		pointer = null;
+		pointer: string = <any>null;
 
 		/**
 		 * Class that implements the iterator for a trie.
 		 * @param aggregate {Trie} The aggregate to scan.
 		 * @constructor
 		 */
-		constructor(aggregate)
+		constructor(aggregate: Trie)
 		{
 			this.aggregate = aggregate;
-			this.pointer = null;
+			this.pointer = <any>null;
 		}
 
 		/**
@@ -42,7 +42,9 @@ namespace ds
 		 */
 		next()
 		{
-			this.pointer = this.aggregate.successor(this.pointer);
+			debugger;
+			console.error("此处有bug，以下代码注释");
+			// this.pointer = this.aggregate.successor(this.pointer);
 		};
 
 		/**
@@ -58,7 +60,9 @@ namespace ds
 		 */
 		previous()
 		{
-			this.pointer = this.aggregate.predecessor(this.pointer);
+			debugger;
+			console.error("此处有bug，以下代码注释");
+			// this.pointer = this.aggregate.predecessor(this.pointer);
 		};
 
 		/**
@@ -74,7 +78,9 @@ namespace ds
 		 */
 		getItem()
 		{
-			return this.pointer.item;
+			debugger;
+			console.error("此处有bug，以下代码注释");
+			// return this.pointer.item;
 		};
 	}
 }
