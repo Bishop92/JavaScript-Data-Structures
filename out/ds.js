@@ -1286,3 +1286,3182 @@ var CircularBufferIterator = /** @class */ (function () {
     ;
     return CircularBufferIterator;
 }());
+/**
+ * Created by Stefano on 31/03/14.
+ */
+var DLLNode = /** @class */ (function () {
+    /**
+     * The single node of the list.
+     * @param item {*} The item to store in the node.
+     * @constructor
+     */
+    function DLLNode(item) {
+        /**
+         * The next node. It's null if there's no a next node.
+         * @type {DLLNode|null}
+         */
+        this.next = null;
+        /**
+         * The previous node. It's null if there's no a previous node.
+         * @type {DLLNode|null}
+         */
+        this.previous = null;
+        this.item = item;
+    }
+    return DLLNode;
+}());
+var DoubleLinkedList = /** @class */ (function (_super) {
+    __extends(DoubleLinkedList, _super);
+    /**
+     * Class for managing a double linked list.
+     * @param {...*} [args] The items for initializing the list.
+     * @constructor
+     */
+    function DoubleLinkedList() {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        var _this = _super.call(this) || this;
+        /**
+         * The first node of the list.
+         * @type {DLLNode|null}
+         */
+        _this.first = null;
+        /**
+         * The last node of the list.
+         * @type {DLLNode|null}
+         */
+        _this.last = null;
+        /**
+         * The length of the list.
+         * @type {number}
+         */
+        _this.length = 0;
+        if (args && args.length) {
+            //builds the list from the range passed from the constructor
+            _this.fromArray(args);
+        }
+        else {
+            //builds the list from the parameters of the constructor
+            _this.fromArray(arguments);
+        }
+        return _this;
+    }
+    /**
+     * @inheritDoc
+     */
+    DoubleLinkedList.prototype.getIterator = function () {
+        return new DoubleLinkedListIterator(this);
+    };
+    ;
+    /**
+     * Add an item at the head of the list.
+     * @param item {*} The item to add.
+     * @return {void}
+     */
+    DoubleLinkedList.prototype.pushFront = function (item) {
+        var node = new DLLNode(item);
+        node.next = this.first;
+        this.first = node;
+        //link the next node to the new node
+        if (node.next)
+            node.next.previous = node;
+        else
+            this.last = node;
+        this.length++;
+    };
+    ;
+    /**
+     * Add an item at the tail of the list.
+     * @param item {*} The item to add.
+     * @return {void}
+     */
+    DoubleLinkedList.prototype.pushBack = function (item) {
+        var node = new DLLNode(item);
+        node.previous = this.last;
+        this.last = node;
+        //link the previous node to the new node
+        if (node.previous)
+            node.previous.next = node;
+        else
+            this.first = node;
+        this.length++;
+    };
+    ;
+    /**
+     * Remove the first item of the list.
+     * @return {*} The item removed. It's undefined if the list is empty.
+     */
+    DoubleLinkedList.prototype.popFront = function () {
+        if (this.length) {
+            var node = this.first;
+            this.first = node.next;
+            if (node.next)
+                node.next.previous = null;
+            this.length--;
+            node.next = null;
+            return node.item;
+        }
+        return undefined;
+    };
+    ;
+    /**
+     * Remove the last item of the list.
+     * @return {*} The item removed. It's undefined if the list is empty.
+     */
+    DoubleLinkedList.prototype.popBack = function () {
+        if (this.length) {
+            var node = this.last;
+            this.last = node.previous;
+            if (node.previous)
+                node.previous.next = null;
+            this.length--;
+            node.previous = null;
+            return node.item;
+        }
+        return undefined;
+    };
+    ;
+    /**
+     * Removes the first times items of the list.
+     * @param times {number} The number of times to repeat the popFront method.
+     * @return {*} The item removed. It's undefined if the list is empty.
+     */
+    DoubleLinkedList.prototype.multiPopFront = function (times) {
+        var result = [];
+        for (var i = 0; i < times && this.length; i++)
+            result.push(this.popFront());
+        return result;
+    };
+    ;
+    /**
+     * Removes the last times items of the list.
+     * @param times {number} The number of times to repeat the popBack method.
+     * @return {*} The items removed.
+     */
+    DoubleLinkedList.prototype.multiPopBack = function (times) {
+        var result = [];
+        for (var i = 0; i < times && this.length; i++)
+            result.push(this.popBack());
+        return result;
+    };
+    ;
+    /**
+     * Returns the first item of the list without remove it.
+     * @return {*} The item at the top of the list. It's undefined if the list is empty.
+     */
+    DoubleLinkedList.prototype.peek = function () {
+        if (!this.length)
+            return undefined;
+        return this.first.item;
+    };
+    ;
+    /**
+     * Add the item at the index position.
+     * @param item {*} The item to add.
+     * @param index {number} The position where to add the item. If index is negative, the item won't be added.
+     * @return {void}
+     */
+    DoubleLinkedList.prototype.addAt = function (item, index) {
+        if (index < 0)
+            return;
+        if (!index) {
+            this.pushFront(item);
+            return;
+        }
+        if (index === this.length) {
+            this.pushBack(item);
+            return;
+        }
+        var node = this.first;
+        if (!node && index > 0)
+            this.pushBack(undefined);
+        for (var i = 0; i < index - 1; i++, node = node.next) {
+            if (node === this.last)
+                this.pushBack(undefined);
+        }
+        if (node === this.last)
+            this.pushBack(item);
+        else if (node === this.first)
+            this.pushFront(item);
+        else {
+            var newNode = new DLLNode(item);
+            newNode.next = node.next;
+            newNode.previous = node;
+            node.next = newNode;
+            if (newNode.next)
+                newNode.next.previous = newNode;
+            this.length++;
+        }
+    };
+    ;
+    /**
+     * Remove the item at the position index.
+     * @param index {Number} The position of the item to remove.
+     * @return {*} The item stored at the position index. It's undefined if the index is out of bounds.
+     */
+    DoubleLinkedList.prototype.removeAt = function (index) {
+        if (index < 0 || index > this.length - 1)
+            return undefined;
+        if (index === 0)
+            return this.popFront();
+        if (index === this.length - 1)
+            return this.popBack();
+        var node = this.first;
+        for (; index > 0; index--)
+            node = node.next;
+        //now node is the node to remove
+        node.previous.next = node.next;
+        node.next.previous = node.previous;
+        node.next = null;
+        node.previous = null;
+        this.length--;
+        return node.item;
+    };
+    ;
+    /**
+     * Removes the item from the list.
+     * @param item {*} The item to remove.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {void}
+     */
+    DoubleLinkedList.prototype.remove = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var node = this.first;
+        var previous = null;
+        while (node) {
+            if (callback(node.item)) {
+                if (node === this.first)
+                    this.first = node.next;
+                if (node === this.last)
+                    this.last = previous;
+                if (previous) {
+                    previous.next = node.next;
+                    if (node.next)
+                        node.next.previous = previous;
+                }
+                return;
+            }
+            previous = node;
+            node = node.next;
+        }
+    };
+    ;
+    /**
+     * Removes all the item from the list.
+     * @param item {*} The item to remove.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {void}
+     */
+    DoubleLinkedList.prototype.removeAll = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var node = this.first;
+        var previous = null;
+        while (node) {
+            if (callback(node.item)) {
+                if (node === this.first)
+                    this.first = node.next;
+                if (node === this.last)
+                    this.last = previous;
+                if (previous) {
+                    previous.next = node.next;
+                    if (node.next)
+                        node.next.previous = previous;
+                }
+            }
+            else
+                previous = node;
+            node = node.next;
+        }
+    };
+    ;
+    /**
+     * Removes all the items stored from the from position to the to position.
+     * If from > to, the method will remove all the items up to the end.
+     * @param from {number} The position where start to remove the items. The from position is included.
+     * @param to {number} The position where stop to remove the items. The to position is included.
+     * @return {Array<*>} The items removed.
+     */
+    DoubleLinkedList.prototype.removeSegment = function (from, to) {
+        var result = [];
+        if (to > -1 && from < this.length) {
+            if (from === 0)
+                return this.multiPopFront(to + 1);
+            if (to === this.length - 1 || from > to)
+                return this.multiPopBack(Math.max(to - from, this.length - from)).reverse();
+            var node = this.first;
+            for (var i = 0; i < from - 1; i++)
+                node = node.next;
+            //now node is the node before the node to remove
+            //node to remove
+            var next = node.next;
+            for (var j = from; j < to + 1 && j < this.length; j++) {
+                result.push(next.item);
+                next = next.next;
+            }
+            this.length -= Math.min(to - from + 1, this.length - from);
+            node.next = next;
+            next.previous = node;
+        }
+        return result;
+    };
+    ;
+    /**
+     * Change the item stored in the index position. If the index is out of bound, the node won't be updated.
+     * @param index {number} The position of the node to modify.
+     * @param item {*} The new item stored in the node.
+     * @return {void}
+     */
+    DoubleLinkedList.prototype.modifyAt = function (index, item) {
+        var node = this.getNode(index);
+        if (node)
+            node.item = item;
+    };
+    ;
+    /**
+     * Removes all the items stored in the list.
+     * @return {void}
+     */
+    DoubleLinkedList.prototype.clear = function () {
+        this.first = null;
+        this.last = null;
+        this.length = 0;
+    };
+    ;
+    /**
+     * Checks if the list contains an item that satisfy the condition represented by the callback function.
+     * @param item {*} The item to find.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {boolean} True if the list contains the item that satisfy the condition, false otherwise.
+     */
+    DoubleLinkedList.prototype.contains = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var i = 0;
+        var node = this.first;
+        while (i < this.length && !callback(node.item)) {
+            i++;
+            node = node.next;
+        }
+        return i < this.length;
+    };
+    ;
+    /**
+     * Executes the callback function for each item of the stack.
+     * This method modifies the list so if you don't need to modify it you must return the same item of the array.
+     * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
+     * @return {void}
+     */
+    DoubleLinkedList.prototype.execute = function (callback) {
+        var node = this.first;
+        while (node) {
+            node.item = callback(node.item);
+            node = node.next;
+        }
+    };
+    ;
+    /**
+     * Delete the node from the list.
+     * @param node {DLLNode} The node to delete.
+     * @return {void}
+     */
+    DoubleLinkedList.prototype.deleteNode = function (node) {
+        if (node === this.first) {
+            this.popFront();
+            return;
+        }
+        if (node === this.last) {
+            this.popBack();
+            return;
+        }
+        node.previous.next = node.next;
+        node.next.previous = node.previous;
+        this.length--;
+    };
+    ;
+    /**
+     * Get the node at the position index relative from the node.
+     * @param index {Number} The index, relative to the node, of the node to return.
+     * @param [node = first] {DLLNode} The node from which start the search.
+     * @return {DLLNode} The node at the position index.
+     */
+    DoubleLinkedList.prototype.getNode = function (index, node) {
+        if (index < 0 || index > this.length - 1)
+            return undefined;
+        var m = Math.floor(this.length / 2);
+        //if the index is less than the middle, the search start from the head of the list, otherwise from the tail of the list
+        if (index < m || node) {
+            node = node || this.first;
+            for (; index > 0; index--)
+                node = node.next;
+        }
+        else
+            for (index = this.length - index - 1, node = this.last; index > 0; index--)
+                node = node.previous;
+        return node;
+    };
+    ;
+    /**
+     * Get the item at the position index.
+     * @param index {Number} The position of the item.
+     * @return {*}. It's undefined if index isn't in the queue bounds.
+     */
+    DoubleLinkedList.prototype.getItem = function (index) {
+        if (index < 0 || index > this.length - 1)
+            return undefined;
+        var node;
+        var m = Math.floor(this.length / 2);
+        if (index < m)
+            for (node = this.first; index > 0; index--)
+                node = node.next;
+        else
+            for (index = this.length - index - 1, node = this.last; index > 0; index--)
+                node = node.previous;
+        return node.item;
+    };
+    ;
+    /**
+     * Sort the list using web workers.
+     * Using this method is discouraged. Many web browser set a limit to the maximum number of workers instantiated.
+     * The items of the list, due to web workers implementation, will be serialized so they will lost own methods.
+     * @return {void}
+     */
+    DoubleLinkedList.prototype.parallelSort = function () {
+        var workers = [];
+        var _array = this.toArray();
+        console.log(_array);
+        function partialSort(_from, _to, _id) {
+            if (_from < _to) {
+                var m = Math.floor((_from + _to) / 2);
+                var workerLeft = new Worker("DoubleLinkedList/WorkerSort.js");
+                var workerRight = new Worker("DoubleLinkedList/WorkerSort.js");
+                workers.push(workerLeft);
+                workers.push(workerRight);
+                var length = workers.length;
+                workerLeft.postMessage({ cmd: 'start', from: _from, to: m, worker: _id });
+                workerRight.postMessage({ cmd: 'start', from: m + 1, to: _to, worker: _id });
+                partialSort(_from, m, length - 2);
+                partialSort(m + 1, _to, length - 1);
+                workerLeft.onmessage = function (event) {
+                    var data = event.data;
+                    switch (data.cmd) {
+                        case 'finished':
+                            workers[data.worker].postMessage({ cmd: 'finished', array: _array });
+                            break;
+                        case 'replace':
+                            _array[data.index] = data.value;
+                            break;
+                    }
+                };
+                workerRight.onmessage = function (event) {
+                    var data = event.data;
+                    switch (data.cmd) {
+                        case 'finished':
+                            workers[data.worker].postMessage({ cmd: 'finished', array: _array });
+                            break;
+                        case 'replace':
+                            _array[data.index] = data.value;
+                            break;
+                    }
+                };
+            }
+        }
+        var outerThis = this;
+        var mainWorker = new Worker("DoubleLinkedList/WorkerSort.js");
+        workers.push(mainWorker);
+        mainWorker.postMessage({ cmd: 'start', from: 0, to: this.length - 1, worker: -1, array: _array });
+        mainWorker.onmessage = function (event) {
+            var data = event.data;
+            switch (data.cmd) {
+                case 'finished':
+                    outerThis.fromArray(_array);
+                    console.log(outerThis);
+                    break;
+                case 'replace':
+                    _array[data.index] = data.value;
+            }
+        };
+        partialSort(0, this.length - 1, 0);
+    };
+    ;
+    /**
+     * Sort the list.
+     * @param [callback = function(item){return(item);}] {function} The function invoked in order to get the value for the evaluation of the sort criteria.
+     * @example
+     * callback = function(item) {return -item.key;}
+     * This function callback will return the opposite of the attribute key of the item. In this case the list will be sorted in descending order.
+     * @return {void}
+     */
+    DoubleLinkedList.prototype.sort = function (callback) {
+        if (!callback)
+            callback = function (item) {
+                return item;
+            };
+        var outerThis = this;
+        function partialSort(from, to, fromNode, toNode) {
+            if (from < to) {
+                var m = Math.floor((from + to) / 2);
+                var mNode = outerThis.getNode(m - from, fromNode);
+                partialSort(from, m, fromNode, mNode);
+                partialSort(m + 1, to, mNode.next, toNode);
+                merge(from, m, to, fromNode);
+            }
+        }
+        function merge(from, m, to, fromNode) {
+            var left = [];
+            var right = [];
+            var node = fromNode;
+            for (var i = 0; i < m - from + 1; i++, node = node.next)
+                left[i] = node.item;
+            for (var j = 0; j < to - m; j++, node = node.next)
+                right[j] = node.item;
+            var x = 0, y = 0;
+            for (var k = from; k < to + 1; k++, fromNode = fromNode.next) {
+                if (y > to - m - 1 || (callback(left[x]) <= callback(right[y]) && x < m - from + 1)) {
+                    fromNode.item = left[x];
+                    x++;
+                }
+                else {
+                    fromNode.item = right[y];
+                    y++;
+                }
+            }
+        }
+        partialSort(0, this.length - 1, this.first, this.last);
+    };
+    ;
+    /**
+     * Transform the list into an array.
+     * @return {Array<*>} The array built.
+     */
+    DoubleLinkedList.prototype.toArray = function () {
+        var array = [];
+        for (var node = this.first, i = 0; node; node = node.next, i++)
+            array[i] = node.item;
+        return array;
+    };
+    ;
+    /**
+     * Returns the length of the list.
+     * @return {Number} The length of the list.
+     */
+    DoubleLinkedList.prototype.getLength = function () {
+        return this.length;
+    };
+    ;
+    /**
+     * Build the list from the array.
+     * @param array {Array<*>} The array from which build the list.
+     * @return {void}
+     */
+    DoubleLinkedList.prototype.fromArray = function (array) {
+        var node = this.first;
+        for (var i = 0; i < Math.min(this.length, array.length); i++, node = node.next)
+            node.item = array[i];
+        if (this.length < array.length)
+            for (var j = this.length; j < array.length; j++)
+                this.pushBack(array[j]);
+        else
+            for (var k = array.length; k < this.length;)
+                this.popBack();
+    };
+    ;
+    /**
+     * Return the items that satisfy the condition determined by the callback.
+     * @param callback {function} The function that implements the condition.
+     * @return {Array<Object>} The array that contains the items that satisfy the condition.
+     */
+    DoubleLinkedList.prototype.filter = function (callback) {
+        var result = [];
+        for (var node = this.first; node; node = node.next) {
+            if (callback(node.item))
+                result.push(node.item);
+        }
+        return result;
+    };
+    ;
+    /**
+     * Reverse the list. This method reverses only the items, not the nodes.
+     * @return {void}
+     */
+    DoubleLinkedList.prototype.reverse = function () {
+        for (var start = this.first, end = this.last; start !== end && start.previous !== end; start = start.next, end = end.previous) {
+            var item = start.item;
+            start.item = end.item;
+            end.item = item;
+        }
+    };
+    ;
+    /**
+     * Checks if the list is empty.
+     * @return {boolean} True if the list is empty, false otherwise.
+     */
+    DoubleLinkedList.prototype.isEmpty = function () {
+        return !this.length;
+    };
+    ;
+    /**
+     * Returns the first position of the item in the list.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {number} The first position of the item.
+     */
+    DoubleLinkedList.prototype.indexOf = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var i = 0;
+        var node = this.first;
+        while (node) {
+            if (callback(node.item))
+                return i;
+            i++;
+            node = node.next;
+        }
+        return -1;
+    };
+    ;
+    /**
+     * Returns the last position of the item in the list.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {number} The last position of the item.
+     */
+    DoubleLinkedList.prototype.lastIndexOf = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var i = this.length - 1;
+        var node = this.last;
+        while (node) {
+            if (callback(node.item))
+                return i;
+            i--;
+            node = node.previous;
+        }
+        return -1;
+    };
+    ;
+    /**
+     * Returns all the position in which the item has been found in the list.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {Array<number>} The positions in which the item has been found.
+     */
+    DoubleLinkedList.prototype.allIndexesOf = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var i = 0;
+        var node = this.first;
+        var indexes = [];
+        while (node) {
+            if (callback(node.item))
+                indexes.push(i);
+            i++;
+            node = node.next;
+        }
+        return indexes;
+    };
+    ;
+    /**
+     * Add the list at the end of this list.
+     * @param list {DoubleLinkedList} The list to join.
+     * @return {void}
+     */
+    DoubleLinkedList.prototype.join = function (list) {
+        if (this.last)
+            this.last.next = list.first;
+        else
+            this.first = list.first;
+        if (list.first)
+            list.first.previous = this.last;
+        this.last = list.last;
+        this.length += list.length;
+    };
+    ;
+    /**
+     * Divides the list at the index position. The node at the index position is the first new node of the list.
+     * @param index {number} The position where to divide the list.
+     * @return {DoubleLinkedList} The list formed by the nodes from the index position then. If the index is out of bound, the list will be empty.
+     */
+    DoubleLinkedList.prototype.divide = function (index) {
+        var list = new DoubleLinkedList();
+        if (index > -1 && index < this.length) {
+            var node = this.first;
+            var previous = null;
+            for (var i = 0; i < index; i++) {
+                previous = node;
+                node = node.next;
+            }
+            if (node === this.first) {
+                list.first = this.first;
+                list.last = this.last;
+                this.first = null;
+                this.last = null;
+            }
+            else {
+                list.first = node;
+                list.last = this.last;
+                this.last = previous;
+                previous.next = null;
+                node.previous = null;
+            }
+            list.length = this.length - index;
+            this.length = index;
+        }
+        return list;
+    };
+    ;
+    /**
+     * Clones the list into a new list.
+     * @return {DoubleLinkedList} The list cloned from this list.
+     */
+    DoubleLinkedList.prototype.clone = function () {
+        var list = new DoubleLinkedList();
+        var node = this.first;
+        for (var i = 0; i < this.length; i++, node = node.next)
+            if (node.item.clone)
+                list.pushBack(node.item.clone());
+            else
+                list.pushBack(node.item);
+        return list;
+    };
+    ;
+    /**
+     * Clones the list into a new list without cloning duplicated items.
+     * @return {DoubleLinkedList} The list cloned from this list.
+     */
+    DoubleLinkedList.prototype.cloneDistinct = function () {
+        var list = new DoubleLinkedList();
+        var node = this.first;
+        for (var i = 0; i < this.length; i++, node = node.next)
+            if (!list.contains(node.item))
+                if (node.item.cloneDistinct)
+                    list.pushBack(node.item.cloneDistinct());
+                else if (node.item.clone)
+                    list.pushBack(node.item.clone());
+                else
+                    list.pushBack(node.item);
+        return list;
+    };
+    ;
+    /**
+     * Splits the list into lists of desired size.
+     * @param size {number} The size of the lists.
+     * @return {Array<DoubleLinkedList>} The lists created by splitting the list.
+     */
+    DoubleLinkedList.prototype.split = function (size) {
+        var length = this.length;
+        var lists = [this];
+        for (var i = size; i < length; i += size)
+            lists.push(lists[lists.length - 1].divide(size));
+        return lists;
+    };
+    ;
+    /**
+     * Returns the number of items that satisfy the represented by the callback function.
+     * @param callback {function} The condition to satisfy.
+     * @return {number} The number of items that satisfy the condition.
+     */
+    DoubleLinkedList.prototype.count = function (callback) {
+        var count = 0;
+        var node = this.first;
+        while (node) {
+            if (callback(node.item))
+                count++;
+            node = node.next;
+        }
+        return count;
+    };
+    ;
+    return DoubleLinkedList;
+}(Aggregate));
+/**
+ * Created by Stefano on 04/04/2014.
+ */
+var DoubleLinkedListIterator = /** @class */ (function () {
+    /**
+     * Class that implements the iterator for a double linked list.
+     * @param aggregate {DoubleLinkedList} The aggregate to scan.
+     * @constructor
+     */
+    function DoubleLinkedListIterator(aggregate) {
+        /**
+         * The pointer to the position.
+         * @type {Node|null}
+         */
+        this.pointer = null;
+        this.aggregate = aggregate;
+    }
+    /**
+     * @inheritDoc
+     */
+    DoubleLinkedListIterator.prototype.first = function () {
+        this.pointer = this.aggregate.first;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    DoubleLinkedListIterator.prototype.next = function () {
+        this.pointer = this.pointer.next;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    DoubleLinkedListIterator.prototype.last = function () {
+        this.pointer = this.aggregate.last;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    DoubleLinkedListIterator.prototype.previous = function () {
+        this.pointer = this.pointer.previous;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    DoubleLinkedListIterator.prototype.isDone = function () {
+        return !this.pointer;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    DoubleLinkedListIterator.prototype.getItem = function () {
+        return this.pointer.item;
+    };
+    ;
+    /**
+     * Return the node stored at the position pointed by the iterator.
+     * @abstract
+     * @return {Node|null} The node stored or null if it's out of the bounds.
+     */
+    DoubleLinkedListIterator.prototype.getNode = function () {
+        return this.pointer;
+    };
+    ;
+    return DoubleLinkedListIterator;
+}());
+/**
+ * Created by Stefano on 05/04/2014.
+ */
+var HashTable = /** @class */ (function () {
+    /**
+     * Class for managing an hash table.
+     * @param size {number} The size of the table.
+     * @constructor
+     */
+    function HashTable(size) {
+        this.p = 1000;
+        this.a = Math.floor(Math.random() * this.p);
+        this.b = Math.floor(Math.random() * this.p);
+        /**
+         * The items stored in the hash table.
+         * @type {Array<DoubleLinkedList>}
+         */
+        this.items = [];
+        /**
+         * The number of keys stored in the hash table.
+         * @type {number}
+         */
+        this.keyLength = 0;
+        this.size = size;
+        this.p = 1000;
+        this.a = Math.floor(Math.random() * this.p);
+        this.b = Math.floor(Math.random() * this.p);
+        this.hash = function (key) {
+            return ((this.a * key + this.b) % this.p) % this.size;
+        };
+        this.items = [];
+        this.keyLength = 0;
+        this.clear();
+    }
+    /**
+     * Stores the item with its key.
+     * @param key {number} The key relatives to the item.
+     * @param item {*} The item to store.
+     */
+    HashTable.prototype.insert = function (key, item) {
+        this.keyLength++;
+        this.items[this.hash(key)].pushBack({ key: key, item: item });
+    };
+    ;
+    /**
+     * Deletes the first item relatives to the key value.
+     * @param key {number} The key to delete.
+     * @return {void}
+     */
+    HashTable.prototype.deleteKey = function (key) {
+        var list = this.items[this.hash(key)];
+        var it = list.getIterator();
+        for (it.first(); !it.isDone() && it.getItem().key !== key;)
+            it.next();
+        if (!it.isDone()) {
+            list.deleteNode(it.getNode());
+            this.keyLength--;
+        }
+    };
+    ;
+    /**
+     * Deletes all the items relative to the key value.
+     * @param key {number} The key to delete.
+     * @return {void}
+     */
+    HashTable.prototype.deleteAllKey = function (key) {
+        var list = this.items[this.hash(key)];
+        var it = list.getIterator();
+        var keysRemoved = 0;
+        for (it.first(); !it.isDone(); it.next())
+            if (it.getItem().key === key) {
+                list.deleteNode(it.getNode());
+                keysRemoved++;
+            }
+        this.keyLength -= keysRemoved;
+    };
+    ;
+    /**
+     * Searches the item relative to the key value.
+     * @param key {number} The key of the item to search.
+     * @return {*|undefined} The item found or undefined if the key does not exist.
+     */
+    HashTable.prototype.search = function (key) {
+        var list = this.items[this.hash(key)];
+        var it = list.getIterator();
+        for (it.first(); !it.isDone(); it.next())
+            if (it.getItem().key === key)
+                return it.getItem().item;
+        return undefined;
+    };
+    ;
+    /**
+     * Checks if the hash table contains a key that satisfy the condition represented by the callback function.
+     * @param key {number} The key to find.
+     * @param [callback = function(k){return(k===key);}] The condition to satisfy. The callback must accept the current key to check.
+     * @return {boolean} True if the hash table contains the key that satisfy the condition, false otherwise.
+     */
+    HashTable.prototype.containsKey = function (key, callback) {
+        callback = callback || function (k) {
+            return k === key;
+        };
+        var list = this.items[this.hash(key)];
+        var it = list.getIterator();
+        for (it.first(); !it.isDone(); it.next())
+            if (callback(it.getItem().key))
+                return true;
+        return false;
+    };
+    ;
+    /**
+     * Searches all the items relative to the key value.
+     * @param key {number} The key of the items to search.
+     * @return {Array.<*>} An array with the items found.
+     */
+    HashTable.prototype.searchAll = function (key) {
+        var list = this.items[this.hash(key)];
+        var it = list.getIterator();
+        var array = [];
+        for (it.first(); !it.isDone(); it.next())
+            if (it.getItem().key === key)
+                array.push(it.getItem().item);
+        return array;
+    };
+    ;
+    /**
+     * Returns the keys stored in the hash table.
+     * @return {Array<number>} The keys stored in the table.
+     */
+    HashTable.prototype.getKeys = function () {
+        var keys = [];
+        for (var i = 0; i < this.size; i++) {
+            var it = this.items[i].getIterator();
+            for (it.first(); !it.isDone(); it.next())
+                keys.push(it.getItem().key);
+        }
+        return keys;
+    };
+    ;
+    /**
+     * Returns the items stored in the hash table.
+     * @return {Array<*>} The items stored in the table.
+     */
+    HashTable.prototype.getItems = function () {
+        var items = [];
+        for (var i = 0; i < this.size; i++) {
+            var it = this.items[i].getIterator();
+            for (it.first(); !it.isDone(); it.next())
+                items.push(it.getItem().item);
+        }
+        return items;
+    };
+    ;
+    /**
+     * Removes all the keys and the items stored in the hash table.
+     * @return {void}
+     */
+    HashTable.prototype.clear = function () {
+        this.items = [];
+        for (var i = 0; i < this.size; i++)
+            this.items[i] = new DoubleLinkedList();
+        this.keyLength = 0;
+    };
+    ;
+    /**
+     * Returns the number of keys stored in the hash table.
+     * @return {number} The number of keys stored.
+     */
+    HashTable.prototype.getNumberOfKeys = function () {
+        return this.keyLength;
+    };
+    ;
+    /**
+     * Checks if the hash table is empty.
+     * @return {boolean} True if the hash table is empty, false otherwise.
+     */
+    HashTable.prototype.isEmpty = function () {
+        return !this.keyLength;
+    };
+    ;
+    /**
+     * Executes the callback function for each item of the hash table.
+     * This method modifies the hash table so if you don't need to modify it you must return the same item stored.
+     * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
+     * @return {void}
+     */
+    HashTable.prototype.execute = function (callback) {
+        for (var i = 0; i < this.size; i++)
+            this.items[i].execute(callback);
+    };
+    ;
+    /**
+     * Returns the items that satisfy the condition determined by the callback.
+     * @param callback {function} The function that implements the condition.
+     * @return {Array<*>} The array that contains the items that satisfy the condition.
+     */
+    HashTable.prototype.filter = function (callback) {
+        var result = [];
+        for (var i = 0; i < this.size; i++)
+            result.concat(this.items[i].filter(callback));
+        return result;
+    };
+    ;
+    /**
+     * Returns the size of the hash table.
+     * @return {number} The size of the hash table.
+     */
+    HashTable.prototype.getSize = function () {
+        return this.size;
+    };
+    ;
+    /**
+     * Clones the hash table into a new hash table.
+     * @return {HashTable} The hash table cloned from this hash table.
+     */
+    HashTable.prototype.clone = function () {
+        var table = new HashTable(this.size);
+        for (var i = 0; i < this.size; i++)
+            for (var node = this.items[i].first; node; node = node.next)
+                table.insert(node.key, node.item);
+        return table;
+    };
+    ;
+    return HashTable;
+}());
+/**
+ * Created by Stefano on 31/03/14.
+ */
+var LLNode = /** @class */ (function () {
+    /**
+     * The single node of the list.
+     * @param item {*} The item to store in the node.
+     * @constructor
+     */
+    function LLNode(item) {
+        /**
+         * The next node. It's null if there's no a next node.
+         * @type {LLNode|null}
+         */
+        this.next = null;
+        this.item = item;
+    }
+    return LLNode;
+}());
+var LinkedList = /** @class */ (function (_super) {
+    __extends(LinkedList, _super);
+    /**
+     * Class for managing a linked list.
+     * @param {...*} [args] The items for initializing the list.
+     * @constructor
+     */
+    function LinkedList() {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        var _this = _super.call(this) || this;
+        /**
+         * The first node of the list.
+         * @type {LLNode|null}
+         */
+        _this.first = null;
+        /**
+         * The last node of the list.
+         * @type {LLNode|null}
+         */
+        _this.last = null;
+        /**
+         * The length of the list.
+         * @type {number}
+         */
+        _this.length = 0;
+        _this.first = null;
+        _this.last = null;
+        _this.length = 0;
+        if (args && args.length) {
+            //builds the list from the range passed from the constructor
+            _this.fromArray(args);
+        }
+        else {
+            //builds the list from the parameters of the constructor
+            _this.fromArray(arguments);
+        }
+        return _this;
+    }
+    /**
+     * @inheritDoc
+     */
+    LinkedList.prototype.getIterator = function () {
+        return new LinkedListIterator(this);
+    };
+    ;
+    /**
+     * Adds an item at the head of the list.
+     * @param item {*} The item to add.
+     * @return {void}
+     */
+    LinkedList.prototype.pushFront = function (item) {
+        var node = new LLNode(item);
+        node.next = this.first;
+        this.first = node;
+        if (!this.last)
+            this.last = node;
+        this.length++;
+    };
+    ;
+    /**
+     * Adds an item at the tail of the list.
+     * @param item {*} The item to add.
+     * @return {void}
+     */
+    LinkedList.prototype.pushBack = function (item) {
+        var node = new LLNode(item);
+        if (this.last)
+            this.last.next = node;
+        else
+            this.first = node;
+        this.last = node;
+        this.length++;
+    };
+    ;
+    /**
+     * Removes the first item of the list.
+     * @return {*} The item removed. It's undefined if the list is empty.
+     */
+    LinkedList.prototype.popFront = function () {
+        if (this.length) {
+            var node = this.first;
+            this.first = this.first.next;
+            this.length--;
+            node.next = null;
+            return node.item;
+        }
+        return undefined;
+    };
+    ;
+    /**
+     * Removes the last item of the list.
+     * @return {*} The item removed. It's undefined if the list is empty.
+     */
+    LinkedList.prototype.popBack = function () {
+        if (this.length) {
+            var node = this.last;
+            var next = this.first;
+            while (next.next && next.next.next) {
+                next = next.next;
+            }
+            if (node === next)
+                this.last = null;
+            else
+                this.last = next;
+            next.next = null;
+            this.length--;
+            return node.item;
+        }
+        return undefined;
+    };
+    ;
+    /**
+     * Removes the first times items of the list.
+     * @param times {number} The number of times to repeat the popFront method.
+     * @return {*} The item removed. It's undefined if the list is empty.
+     */
+    LinkedList.prototype.multiPopFront = function (times) {
+        var result = [];
+        for (var i = 0; i < times && this.length; i++)
+            result.push(this.popFront());
+        return result;
+    };
+    ;
+    /**
+     * Removes the last times items of the list.
+     * @param times {number} The number of times to repeat the popBack method.
+     * @return {*} The items removed.
+     */
+    LinkedList.prototype.multiPopBack = function (times) {
+        var result = [];
+        for (var i = 0; i < times && this.length; i++)
+            result.push(this.popBack());
+        return result;
+    };
+    ;
+    /**
+     * Returns the first item of the list without remove it.
+     * @return {*} The item at the top of the list. It's undefined if the list is empty.
+     */
+    LinkedList.prototype.peek = function () {
+        if (!this.length)
+            return undefined;
+        return this.first.item;
+    };
+    ;
+    /**
+     * Add the item at the index position.
+     * @param item {*} The item to add.
+     * @param index {number} The position where to add the item. If index is negative, the item won't be added.
+     * @return {void}
+     */
+    LinkedList.prototype.addAt = function (item, index) {
+        if (index < 0)
+            return;
+        if (!index) {
+            this.pushFront(item);
+            return;
+        }
+        if (index === this.length) {
+            this.pushBack(item);
+            return;
+        }
+        var node = this.first;
+        if (!node && index > 0)
+            this.pushBack(undefined);
+        for (var i = 0; i < index - 1; i++, node = node.next) {
+            if (node === this.last)
+                this.pushBack(undefined);
+        }
+        if (node === this.last)
+            this.pushBack(item);
+        else if (node === this.first)
+            this.pushFront(item);
+        else {
+            var newNode = new LLNode(item);
+            newNode.next = node.next;
+            node.next = newNode;
+            this.length++;
+        }
+    };
+    ;
+    /**
+     * Removes the item at the index position.
+     * @param index {number} The position of the item to remove.
+     * @return {*} The item stored at the position index. It's undefined if the index is out of bounds.
+     */
+    LinkedList.prototype.removeAt = function (index) {
+        if (index < 0 || index > this.length - 1)
+            return undefined;
+        if (index === 0)
+            return this.popFront();
+        if (index === this.length - 1)
+            return this.popBack();
+        var node = this.first;
+        for (; index > 1; index--)
+            node = node.next;
+        //now node is the node before the node to remove
+        //node to remove
+        var next = node.next;
+        node.next = next.next;
+        this.length--;
+        return next.item;
+    };
+    ;
+    /**
+     * Removes the item from the list.
+     * @param item {*} The item to remove.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {void}
+     */
+    LinkedList.prototype.remove = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var node = this.first;
+        var previous = null;
+        while (node) {
+            if (callback(node.item)) {
+                if (node === this.first)
+                    this.first = node.next;
+                if (node === this.last)
+                    this.last = previous;
+                if (previous)
+                    previous.next = node.next;
+                return;
+            }
+            previous = node;
+            node = node.next;
+        }
+    };
+    ;
+    /**
+     * Removes all the item from the list.
+     * @param item {*} The item to remove.
+     * @param [callback (item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {void}
+     */
+    LinkedList.prototype.removeAll = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var node = this.first;
+        var previous = null;
+        while (node) {
+            if (callback(node.item)) {
+                if (node === this.first)
+                    this.first = node.next;
+                if (node === this.last)
+                    this.last = previous;
+                if (previous)
+                    previous.next = node.next;
+            }
+            else
+                previous = node;
+            node = node.next;
+        }
+    };
+    ;
+    /**
+     * Removes all the items stored from the from position to the to position.
+     * If from > to, the method will remove all the items up to the end.
+     * @param from {number} The position where start to remove the items. The from position is included.
+     * @param to {number} The position where stop to remove the items. The to position is included.
+     * @return {Array<*>} The items removed.
+     */
+    LinkedList.prototype.removeSegment = function (from, to) {
+        var result = [];
+        if (to > -1 && from < this.length) {
+            if (from === 0)
+                return this.multiPopFront(to + 1);
+            if (to === this.length - 1 || from > to)
+                return this.multiPopBack(Math.max(to - from, this.length - from)).reverse();
+            var node = this.first;
+            for (var i = 0; i < from - 1; i++)
+                node = node.next;
+            //now node is the node before the node to remove
+            //node to remove
+            var next = node.next;
+            for (var j = from; j < to + 1 && j < this.length; j++) {
+                result.push(next.item);
+                next = next.next;
+            }
+            this.length -= Math.min(to - from + 1, this.length - from);
+            node.next = next;
+        }
+        return result;
+    };
+    ;
+    /**
+     * Change the item stored in the index position. If the index is out of bound, the node won't be updated.
+     * @param index {number} The position of the node to modify.
+     * @param item {*} The new item stored in the node.
+     * @return {void}
+     */
+    LinkedList.prototype.modifyAt = function (index, item) {
+        var node = this.getNode(index);
+        if (node)
+            node.item = item;
+    };
+    ;
+    /**
+     * Removes all the items stored in the list.
+     * @return {void}
+     */
+    LinkedList.prototype.clear = function () {
+        this.first = null;
+        this.last = null;
+        this.length = 0;
+    };
+    ;
+    /**
+     * Checks if the list contains an item that satisfy the condition represented by the callback function.
+     * @param item {*} The item to find.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {boolean} True if the list contains the item that satisfy the condition, false otherwise.
+     */
+    LinkedList.prototype.contains = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var i = 0;
+        var node = this.first;
+        while (i < this.length && !callback(node.item)) {
+            i++;
+            node = node.next;
+        }
+        return i < this.length;
+    };
+    ;
+    /**
+     * Executes the callback function for each item of the stack.
+     * This method modifies the list so if you don't need to modify it you must return the same item of the array.
+     * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
+     * @return {void}
+     */
+    LinkedList.prototype.execute = function (callback) {
+        var node = this.first;
+        while (node) {
+            node.item = callback(node.item);
+            node = node.next;
+        }
+    };
+    ;
+    /**
+     * Returns the node at the position index.
+     * @param index {number} The position of the node.
+     * @return {LLNode} The node stored at the position index. It's undefined if index isn't in the list bounds.
+     */
+    LinkedList.prototype.getNode = function (index) {
+        if (index < 0 || index > this.length - 1)
+            return undefined;
+        var node = this.first;
+        for (; index > 0; index--)
+            node = node.next;
+        return node;
+    };
+    ;
+    /**
+     * Returns the item at the position index.
+     * @param index {number} The position of the item.
+     * @return {*} The item stored at the position index. It's undefined if index isn't in the list bounds.
+     */
+    LinkedList.prototype.getItem = function (index) {
+        if (index < 0 || index > this.length - 1)
+            return undefined;
+        var node = this.first;
+        for (; index > 0; index--)
+            node = node.next;
+        return node.item;
+    };
+    ;
+    /**
+     * Transforms the list into an array.
+     * @return {Array<*>} The array built.
+     */
+    LinkedList.prototype.toArray = function () {
+        var array = [];
+        for (var node = this.first, i = 0; node; node = node.next, i++)
+            array[i] = node.item;
+        return array;
+    };
+    ;
+    /**
+     * Returns the length of the list.
+     * @return {Number} The length of the list.
+     */
+    LinkedList.prototype.getLength = function () {
+        return this.length;
+    };
+    ;
+    /**
+     * Builds the list from the array.
+     * @param array {Array<*>} The array from which build the list.
+     * @return {void}
+     */
+    LinkedList.prototype.fromArray = function (array) {
+        var node = this.first;
+        for (var i = 0; i < Math.min(this.length, array.length); i++, node = node.next)
+            node.item = array[i];
+        if (this.length < array.length)
+            for (var j = this.length; j < array.length; j++)
+                this.pushBack(array[j]);
+        else
+            for (var k = array.length; k < this.length;)
+                this.popBack();
+    };
+    ;
+    /**
+     * Returns the items that satisfy the condition determined by the callback.
+     * @param callback {function} The function that implements the condition.
+     * @return {Array<*>} The array that contains the items that satisfy the condition.
+     */
+    LinkedList.prototype.filter = function (callback) {
+        var result = [];
+        for (var node = this.first; node; node = node.next) {
+            if (callback(node.item))
+                result.push(node.item);
+        }
+        return result;
+    };
+    ;
+    /**
+     * Checks if the list is empty.
+     * @return {boolean} True if the list is empty, false otherwise.
+     */
+    LinkedList.prototype.isEmpty = function () {
+        return !this.length;
+    };
+    ;
+    /**
+     * Returns the first position of the item in the list.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {number} The first position of the item.
+     */
+    LinkedList.prototype.indexOf = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var i = 0;
+        var node = this.first;
+        while (node) {
+            if (callback(node.item))
+                return i;
+            i++;
+            node = node.next;
+        }
+        return -1;
+    };
+    ;
+    /**
+     * Returns the last position of the item in the list.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {number} The last position of the item.
+     */
+    LinkedList.prototype.lastIndexOf = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var i = 0;
+        var node = this.first;
+        var index = -1;
+        while (node) {
+            if (callback(node.item))
+                index = i;
+            i++;
+            node = node.next;
+        }
+        return index;
+    };
+    ;
+    /**
+     * Returns all the position in which the item has been found in the list.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {Array<number>} The positions in which the item has been found.
+     */
+    LinkedList.prototype.allIndexesOf = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var i = 0;
+        var node = this.first;
+        var indexes = [];
+        while (node) {
+            if (callback(node.item))
+                indexes.push(i);
+            i++;
+            node = node.next;
+        }
+        return indexes;
+    };
+    ;
+    /**
+     * Add the list at the end of this list.
+     * @param list {LinkedList} The list to join.
+     * @return {void}
+     */
+    LinkedList.prototype.join = function (list) {
+        if (this.last)
+            this.last.next = list.first;
+        else
+            this.first = list.first;
+        this.last = list.last;
+        this.length += list.length;
+    };
+    ;
+    /**
+     * Divides the list at the index position. The node at the index position is the first new node of the list.
+     * @param index {number} The position where to divide the list.
+     * @return {LinkedList} The list formed by the nodes from the index position then. If the index is out of bound, the list will be empty.
+     */
+    LinkedList.prototype.divide = function (index) {
+        var list = new LinkedList();
+        if (index > -1 && index < this.length) {
+            var node = this.first;
+            var previous = null;
+            for (var i = 0; i < index; i++) {
+                previous = node;
+                node = node.next;
+            }
+            if (node === this.first) {
+                list.first = this.first;
+                list.last = this.last;
+                this.first = null;
+                this.last = null;
+            }
+            else {
+                list.first = node;
+                list.last = this.last;
+                this.last = previous;
+                previous.next = null;
+            }
+            list.length = this.length - index;
+            this.length = index;
+        }
+        return list;
+    };
+    ;
+    /**
+     * Clones the list into a new list.
+     * @return {LinkedList} The list cloned from this list.
+     */
+    LinkedList.prototype.clone = function () {
+        var list = new LinkedList();
+        var node = this.first;
+        for (var i = 0; i < this.length; i++, node = node.next)
+            if (node.item.clone)
+                list.pushBack(node.item.clone());
+            else
+                list.pushBack(node.item);
+        return list;
+    };
+    ;
+    /**
+     * Clones the list into a new list without cloning duplicated items.
+     * @return {LinkedList} The list cloned from this list.
+     */
+    LinkedList.prototype.cloneDistinct = function () {
+        var list = new LinkedList();
+        var node = this.first;
+        for (var i = 0; i < this.length; i++, node = node.next)
+            if (!list.contains(node.item))
+                if (node.item.cloneDistinct)
+                    list.pushBack(node.item.cloneDistinct());
+                else if (node.item.clone)
+                    list.pushBack(node.item.clone());
+                else
+                    list.pushBack(node.item);
+        return list;
+    };
+    ;
+    /**
+     * Splits the list into lists of desired size.
+     * @param size {number} The size of the lists.
+     * @return {Array<LinkedList>} The lists created by splitting the list.
+     */
+    LinkedList.prototype.split = function (size) {
+        var length = this.length;
+        var lists = [this];
+        for (var i = size; i < length; i += size)
+            lists.push(lists[lists.length - 1].divide(size));
+        return lists;
+    };
+    ;
+    /**
+     * Returns the number of items that satisfy the represented by the callback function.
+     * @param callback {function} The condition to satisfy.
+     * @return {number} The number of items that satisfy the condition.
+     */
+    LinkedList.prototype.count = function (callback) {
+        var count = 0;
+        var node = this.first;
+        while (node) {
+            if (callback(node.item))
+                count++;
+            node = node.next;
+        }
+        return count;
+    };
+    ;
+    return LinkedList;
+}(Aggregate));
+/**
+ * Created by Stefano on 04/04/2014.
+ */
+var LinkedListIterator = /** @class */ (function () {
+    /**
+     * Class that implements the iterator for a linked list.
+     * @param aggregate {LinkedList} The aggregate to scan.
+     * @constructor
+     */
+    function LinkedListIterator(aggregate) {
+        /**
+         * The pointer to the position.
+         * @type {Node|null}
+         */
+        this.pointer = null;
+        this.aggregate = aggregate;
+        this.pointer = null;
+    }
+    /**
+     * @inheritDoc
+     */
+    LinkedListIterator.prototype.first = function () {
+        this.pointer = this.aggregate.first;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    LinkedListIterator.prototype.next = function () {
+        this.pointer = this.pointer.next;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    LinkedListIterator.prototype.last = function () {
+        this.pointer = this.aggregate.last;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    LinkedListIterator.prototype.previous = function () {
+        var node = this.pointer;
+        for (this.pointer = this.first(); this.pointer.next !== node;)
+            this.next();
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    LinkedListIterator.prototype.isDone = function () {
+        return !this.pointer;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    LinkedListIterator.prototype.getItem = function () {
+        return this.pointer.item;
+    };
+    ;
+    /**
+     * Return the node stored at the position pointed by the iterator.
+     * @abstract
+     * @return {Node|null} The node stored or null if it's out of the bounds.
+     */
+    LinkedListIterator.prototype.getNode = function () {
+        return this.pointer;
+    };
+    ;
+    return LinkedListIterator;
+}());
+/**
+ * Created by Stefano on 31/03/14.
+ */
+var PriorityQueue = /** @class */ (function (_super) {
+    __extends(PriorityQueue, _super);
+    /**
+     * Class for managing a priority queue.
+     * @constructor
+     */
+    function PriorityQueue() {
+        var _this = _super.call(this) || this;
+        /**
+         * The length of the queue.
+         * @type {number}
+         */
+        _this.length = 0;
+        _this.items = new RBTreeList();
+        _this.length = 0;
+        return _this;
+    }
+    /**
+     * @inheritDoc
+     */
+    PriorityQueue.prototype.getIterator = function () {
+        return new PriorityQueueIterator(this);
+    };
+    ;
+    /**
+     * Add the item at the tail of the queue.
+     * @param priority {number} The priority of the item.
+     * @param item {*} The item to add.
+     * @return {void}
+     */
+    PriorityQueue.prototype.enqueue = function (priority, item) {
+        var queue = this.items.search(priority);
+        if (!queue) {
+            queue = new Queue();
+            this.items.insert(priority, queue);
+        }
+        queue.enqueue(item);
+        this.length++;
+    };
+    ;
+    /**
+     * Adds the items with the same priority at the tail of the queue.
+     * @param priority {number} The priority of the items.
+     * @param items {Array<*>} The items to add.
+     * @return {void}
+     */
+    PriorityQueue.prototype.multiEnqueue = function (priority, items) {
+        for (var i = 0; i < items.length; i++)
+            this.enqueue(priority, items[i]);
+    };
+    ;
+    /**
+     * Remove the item at the head of the queue.
+     * @return {*} The item at the head of the queue. It's undefined if the queue is empty.
+     */
+    PriorityQueue.prototype.dequeue = function () {
+        var node = this.items.maximum();
+        var item = undefined;
+        if (node) {
+            var queue = node.item;
+            item = queue.dequeue();
+            if (queue.isEmpty())
+                this.items.deleteNode(node);
+            this.length--;
+        }
+        return item;
+    };
+    ;
+    /**
+     * Removes the items at the head of the queue.
+     * @param times {number} The number of times to repeat the dequeue method.
+     * @return {Array<*>} The items at the head of the queue.
+     */
+    PriorityQueue.prototype.multiDequeue = function (times) {
+        var items = [];
+        for (var i = 0; i < times && this.length; i++)
+            items.push(this.dequeue());
+        return items;
+    };
+    ;
+    /**
+     * Removes the first length items from the position index.
+     * @param index {number} The position where to start to remove the items.
+     * @param [length = 1] {number} The number of items to remove.
+     * @return {void}
+     */
+    PriorityQueue.prototype.remove = function (index, length) {
+        length = length || 1;
+        var it = this.items.getIterator();
+        for (it.last(); !it.isDone() && length > 0; it.previous()) {
+            var queue = it.getItem();
+            if (index > -1 && index < queue.getLength()) {
+                var oldLength = queue.getLength();
+                queue.remove(index, length);
+                length -= oldLength - index;
+                index = 0;
+                if (!queue.getLength())
+                    this.items.deleteNode(it.getNode());
+            }
+            else
+                index = index - queue.getLength();
+        }
+    };
+    ;
+    /**
+     * Return the item at the position index.
+     * @param index {number} The index of the item.
+     * @return {*} The item found. It's undefined if the position index is out of bounds.
+     */
+    PriorityQueue.prototype.getItem = function (index) {
+        var it = this.items.getIterator();
+        for (it.last(); !it.isDone(); it.previous()) {
+            var queue = it.getItem();
+            if (index > -1 && index < queue.getLength())
+                return queue.getItem(index);
+            index = index - queue.getLength();
+        }
+        return undefined;
+    };
+    ;
+    /**
+     * Return the items relatives to the priority.
+     * @param priority {number} The priority of the items.
+     * @return {Array<*>} The items found.
+     */
+    PriorityQueue.prototype.getItems = function (priority) {
+        var items = this.items.search(priority);
+        if (items)
+            return items.items;
+        return [];
+    };
+    ;
+    /**
+     * Return the first item in the queue. The item is not removed.
+     * @return {*} The first item. It's undefined if the queue is empty.
+     */
+    PriorityQueue.prototype.peek = function () {
+        return this.items.maximum().item.peek();
+    };
+    ;
+    /**
+     * Return the length of the queue.
+     * @return {number} The length of the queue.
+     */
+    PriorityQueue.prototype.getLength = function () {
+        return this.length;
+    };
+    ;
+    /**
+     * Checks if the queue is empty.
+     * @return {boolean} True if the queue is empty, false otherwise.
+     */
+    PriorityQueue.prototype.isEmpty = function () {
+        return !this.length;
+    };
+    ;
+    /**
+     * Removes all the items stored in the queue.
+     * @return {void}
+     */
+    PriorityQueue.prototype.clear = function () {
+        this.items = new RBTreeList();
+        this.length = 0;
+    };
+    ;
+    /**
+     * Checks if the queue contains a priority that satisfy the condition represented by the callback function.
+     * @param priority {number} The priority to find.
+     * @param [callback = function(p){return(p===priority);}] The condition to satisfy. The callback must accept the current priority to check.
+     * @return {boolean} True if the queue contains the priority that satisfy the condition, false otherwise.
+     */
+    PriorityQueue.prototype.containsPriority = function (priority, callback) {
+        if (callback)
+            return this.items.fullContains(callback);
+        else
+            return this.items.contains(priority);
+    };
+    ;
+    /**
+     * Return the queue created by the priority queue with the items in the same order but without the priority.
+     * @return {Queue} The queue created.
+     */
+    PriorityQueue.prototype.toQueue = function () {
+        var queue = new Queue();
+        var it = this.items.getIterator();
+        for (it.last(); !it.isDone(); it.previous()) {
+            var item = it.getItem();
+            var itQ = item.getIterator();
+            for (itQ.first(); !itQ.isDone(); itQ.next())
+                queue.enqueue(itQ.getItem());
+        }
+        return queue;
+    };
+    ;
+    /**
+     * Executes the callback function for each item of the queue.
+     * This method modifies the queue so if you don't need to modify it you must return the same item of the array.
+     * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
+     * @return {void}
+     */
+    PriorityQueue.prototype.execute = function (callback) {
+        var it = this.items.getIterator();
+        for (it.last(); !it.isDone(); it.previous())
+            it.getItem().execute(callback);
+    };
+    ;
+    /**
+     * Change the priority of the item at the position index.
+     * @param index {number} The position of the item of which increase the priority.
+     * @param newPriority {number} The new priority.
+     * @return {void}
+     */
+    PriorityQueue.prototype.changePriority = function (index, newPriority) {
+        var item = this.getItem(index);
+        this.remove(index);
+        this.enqueue(newPriority, item);
+    };
+    ;
+    /**
+     * Returns the items that satisfy the condition determined by the callback.
+     * @param callback {function} The function that implements the condition.
+     * @return {Array<*>} The array that contains the items that satisfy the condition.
+     */
+    PriorityQueue.prototype.filter = function (callback) {
+        var result = [];
+        var it = this.items.getIterator();
+        for (it.last(); !it.isDone(); it.previous()) {
+            var itQ = it.getItem().getIterator();
+            for (itQ.first(); !itQ.isDone(); itQ.next()) {
+                if (callback(itQ.getItem()))
+                    result.push(itQ.getItem());
+            }
+        }
+        return result;
+    };
+    ;
+    /**
+     * Clones the queue into a new queue.
+     * @return {PriorityQueue} The queue cloned from this queue.
+     */
+    PriorityQueue.prototype.clone = function () {
+        var queue = new PriorityQueue();
+        queue.items = this.items.clone();
+        queue.length = this.length;
+        return queue;
+    };
+    ;
+    /**
+     * Clones the queue into a new queue without cloning duplicated items.
+     * @return {PriorityQueue} The queue cloned from this queue.
+     */
+    PriorityQueue.prototype.cloneDistinct = function () {
+        var queue = new PriorityQueue();
+        queue.items = this.items.cloneDistinct();
+        queue.length = queue.items.getSize();
+        return queue;
+    };
+    ;
+    return PriorityQueue;
+}(Aggregate));
+/**
+ * Created by Stefano on 04/04/2014.
+ */
+var PriorityQueueIterator = /** @class */ (function () {
+    /**
+     * Class that implements the iterator for a priority queue.
+     * @param aggregate {PriorityQueue} The aggregate to scan.
+     * @constructor
+     */
+    function PriorityQueueIterator(aggregate) {
+        /**
+         * The pointer to the position of the node.
+         * @type {RBLNode|null}
+         */
+        this.pointerNode = null;
+        /**
+         * The pointer to the position in the node.
+         * @type {number}
+         */
+        this.pointerPosition = -1;
+        this.aggregate = aggregate;
+        this.pointerNode = null;
+        this.pointerPosition = -1;
+    }
+    /**
+     * @inheritDoc
+     */
+    PriorityQueueIterator.prototype.first = function () {
+        this.pointerNode = this.aggregate.items.maximum();
+        this.pointerPosition = 0;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    PriorityQueueIterator.prototype.next = function () {
+        this.pointerPosition++;
+        if (this.pointerPosition > this.pointerNode.item.getLength() - 1) {
+            this.pointerNode = this.pointerNode.previous;
+            this.pointerPosition = 0;
+        }
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    PriorityQueueIterator.prototype.last = function () {
+        this.pointerNode = this.aggregate.items.minimum();
+        this.pointerPosition = this.pointerNode.item.getLength() - 1;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    PriorityQueueIterator.prototype.previous = function () {
+        this.pointerPosition--;
+        if (this.pointerPosition < 0) {
+            this.pointerNode = this.pointerNode.next;
+            if (this.pointerNode)
+                this.pointerPosition = this.pointerNode.item.getLength() - 1;
+        }
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    PriorityQueueIterator.prototype.isDone = function () {
+        return !this.pointerNode;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    PriorityQueueIterator.prototype.getItem = function () {
+        return this.pointerNode.item.items[this.pointerPosition];
+    };
+    ;
+    return PriorityQueueIterator;
+}());
+/**
+ * Created by Stefano on 31/03/14.
+ */
+var Queue = /** @class */ (function (_super) {
+    __extends(Queue, _super);
+    /**
+     * Class for managing a queue.
+     * @param {...*} [args] The items for initializing the queue.
+     * @constructor
+     */
+    function Queue() {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        var _this = _super.call(this) || this;
+        /**
+         * The list of the items in the queue.
+         * @type {Array<*>}
+         */
+        _this.items = [];
+        /**
+         * Decreases dequeue big O complexity by shifting starting indexs
+         * for each dequeue, instead of splicing.
+         * @type {int}
+         */
+        _this.offsetIndex = 0;
+        _this.items = [];
+        _this.offsetIndex = 0;
+        if (args && args.length) {
+            //builds the list from the range passed from the constructor
+            _this.multiEnqueue(args);
+        }
+        else {
+            //builds the list from the parameters of the constructor
+            _this.multiEnqueue(arguments);
+        }
+        return _this;
+    }
+    /**
+     * @inheritDoc
+     */
+    Queue.prototype.getIterator = function () {
+        return new QueueIterator(this);
+    };
+    ;
+    /**
+     * Adds the item at the tail of the queue.
+     * @param item {*} The item to add.
+     * @return {void}
+     */
+    Queue.prototype.enqueue = function (item) {
+        this.items.push(item);
+    };
+    ;
+    /**
+     * Adds the items at the tail of the queue.
+     * @param items {Array<*>} The items to add.
+     * @return {void}
+     */
+    Queue.prototype.multiEnqueue = function (items) {
+        for (var i = 0; i < items.length; i++)
+            this.items.push(items[i]);
+    };
+    ;
+    /**
+     * Removes the item at the head of the queue.
+     * @return {*} The item at the head of the queue. It's undefined if the queue is empty.
+     */
+    Queue.prototype.dequeue = function () {
+        if (!(this.items.length - this.offsetIndex))
+            return undefined;
+        var dequeued = this.items[this.offsetIndex]; // holds the value, for cases that purge occurs
+        this.offsetIndex++;
+        /**
+         * Automatically purge unneeded (already dequeued)
+         * indexs from the array when they take up
+         * more than one half the array
+         */
+        if (this.offsetIndex >= this.items.length / 2) {
+            this.purge();
+        }
+        return dequeued; //return dequeued item
+    };
+    ;
+    /**
+     * Removes the items at the head of the queue.
+     * @param times {number} The number of times to repeat the dequeue method.
+     * @return {Array<*>} The items at the head of the queue.
+     */
+    Queue.prototype.multiDequeue = function (times) {
+        var dequeued = []; // Holds variables that have been removed from the array
+        // Dequeue the desired number of items
+        console.log('items', this.items);
+        for (var i = 0; (i < times && this.items.length - this.offsetIndex > 0); i++) {
+            console.log('calleds');
+            dequeued.push(this.dequeue());
+        }
+        return dequeued; //removes the last times item and returns the array
+    };
+    ;
+    /**
+     * Clears array indexs hidden by offset. To free up memory
+     * @return {void}
+     */
+    Queue.prototype.purge = function () {
+        this.items.splice(0, this.offsetIndex);
+        this.offsetIndex = 0;
+    };
+    /**
+     * Removes the first length items from the position index.
+     * @param index {number} The position where to start to remove the items.
+     * @param [length = 1] {number} The number of items to remove.
+     * @return {void}
+     */
+    Queue.prototype.remove = function (index, length) {
+        length = length || 1;
+        this.items.splice(index, length);
+    };
+    ;
+    /**
+     * Returns the item at the position index.
+     * @param index {number} The position of the item.
+     * @return {*} The item at the position. It's undefined if index isn't in the queue bounds.
+     */
+    Queue.prototype.getItem = function (index) {
+        // take offsetIndex into account
+        var index = index + this.offsetIndex;
+        if (index < 0 || index > this.items.length - 1 - this.offsetIndex)
+            return undefined;
+        return this.items[index];
+    };
+    ;
+    /**
+     * Returns the first item in the queue. The item is not removed.
+     * @return {*} The first item. It's undefined if the queue is empty.
+     */
+    Queue.prototype.peek = function () {
+        if (this.items.length - this.offsetIndex)
+            return this.items[this.offsetIndex];
+        return undefined;
+    };
+    ;
+    /**
+     * Removes all the items stored in the queue.
+     * @return {void}
+     */
+    Queue.prototype.clear = function () {
+        this.items = [];
+    };
+    ;
+    /**
+     * Checks if the queue contains an item that satisfy the condition represented by the callback function.
+     * @param item {*} The item to find.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {boolean} True if the queue contains the item that satisfy the condition, false otherwise.
+     */
+    Queue.prototype.contains = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var i = this.offsetIndex;
+        while (i < this.items.length && !callback(this.items[i]))
+            i++;
+        return i < this.items.length;
+    };
+    ;
+    /**
+     * Executes the callback function for each item of the queue.
+     * This method modifies the queue so if you don't need to modify it you must return the same item of the array.
+     * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
+     * @return {void}
+     */
+    Queue.prototype.execute = function (callback) {
+        for (var i = this.offsetIndex; i < this.items.length; i++)
+            this.items[i] = callback(this.items[i]);
+    };
+    ;
+    /**
+     * Returns the length of the queue.
+     * @return {number} The length of the queue.
+     */
+    Queue.prototype.getLength = function () {
+        return this.items.length - this.offsetIndex;
+    };
+    ;
+    /**
+     * Checks if the queue is empty.
+     * @return {boolean} True if the queue is empty, false otherwise.
+     */
+    Queue.prototype.isEmpty = function () {
+        return !(this.items.length - this.offsetIndex);
+    };
+    ;
+    /**
+     * Returns the items that satisfy the condition determined by the callback.
+     * @param callback {function} The function that implements the condition.
+     * @return {Array<*>} The array that contains the items that satisfy the condition.
+     */
+    Queue.prototype.filter = function (callback) {
+        var result = [];
+        for (var i = this.offsetIndex; i < this.items.length; i++)
+            if (callback(this.items[i]))
+                result.push(this.items[i]);
+        return result;
+    };
+    ;
+    /**
+     * Returns the first position of the item in the queue.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {number} The first position of the item.
+     */
+    Queue.prototype.indexOf = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var i = this.offsetIndex;
+        while (i < this.items.length) {
+            if (callback(this.items[i]))
+                return i - this.offsetIndex;
+            i++;
+        }
+        return -1;
+    };
+    ;
+    /**
+     * Returns the last position of the item in the queue.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {number} The last position of the item.
+     */
+    Queue.prototype.lastIndexOf = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var i = this.items.length - 1;
+        while (i > this.offsetIndex - 1) {
+            console.log('l', this.offsetIndex);
+            if (callback(this.items[i]))
+                return i - this.offsetIndex;
+            i--;
+        }
+        return -1;
+    };
+    ;
+    /**
+     * Returns all the position in which the item has been found in the queue.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {Array<number>} The positions in which the item has been found.
+     */
+    Queue.prototype.allIndexesOf = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var i = this.offsetIndex;
+        var indexes = [];
+        while (i < this.items.length) {
+            if (callback(this.items[i]))
+                indexes.push(i - this.offsetIndex);
+            i++;
+        }
+        return indexes;
+    };
+    ;
+    /**
+     * Clones the queue into a new queue.
+     * @return {Queue} The queue cloned from this queue.
+     */
+    Queue.prototype.clone = function () {
+        var queue = new Queue();
+        for (var i = this.offsetIndex; i < this.items.length; i++)
+            if (this.items[i].clone)
+                queue.enqueue(this.items[i].clone());
+            else
+                queue.enqueue(this.items[i]);
+        return queue;
+    };
+    ;
+    /**
+     * Clones the queue into a new queue without cloning duplicated items.
+     * @return {Queue} The queue cloned from this queue.
+     */
+    Queue.prototype.cloneDistinct = function () {
+        var queue = new Queue();
+        for (var i = this.offsetIndex; i < this.items.length; i++)
+            if (!queue.contains(this.items[i]))
+                if (this.items[i].cloneDistinct)
+                    queue.enqueue(this.items[i].cloneDistinct());
+                else if (this.items[i].clone)
+                    queue.enqueue(this.items[i].clone());
+                else
+                    queue.enqueue(this.items[i]);
+        return queue;
+    };
+    ;
+    return Queue;
+}(Aggregate));
+/**
+ * Created by Stefano on 04/04/2014.
+ */
+var QueueIterator = /** @class */ (function () {
+    /**
+     * Class that implements the iterator for a linked list.
+     * @param aggregate {Queue} The aggregate to scan.
+     * @constructor
+     */
+    function QueueIterator(aggregate) {
+        /**
+         * The pointer to the position.
+         * @type {number}
+         */
+        this.pointer = -1;
+        this.aggregate = aggregate;
+        this.pointer = -1;
+    }
+    /**
+     * @inheritDoc
+     */
+    QueueIterator.prototype.first = function () {
+        this.pointer = 0;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    QueueIterator.prototype.next = function () {
+        this.pointer++;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    QueueIterator.prototype.last = function () {
+        this.pointer = this.aggregate.items.length - 1;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    QueueIterator.prototype.previous = function () {
+        this.pointer--;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    QueueIterator.prototype.isDone = function () {
+        return this.pointer < 0 || this.pointer > this.aggregate.items.length - 1;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    QueueIterator.prototype.getItem = function () {
+        return this.aggregate.getItem(this.pointer);
+    };
+    ;
+    return QueueIterator;
+}());
+var RBLNode = /** @class */ (function () {
+    /**
+     * The single node of the tree.
+     * @param key {number} The key of the node.
+     * @param item {*} The item to store in the node.
+     * @constructor
+     */
+    function RBLNode(key, item) {
+        /**
+         * The parent node. It's null if there's no a parent node.
+         * @type {RBLNode|null}
+         */
+        this.parent = null;
+        /**
+         * The left node. It's null if there's no a left node.
+         * @type {RBLNode|null}
+         */
+        this.left = null;
+        /**
+         * The right node. It's null if there's no a right node.
+         * @type {RBLNode|null}
+         */
+        this.right = null;
+        /**
+         * The next node. It's null if there's no a next node.
+         * @type {RBLNode|null}
+         */
+        this.next = null;
+        /**
+         * The previous node. It's null if there's no a previous node.
+         * @type {RBLNode|null}
+         */
+        this.previous = null;
+        /**
+         * The type of the node. It's or red or black.
+         * @type {string}
+         */
+        this.type = 'r';
+        this.item = item;
+        this.key = key;
+        this.parent = null;
+        this.left = null;
+        this.right = null;
+        this.next = null;
+        this.previous = null;
+        this.type = 'r';
+    }
+    return RBLNode;
+}());
+var RBTreeList = /** @class */ (function (_super) {
+    __extends(RBTreeList, _super);
+    function RBTreeList() {
+        var _this = _super.call(this) || this;
+        /**
+         * The root of the tree.
+         * @type {RBLNode|null}
+         */
+        _this.root = null;
+        /**
+         * The first node of the tree.
+         * @type {RBLNode|null}
+         */
+        _this.first = null;
+        /**
+         * The last node of the tree.
+         * @type {RBLNode|null}
+         */
+        _this.last = null;
+        /**
+         * The size of the tree.
+         * @type {number}
+         */
+        _this.size = 0;
+        _this.root = null;
+        _this.first = null;
+        _this.last = null;
+        _this.size = 0;
+        return _this;
+    }
+    /**
+     * @inheritDoc
+     */
+    RBTreeList.prototype.getIterator = function () {
+        return new RBTreeListIterator(this);
+    };
+    ;
+    /**
+     * Insert the item relatives to the key value in the tree.
+     * @param key {number} The key to store.
+     * @param item {*} The item to store.
+     * @return {void}
+     */
+    RBTreeList.prototype.insert = function (key, item) {
+        var node = new RBLNode(key, item);
+        this.size++;
+        if (!this.root) {
+            this.root = node;
+            this.first = node;
+            this.last = node;
+            node.type = 'b';
+            return;
+        }
+        var p = this.root;
+        for (var n = this.root; n;) {
+            p = n;
+            if (key < n.key)
+                n = n.left;
+            else
+                n = n.right;
+        }
+        node.parent = p;
+        if (!p)
+            this.root = node;
+        else if (key < p.key)
+            p.left = node;
+        else
+            p.right = node;
+        node.next = this.successor(node);
+        if (node.next) {
+            if (node.next.previous)
+                node.next.previous.next = node;
+            else
+                this.first = node;
+            node.previous = node.next.previous;
+            node.next.previous = node;
+        }
+        else {
+            this.last = node;
+            node.previous = this.predecessor(node);
+            if (node.previous)
+                node.previous.next = node;
+            else
+                this.first = node;
+        }
+        this.insertFixUp(node);
+    };
+    ;
+    /**
+     * Preserve the properties of the tree after an insert.
+     * @param node {RBLNode} The node to insert.
+     * @return {void}
+     */
+    RBTreeList.prototype.insertFixUp = function (node) {
+        for (var parent = node.parent; parent && parent.type === 'r'; parent = node.parent) {
+            if (parent === parent.parent.left) {
+                var uncle = parent.parent.right;
+                if (uncle && uncle.type === 'r') {
+                    parent.type = 'b';
+                    uncle.type = 'b';
+                    parent.parent.type = 'r';
+                    node = parent.parent;
+                }
+                else if (node === parent.right) {
+                    node = parent;
+                    this.leftRotate(node);
+                }
+                else {
+                    parent.type = 'b';
+                    parent.parent.type = 'r';
+                    this.rightRotate(parent.parent);
+                }
+            }
+            else {
+                var uncle = parent.parent.left;
+                if (uncle && uncle.type === 'r') {
+                    parent.type = 'b';
+                    uncle.type = 'b';
+                    parent.parent.type = 'r';
+                    node = parent.parent;
+                }
+                else if (node === parent.left) {
+                    node = parent;
+                    this.rightRotate(node);
+                }
+                else {
+                    parent.type = 'b';
+                    parent.parent.type = 'r';
+                    this.leftRotate(parent.parent);
+                }
+            }
+        }
+        this.root.type = 'b';
+    };
+    ;
+    /**
+     * Delete the node from the tree.
+     * @param node {RBLNode} The node to delete.
+     * @return {void}
+     */
+    RBTreeList.prototype.deleteNode = function (node) {
+        this.size--;
+        var successor;
+        if (!node.left || !node.right)
+            successor = node;
+        else {
+            successor = this.successor(node);
+            node.key = successor.key;
+            node.item = successor.item;
+        }
+        var child;
+        if (!successor.left)
+            child = successor.right;
+        else
+            child = successor.left;
+        if (child)
+            child.parent = successor.parent;
+        if (!successor.parent)
+            this.root = child;
+        else if (successor === successor.parent.left)
+            successor.parent.left = child;
+        else
+            successor.parent.right = child;
+        if (successor.next)
+            successor.next.previous = successor.previous;
+        else
+            this.last = successor.previous;
+        if (successor.previous)
+            successor.previous.next = successor.next;
+        else
+            this.first = successor.next;
+        if (successor.type === 'b')
+            this.deleteFixUp(child, successor.parent);
+    };
+    ;
+    /**
+     * Preserve the properties of the tree after a deletion.
+     * @param node {RBLNode} The node to delete.
+     * @param parent {RBLNode} The parent of the node.
+     * @return {void}
+     */
+    RBTreeList.prototype.deleteFixUp = function (node, parent) {
+        while (node !== this.root && (!node || node.type === 'b')) {
+            if (node === parent.left) {
+                var brother = parent.right;
+                if (brother && brother.type === 'r') {
+                    brother.type = 'b';
+                    parent.type = 'r';
+                    this.leftRotate(parent);
+                    brother = parent.right;
+                }
+                if (brother && (!brother.left || brother.left.type === 'b') && (!brother.right || brother.right.type === 'b')) {
+                    brother.type = 'r';
+                    node = parent;
+                }
+                else {
+                    if (!brother.right || brother.right.type === 'b') {
+                        brother.left.type = 'b';
+                        brother.type = 'r';
+                        this.rightRotate(brother);
+                        brother = parent.right;
+                    }
+                    brother.type = parent.type;
+                    parent.type = 'b';
+                    brother.right.type = 'b';
+                    this.leftRotate(parent);
+                    node = this.root;
+                }
+            }
+            else {
+                var brother = parent.left;
+                if (brother && brother.type === 'r') {
+                    brother.type = 'b';
+                    parent.type = 'r';
+                    this.rightRotate(parent);
+                    brother = parent.left;
+                }
+                if (brother && (!brother.left || brother.left.type === 'b') && (!brother.right || brother.right.type === 'b')) {
+                    brother.type = 'r';
+                    node = parent;
+                }
+                else {
+                    if (!brother.left || brother.left.type === 'b') {
+                        brother.right.type = 'b';
+                        brother.type = 'r';
+                        this.leftRotate(brother);
+                        brother = parent.left;
+                    }
+                    brother.type = parent.type;
+                    parent.type = 'b';
+                    brother.left.type = 'b';
+                    this.rightRotate(parent);
+                    node = this.root;
+                }
+            }
+            parent = node.parent;
+        }
+        if (node)
+            node.type = 'b';
+    };
+    ;
+    /**
+     * Get the node with the key next to the param node key.
+     * @param node {RBLNode} The node of which search the successor.
+     * @return {RBLNode} The node found.
+     */
+    RBTreeList.prototype.successor = function (node) {
+        if (node.next || node === this.last)
+            return node.next;
+        if (node.right)
+            return this.minimum(node.right);
+        var parent = node.parent;
+        while (parent && node === parent.right) {
+            node = parent;
+            parent = parent.parent;
+        }
+        return parent;
+    };
+    ;
+    /**
+     * Get the node with the key previous to the param node key.
+     * @param node {RBLNode} The node of which search the predecessor.
+     * @return {RBLNode} The node found.
+     */
+    RBTreeList.prototype.predecessor = function (node) {
+        if (node.previous || node === this.first)
+            return node.previous;
+        if (node.left)
+            return this.maximum(node.left);
+        var parent = node.parent;
+        while (parent && node === parent.left) {
+            node = parent;
+            parent = parent.parent;
+        }
+        return parent;
+    };
+    ;
+    /**
+     * Search the item relatives to the key that satisfy the condition represented by the callback function.
+     * @param key {number} The key to find.
+     * @param [node = root] {RBNode} The node from which start the search.
+     * @param [callback = function(k){return(k===key);}] The condition to satisfy. The callback must accept the current key to check.
+     * @return {*} The item found or undefined if there isn't the key in the tree.
+     */
+    RBTreeList.prototype.search = function (key, node, callback) {
+        node = node || this.root;
+        callback = callback || function (node) {
+            return node.key === key;
+        };
+        while (node && !callback(node))
+            if (key < node.key)
+                node = node.left;
+            else
+                node = node.right;
+        if (node)
+            return node.item;
+        return undefined;
+    };
+    ;
+    /**
+     * Checks if the tree contains a key or a node that satisfy the condition represented by the callback function.
+     * This method avoid to search in branches where the key won't be found.
+     * @param key {*} The key to find.
+     * @param [callback = function(node){return(node.key===key);}] The condition to satisfy. The callback must accept the current node to check.
+     * @return {boolean} True if the tree contains the key or a node that satisfy the condition, false otherwise.
+     */
+    RBTreeList.prototype.contains = function (key, callback) {
+        return this.search(key, null, callback) !== undefined;
+    };
+    ;
+    /**
+     * Checks if the tree contains a node that satisfy the condition represented by the callback function.
+     * This method check all the tree avoiding the binary search.
+     * @param callback {function} The condition to satisfy. The callback must accept the current node to check.
+     * @return {boolean} True if the tree contains the node that satisfy the condition, false otherwise.
+     */
+    RBTreeList.prototype.fullContains = function (callback) {
+        var node = this.first;
+        while (node && !callback(node.key))
+            node = node.next;
+        return node !== null;
+    };
+    ;
+    /**
+     * Get the item relatives to the minimum key stored in the tree.
+     * @param [node = root] {Node} The node from which start the search.
+     * @return {RBLNode} The node found.
+     */
+    RBTreeList.prototype.minimum = function (node) {
+        if (node)
+            while (node && node.left)
+                node = node.left;
+        else
+            return this.first;
+        return node;
+    };
+    ;
+    /**
+     * Get the item relatives to the maximum key stored in the tree.
+     * @param [node = root] {Node} The node from which start the search.
+     * @return {RBLNode} The node found.
+     */
+    RBTreeList.prototype.maximum = function (node) {
+        if (node)
+            while (node && node.right)
+                node = node.right;
+        else
+            return this.last;
+        return node;
+    };
+    ;
+    /**
+     * Rotate the node with its right child.
+     * @param node {RBLNode} The node to rotate.
+     * @return {void}
+     */
+    RBTreeList.prototype.leftRotate = function (node) {
+        var child = node.right;
+        node.right = child.left;
+        if (child.left !== null)
+            child.left.parent = node;
+        child.parent = node.parent;
+        if (node.parent === null)
+            this.root = child;
+        else if (node === node.parent.left)
+            node.parent.left = child;
+        else
+            node.parent.right = child;
+        node.parent = child;
+        child.left = node;
+    };
+    ;
+    /**
+     * Rotate the node with its left child.
+     * @param node {RBLNode} The node to rotate.
+     * @return {void}
+     */
+    RBTreeList.prototype.rightRotate = function (node) {
+        var child = node.left;
+        node.left = child.right;
+        if (child.right !== null)
+            child.right.parent = node;
+        child.parent = node.parent;
+        if (node.parent === null)
+            this.root = child;
+        else if (node === node.parent.left)
+            node.parent.left = child;
+        else
+            node.parent.right = child;
+        node.parent = child;
+        child.right = node;
+    };
+    ;
+    /**
+     * Returns the size of the tree.
+     * @return {number} The size of the tree.
+     */
+    RBTreeList.prototype.getSize = function () {
+        return this.size;
+    };
+    ;
+    /**
+     * Clones the tree into a new tree.
+     * @return {RBTreeList} The tree cloned from this tree.
+     */
+    RBTreeList.prototype.clone = function () {
+        var tree = new RBTreeList();
+        var it = this.getIterator();
+        for (it.first(); !it.isDone(); it.next())
+            tree.insert(it.getNode().key, it.getNode().item);
+        return tree;
+    };
+    ;
+    /**
+     * Clones the tree into a new tree without cloning duplicated items.
+     * @return {RBTreeList} The tree cloned from this tree.
+     */
+    RBTreeList.prototype.cloneDistinct = function () {
+        var tree = new RBTreeList();
+        var it = this.getIterator();
+        for (it.first(); !it.isDone(); it.next()) {
+            var callback = function (node) {
+                return node.key === it.getNode().key && node.item === it.getNode().item;
+            };
+            if (!tree.contains(it.getNode().key, callback)) {
+                if (it.getNode().item.cloneDistinct)
+                    tree.insert(it.getNode().key, it.getNode().item.cloneDistinct());
+                else if (it.getNode().item.clone)
+                    tree.insert(it.getNode().key, it.getNode().item.clone());
+                else
+                    tree.insert(it.getNode().key, it.getNode().item);
+            }
+        }
+        return tree;
+    };
+    ;
+    /**
+     * Transform the tree into an array without preserving keys.
+     * @return {Array<*>} The array that represents the tree.
+     */
+    RBTreeList.prototype.toArray = function () {
+        var result = [];
+        for (var node = this.first; node; node = node.next)
+            result.push(node.item);
+        return result;
+    };
+    ;
+    /**
+     * Removes all the items stored in the tree.
+     * @return {void}
+     */
+    RBTreeList.prototype.clear = function () {
+        this.root = null;
+        this.first = null;
+        this.last = null;
+        this.size = 0;
+    };
+    ;
+    /**
+     * Checks if the tree is empty.
+     * @return {boolean} True if the tree is empty, false otherwise.
+     */
+    RBTreeList.prototype.isEmpty = function () {
+        return !this.size;
+    };
+    ;
+    /**
+     * Executes the callback function for each item of the tree.
+     * This method modifies the tree so if you don't need to modify it you must return the same item stored.
+     * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
+     * @return {void}
+     */
+    RBTreeList.prototype.execute = function (callback) {
+        for (var node = this.first; node; node = node.next)
+            node.item = callback(node.item);
+    };
+    ;
+    /**
+     * Returns the items that satisfy the condition determined by the callback.
+     * @param callback {function} The function that implements the condition.
+     * @return {Array<*>} The array that contains the items that satisfy the condition.
+     */
+    RBTreeList.prototype.filter = function (callback) {
+        var result = [];
+        for (var node = this.first; node; node = node.next)
+            if (callback(node.item))
+                result.push(node.item);
+        return result;
+    };
+    ;
+    /**
+     * Returns the first position of the item in the tree.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {number} The first position of the item.
+     */
+    RBTreeList.prototype.indexOf = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var i = 0, node = this.first;
+        while (node) {
+            if (callback(node.item))
+                return i;
+            node = node.next;
+            i++;
+        }
+        return -1;
+    };
+    ;
+    /**
+     * Returns the last position of the item in the tree.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {number} The last position of the item.
+     */
+    RBTreeList.prototype.lastIndexOf = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var i = this.size - 1, node = this.last;
+        while (node) {
+            if (callback(node.item))
+                return i;
+            i--;
+            node = node.previous;
+        }
+        return -1;
+    };
+    ;
+    /**
+     * Returns all the position in which the item has been found in the tree.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {Array<number>} The positions in which the item has been found.
+     */
+    RBTreeList.prototype.allIndexesOf = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var i = 0, node = this.first;
+        var indexes = [];
+        while (node) {
+            if (callback(node.item))
+                indexes.push(i);
+            i++;
+            node = node.next;
+        }
+        return indexes;
+    };
+    ;
+    /**
+     * Returns the item at the position index.
+     * @param index {number} The position of the item.
+     * @return {*} The item at the position. It's undefined if index isn't in the tree bounds.
+     */
+    RBTreeList.prototype.getItem = function (index) {
+        if (index < 0 || index > this.size - 1)
+            return undefined;
+        for (var node = this.first, i = 0; i < index; node = node.next)
+            i++;
+        return node.item;
+    };
+    ;
+    return RBTreeList;
+}(Aggregate));
+/**
+ * Created by Stefano on 06/04/2014.
+ */
+var RBTreeListIterator = /** @class */ (function () {
+    /**
+     * Class that implements the iterator for a red-black tree.
+     * @param aggregate {RBTreeList} The aggregate to scan.
+     * @constructor
+     */
+    function RBTreeListIterator(aggregate) {
+        /**
+         * The pointer to the position.
+         * @type {RBLNode|null}
+         */
+        this.pointer = null;
+        this.aggregate = aggregate;
+        this.pointer = null;
+    }
+    /**
+     * @inheritDoc
+     */
+    RBTreeListIterator.prototype.first = function () {
+        this.pointer = this.aggregate.first;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    RBTreeListIterator.prototype.next = function () {
+        this.pointer = this.pointer.next;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    RBTreeListIterator.prototype.last = function () {
+        this.pointer = this.aggregate.last;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    RBTreeListIterator.prototype.previous = function () {
+        this.pointer = this.pointer.previous;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    RBTreeListIterator.prototype.isDone = function () {
+        return !this.pointer;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    RBTreeListIterator.prototype.getItem = function () {
+        return this.pointer.item;
+    };
+    ;
+    /**
+     * Return the node stored at the position pointed by the iterator.
+     * @abstract
+     * @return {RBNode|null} The node stored or null if it's out of the bounds.
+     */
+    RBTreeListIterator.prototype.getNode = function () {
+        return this.pointer;
+    };
+    ;
+    return RBTreeListIterator;
+}());
