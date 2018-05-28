@@ -11,7 +11,7 @@ namespace ds
      * @param [step=1] The step to sample the values
      * @return {Array<number>} The array containing the value of the range.
      */
-    export function Range(from, to, step?)
+    export function Range(from: number, to: number, step?: number)
     {
         var range = [];
         step = step || 1;

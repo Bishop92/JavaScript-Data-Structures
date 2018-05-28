@@ -6,27 +6,27 @@ namespace ds
 		 * The item stored.
 		 * @type {*}
 		 */
-		item;
+		item: any;
 		/**
 		 * The key of the node.
 		 * @type {number}
 		 */
-		key;
+		key: number;
 		/**
 		 * The parent node. It's null if there's no a parent node.
 		 * @type {RBNode|null}
 		 */
-		parent = null;
+		parent: RBNode = <any>null;
 		/**
 		 * The left node. It's null if there's no a left node.
 		 * @type {RBNode|null}
 		 */
-		left = null;
+		left: RBNode = <any>null;
 		/**
 		 * The right node. It's null if there's no a right node.
 		 * @type {RBNode|null}
 		 */
-		right = null;
+		right: RBNode = <any>null;
 		/**
 		 * The type of the node. It's or red or black.
 		 * @type {string}
@@ -39,13 +39,13 @@ namespace ds
 		 * @param item {*} The item to store in the node.
 		 * @constructor
 		 */
-		constructor(key, item)
+		constructor(key: number, item: any)
 		{
 			this.item = item;
 			this.key = key;
-			this.parent = null;
-			this.left = null;
-			this.right = null;
+			this.parent = <any>null;
+			this.left = <any>null;
+			this.right = <any>null;
 			this.type = 'r';
 		}
 
@@ -57,7 +57,7 @@ namespace ds
 		 * The root of the tree.
 		 * @type {RBNode|null}
 		 */
-		root = null;
+		root: RBNode = <any>null;
 		/**
 		 * The number of items stored in the tree.
 		 * @type {number}
@@ -71,7 +71,7 @@ namespace ds
 		constructor()
 		{
 			super();
-			this.root = null;
+			this.root = <any>null;
 			this.size = 0;
 		}
 
@@ -90,7 +90,7 @@ namespace ds
 		 * @param item {*} The item to store.
 		 * @return {void}
 		 */
-		insert(key, item)
+		insert(key: number, item: any)
 		{
 			var node = new RBNode(key, item);
 			this.size++;
@@ -125,7 +125,7 @@ namespace ds
 		 * @param node {RBNode} The node to insert.
 		 * @return {void}
 		 */
-		insertFixUp(node)
+		insertFixUp(node: RBNode)
 		{
 			for (var parent = node.parent; parent && parent.type === 'r'; parent = node.parent)
 			{
@@ -177,7 +177,7 @@ namespace ds
 		 * @param node {RBNode} The node to delete.
 		 * @return {void}
 		 */
-		deleteNode(node)
+		deleteNode(node: RBNode)
 		{
 			var successor;
 			this.size--;
@@ -213,7 +213,7 @@ namespace ds
 		 * @param parent {RBNode} The parent of the node.
 		 * @return {void}
 		 */
-		deleteFixUp(node, parent)
+		deleteFixUp(node: RBNode, parent: RBNode)
 		{
 			while (node !== this.root && (!node || node.type === 'b'))
 			{
@@ -287,7 +287,7 @@ namespace ds
 		 * @param node {RBNode} The node of which search the successor.
 		 * @return {RBNode} The node found.
 		 */
-		successor(node)
+		successor(node: RBNode)
 		{
 			if (node.right)
 				return this.minimum(node.right);
@@ -305,7 +305,7 @@ namespace ds
 		 * @param node {RBNode} The node of which search the predecessor.
 		 * @return {RBNode} The node found.
 		 */
-		predecessor(node)
+		predecessor(node: RBNode)
 		{
 			if (node.left)
 				return this.maximum(node.left);
@@ -325,7 +325,7 @@ namespace ds
 		 * @param [callback = function(node){return(node.key===key);}] The condition to satisfy. The callback must accept the current node to check.
 		 * @return {*} The item found or undefined if there isn't the key in the tree.
 		 */
-		search(key, node?, callback?)
+		search(key: number, node?: RBNode, callback?: (node: RBNode) => boolean)
 		{
 			node = node || this.root;
 			callback = callback || function (node)
@@ -349,9 +349,9 @@ namespace ds
 		 * @param [callback = function(node){return(node.key===key);}] The condition to satisfy. The callback must accept the current node to check.
 		 * @return {boolean} True if the tree contains the key or a node that satisfy the condition, false otherwise.
 		 */
-		contains(key, callback?)
+		contains(key: number, callback?: (node: RBNode) => boolean)
 		{
-			return this.search(key, null, callback) !== undefined;
+			return this.search(key, <any>null, callback) !== undefined;
 		};
 
 		/**
@@ -360,7 +360,7 @@ namespace ds
 		 * @param callback {function} The condition to satisfy. The callback must accept the current node to check.
 		 * @return {boolean} True if the tree contains the node that satisfy the condition, false otherwise.
 		 */
-		fullContains(callback)
+		fullContains(callback: (key: number) => boolean)
 		{
 			var node = this.minimum();
 			while (node && !callback(node.key))
@@ -373,7 +373,7 @@ namespace ds
 		 * @param [node = root] {Node} The node from which start the search.
 		 * @return {RBNode} The node found.
 		 */
-		minimum(node?)
+		minimum(node?: RBNode)
 		{
 			node = node || this.root;
 			while (node && node.left)
@@ -386,7 +386,7 @@ namespace ds
 		 * @param [node = root] {Node} The node from which start the search.
 		 * @return {RBNode} The node found.
 		 */
-		maximum(node?)
+		maximum(node?: RBNode)
 		{
 			node = node || this.root;
 			while (node && node.right)
@@ -399,7 +399,7 @@ namespace ds
 		 * @param node {RBNode} The node to rotate.
 		 * @return {void}
 		 */
-		leftRotate(node)
+		leftRotate(node: RBNode)
 		{
 			var child = node.right;
 			node.right = child.left;
@@ -421,7 +421,7 @@ namespace ds
 		 * @param node {RBNode} The node to rotate.
 		 * @return {void}
 		 */
-		rightRotate(node)
+		rightRotate(node: RBNode)
 		{
 			var child = node.left;
 			node.left = child.right;
@@ -474,7 +474,7 @@ namespace ds
 			var it = this.getIterator();
 			for (it.first(); !it.isDone(); it.next())
 			{
-				var callback = function (node)
+				var callback = function (node: RBNode)
 				{
 					return node.key === it.getNode().key && node.item === it.getNode().item;
 				};
@@ -509,7 +509,7 @@ namespace ds
 		 */
 		clear()
 		{
-			this.root = null;
+			this.root = <any>null;
 			this.size = 0;
 		};
 
@@ -528,7 +528,7 @@ namespace ds
 		 * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
 		 * @return {void}
 		 */
-		execute(callback)
+		execute(callback: (item: any) => any)
 		{
 			for (var node = this.minimum(); node; node = this.successor(node))
 				node.item = callback(node.item);
@@ -539,7 +539,7 @@ namespace ds
 		 * @param callback {function} The function that implements the condition.
 		 * @return {Array<*>} The array that contains the items that satisfy the condition.
 		 */
-		filter(callback)
+		filter(callback: (item: any) => boolean)
 		{
 			var result = [];
 			for (var node = this.minimum(); node; node = this.successor(node))
@@ -554,7 +554,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The first position of the item.
 		 */
-		indexOf(item, callback?)
+		indexOf(item: any, callback?: (item: any) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -577,7 +577,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The last position of the item.
 		 */
-		lastIndexOf(item, callback?)
+		lastIndexOf(item: any, callback?: (item: any) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -600,7 +600,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {Array<number>} The positions in which the item has been found.
 		 */
-		allIndexesOf(item, callback?)
+		allIndexesOf(item: any, callback?: (item: any) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -623,7 +623,7 @@ namespace ds
 		 * @param index {number} The position of the item.
 		 * @return {*} The item at the position. It's undefined if index isn't in the tree bounds.
 		 */
-		getItem(index)
+		getItem(index: number)
 		{
 			if (index < 0 || index > this.size - 1)
 				return undefined;

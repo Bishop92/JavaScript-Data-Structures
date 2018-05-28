@@ -1779,7 +1779,7 @@ declare namespace ds {
      * @param [step=1] The step to sample the values
      * @return {Array<number>} The array containing the value of the range.
      */
-    function Range(from: any, to: any, step?: any): any[];
+    function Range(from: number, to: number, step?: number): number[];
 }
 declare namespace ds {
     class RBNode {
@@ -1792,22 +1792,22 @@ declare namespace ds {
          * The key of the node.
          * @type {number}
          */
-        key: any;
+        key: number;
         /**
          * The parent node. It's null if there's no a parent node.
          * @type {RBNode|null}
          */
-        parent: null;
+        parent: RBNode;
         /**
          * The left node. It's null if there's no a left node.
          * @type {RBNode|null}
          */
-        left: null;
+        left: RBNode;
         /**
          * The right node. It's null if there's no a right node.
          * @type {RBNode|null}
          */
-        right: null;
+        right: RBNode;
         /**
          * The type of the node. It's or red or black.
          * @type {string}
@@ -1819,14 +1819,14 @@ declare namespace ds {
          * @param item {*} The item to store in the node.
          * @constructor
          */
-        constructor(key: any, item: any);
+        constructor(key: number, item: any);
     }
     class RBTree extends Aggregate {
         /**
          * The root of the tree.
          * @type {RBNode|null}
          */
-        root: null;
+        root: RBNode;
         /**
          * The number of items stored in the tree.
          * @type {number}
@@ -1847,38 +1847,38 @@ declare namespace ds {
          * @param item {*} The item to store.
          * @return {void}
          */
-        insert(key: any, item: any): void;
+        insert(key: number, item: any): void;
         /**
          * Preserve the properties of the tree after an insert.
          * @param node {RBNode} The node to insert.
          * @return {void}
          */
-        insertFixUp(node: any): void;
+        insertFixUp(node: RBNode): void;
         /**
          * Delete the node from the tree.
          * @param node {RBNode} The node to delete.
          * @return {void}
          */
-        deleteNode(node: any): void;
+        deleteNode(node: RBNode): void;
         /**
          * Preserve the properties of the tree after a deletion.
          * @param node {RBNode} The node to delete.
          * @param parent {RBNode} The parent of the node.
          * @return {void}
          */
-        deleteFixUp(node: any, parent: any): void;
+        deleteFixUp(node: RBNode, parent: RBNode): void;
         /**
          * Get the node with the key next to the param node key.
          * @param node {RBNode} The node of which search the successor.
          * @return {RBNode} The node found.
          */
-        successor(node: any): any;
+        successor(node: RBNode): RBNode;
         /**
          * Get the node with the key previous to the param node key.
          * @param node {RBNode} The node of which search the predecessor.
          * @return {RBNode} The node found.
          */
-        predecessor(node: any): any;
+        predecessor(node: RBNode): RBNode;
         /**
          * Search the item relatives to the key and to the nodes that satisfy the condition represented by the callback function.
          * @param key {number} The key to find.
@@ -1886,7 +1886,7 @@ declare namespace ds {
          * @param [callback = function(node){return(node.key===key);}] The condition to satisfy. The callback must accept the current node to check.
          * @return {*} The item found or undefined if there isn't the key in the tree.
          */
-        search(key: any, node?: any, callback?: any): any;
+        search(key: number, node?: RBNode, callback?: (node: RBNode) => boolean): any;
         /**
          * Checks if the tree contains a key or a node that satisfy the condition represented by the callback function.
          * This method avoid to search in branches where the key won't be found.
@@ -1894,38 +1894,38 @@ declare namespace ds {
          * @param [callback = function(node){return(node.key===key);}] The condition to satisfy. The callback must accept the current node to check.
          * @return {boolean} True if the tree contains the key or a node that satisfy the condition, false otherwise.
          */
-        contains(key: any, callback?: any): boolean;
+        contains(key: number, callback?: (node: RBNode) => boolean): boolean;
         /**
          * Checks if the tree contains a node that satisfy the condition represented by the callback function.
          * This method check all the tree avoiding the binary search.
          * @param callback {function} The condition to satisfy. The callback must accept the current node to check.
          * @return {boolean} True if the tree contains the node that satisfy the condition, false otherwise.
          */
-        fullContains(callback: any): boolean;
+        fullContains(callback: (key: number) => boolean): boolean;
         /**
          * Get the item relatives to the minimum key stored in the tree.
          * @param [node = root] {Node} The node from which start the search.
          * @return {RBNode} The node found.
          */
-        minimum(node?: any): any;
+        minimum(node?: RBNode): RBNode;
         /**
          * Get the item relatives to the maximum key stored in the tree.
          * @param [node = root] {Node} The node from which start the search.
          * @return {RBNode} The node found.
          */
-        maximum(node?: any): any;
+        maximum(node?: RBNode): RBNode;
         /**
          * Rotate the node with its right child.
          * @param node {RBNode} The node to rotate.
          * @return {void}
          */
-        leftRotate(node: any): void;
+        leftRotate(node: RBNode): void;
         /**
          * Rotate the node with its left child.
          * @param node {RBNode} The node to rotate.
          * @return {void}
          */
-        rightRotate(node: any): void;
+        rightRotate(node: RBNode): void;
         /**
          * Returns the size of the tree.
          * @return {number} The size of the tree.
@@ -1962,40 +1962,40 @@ declare namespace ds {
          * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
          * @return {void}
          */
-        execute(callback: any): void;
+        execute(callback: (item: any) => any): void;
         /**
          * Returns the items that satisfy the condition determined by the callback.
          * @param callback {function} The function that implements the condition.
          * @return {Array<*>} The array that contains the items that satisfy the condition.
          */
-        filter(callback: any): any[];
+        filter(callback: (item: any) => boolean): any[];
         /**
          * Returns the first position of the item in the tree.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The first position of the item.
          */
-        indexOf(item: any, callback?: any): number;
+        indexOf(item: any, callback?: (item: any) => boolean): number;
         /**
          * Returns the last position of the item in the tree.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The last position of the item.
          */
-        lastIndexOf(item: any, callback?: any): number;
+        lastIndexOf(item: any, callback?: (item: any) => boolean): number;
         /**
          * Returns all the position in which the item has been found in the tree.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback?: any): number[];
+        allIndexesOf(item: any, callback?: (item: any) => boolean): number[];
         /**
          * Returns the item at the position index.
          * @param index {number} The position of the item.
          * @return {*} The item at the position. It's undefined if index isn't in the tree bounds.
          */
-        getItem(index: any): any;
+        getItem(index: number): any;
     }
 }
 /**
@@ -2008,18 +2008,18 @@ declare namespace ds {
          * The aggregate relates to this iterator.
          * @type {RBTree}
          */
-        aggregate: any;
+        aggregate: RBTree;
         /**
          * The pointer to the position.
          * @type {RBNode|null}
          */
-        pointer: null;
+        pointer: RBNode;
         /**
          * Class that implements the iterator for a red-black tree.
          * @param aggregate {RBTree} The aggregate to scan.
          * @constructor
          */
-        constructor(aggregate: any);
+        constructor(aggregate: RBTree);
         /**
          * @inheritDoc
          */
@@ -2049,7 +2049,7 @@ declare namespace ds {
          * @abstract
          * @return {RBNode|null} The node stored or null if it's out of the bounds.
          */
-        getNode(): null;
+        getNode(): RBNode;
     }
 }
 declare namespace ds {
