@@ -1,0 +1,25 @@
+/**
+ * Created by Stefano on 01/02/2015.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
+ */
+namespace ds
+{
+    /**
+     * Create an array containing the value of the range
+     * @param from {number} The inclusive start value of the range.
+     * @param to {number} The inclusive end value of the range.
+     * @param [step=1] The step to sample the values
+     * @return {Array<number>} The array containing the value of the range.
+     */
+    export function Range(from: number, to: number, step?: number)
+    {
+        var range = [];
+        step = step || 1;
+        var sign = (step > 0 ? 1 : -1);
+
+        for (var i = 0; from * sign <= to * sign; from += step, ++i)
+            range[i] = from;
+
+        return range;
+    }
+}
