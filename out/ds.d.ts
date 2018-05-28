@@ -131,7 +131,7 @@ declare namespace ds {
          * @param item {*} The item to store.
          * @return {void}
          */
-        insertNonFull(node: BNode<T>, key: number, item: any): void;
+        insertNonFull(node: BNode<T>, key: number, item: T): void;
         /**
          * Search the item relatives to the key that satisfy the condition represented by the callback function.
          * @param key {Number} The key to find.
@@ -238,7 +238,7 @@ declare namespace ds {
          * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
          * @return {void}
          */
-        execute(callback: (item: any) => any, node?: BNode<T>): void;
+        execute(callback: (item: T) => T, node?: BNode<T>): void;
         /**
          * Removes all the items stored in the tree.
          * @return {void}
@@ -249,7 +249,7 @@ declare namespace ds {
          * @param callback {function} The function that implements the condition.
          * @return {Array<*>} The array that contains the items that satisfy the condition.
          */
-        filter(callback: (node: any) => boolean, node?: BNode<T>): T[];
+        filter(callback: (item: T) => boolean, node?: BNode<T>): T[];
         /**
          * Clones the tree into a new tree.
          * @return {BTree} The tree cloned from this tree.
@@ -271,21 +271,21 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The first position of the item.
          */
-        indexOf(item: any, callback?: (item: any) => boolean): number;
+        indexOf(item: T, callback?: (item: T) => boolean): number;
         /**
          * Returns the last position of the item in the tree.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The last position of the item.
          */
-        lastIndexOf(item: any, callback?: (item: any) => boolean): number;
+        lastIndexOf(item: T, callback?: (item: T) => boolean): number;
         /**
          * Returns all the position in which the item has been found in the tree.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback?: (item: any) => boolean): number[];
+        allIndexesOf(item: T, callback?: (item: T) => boolean): number[];
         /**
          * Returns the item at the position index.
          * @param index {number} The position of the item.
@@ -503,7 +503,7 @@ declare namespace ds {
  * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
-    class CircularBuffer extends Aggregate {
+    class CircularBuffer<T> extends Aggregate {
         /**
          * The index of the position of the head of the buffer.
          * @type {number}
@@ -518,7 +518,7 @@ declare namespace ds {
          * The items stored in the buffer.
          * @type {Array<*>}
          */
-        items: any[];
+        items: T[];
         /**
          * Is true if buffer is empty, false otherwise.
          * @type {boolean}
@@ -543,13 +543,13 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getIterator(): CircularBufferIterator;
+        getIterator(): CircularBufferIterator<T>;
         /**
          * Write the item at the head of the buffer.
          * @param item {*} The item to write.
          * @return {void}
          */
-        write(item: any): void;
+        write(item: T): void;
         /**
          * Free the buffer between indexes from and to.
          * If from > to, positions between from and the end of the buffer and between the start and to will be free.
@@ -568,7 +568,7 @@ declare namespace ds {
          * @param index {Number} The position of the item to read.
          * @return {*} The item read.
          */
-        read(index: number): any;
+        read(index: number): T;
         /**
          * Return true if the buffer is empty, false otherwise.
          * @return {boolean}
@@ -583,7 +583,7 @@ declare namespace ds {
          * Clones the circular buffer into a new circular buffer.
          * @return {CircularBuffer} The circular buffer cloned from this circular buffer.
          */
-        clone(): CircularBuffer;
+        clone(): CircularBuffer<T>;
         /**
          * Resize the buffer.
          * @param size {number} The new size of the buffer.
@@ -597,12 +597,12 @@ declare namespace ds {
  * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
-    class CircularBufferIterator implements Iterator {
+    class CircularBufferIterator<T> implements Iterator {
         /**
          * The aggregate relates to this iterator.
          * @type {CircularBuffer}
          */
-        aggregate: CircularBuffer;
+        aggregate: CircularBuffer<T>;
         /**
          * The pointer to the position.
          * @type {number}
@@ -618,7 +618,7 @@ declare namespace ds {
          * @param aggregate {CircularBuffer} The aggregate to scan.
          * @constructor
          */
-        constructor(aggregate: CircularBuffer);
+        constructor(aggregate: CircularBuffer<T>);
         /**
          * @inheritDoc
          */
@@ -642,7 +642,7 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getItem(): any;
+        getItem(): T;
     }
 }
 /**
@@ -650,40 +650,40 @@ declare namespace ds {
  * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
-    class DLLNode {
+    class DLLNode<T> {
         /**
          * The item stored.
          * @type {*}
          */
-        item: any;
+        item: T;
         /**
          * The next node. It's null if there's no a next node.
          * @type {DLLNode|null}
          */
-        next: DLLNode;
+        next: DLLNode<T>;
         /**
          * The previous node. It's null if there's no a previous node.
          * @type {DLLNode|null}
          */
-        previous: DLLNode;
+        previous: DLLNode<T>;
         /**
          * The single node of the list.
          * @param item {*} The item to store in the node.
          * @constructor
          */
-        constructor(item: any);
+        constructor(item: T);
     }
-    class DoubleLinkedList extends Aggregate {
+    class DoubleLinkedList<T> extends Aggregate {
         /**
          * The first node of the list.
          * @type {DLLNode|null}
          */
-        first: DLLNode;
+        first: DLLNode<T>;
         /**
          * The last node of the list.
          * @type {DLLNode|null}
          */
-        last: DLLNode;
+        last: DLLNode<T>;
         /**
          * The length of the list.
          * @type {number}
@@ -698,7 +698,7 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getIterator(): DoubleLinkedListIterator;
+        getIterator(): DoubleLinkedListIterator<T>;
         /**
          * Add an item at the head of the list.
          * @param item {*} The item to add.
@@ -710,61 +710,61 @@ declare namespace ds {
          * @param item {*} The item to add.
          * @return {void}
          */
-        pushBack(item: any): void;
+        pushBack(item: T): void;
         /**
          * Remove the first item of the list.
          * @return {*} The item removed. It's undefined if the list is empty.
          */
-        popFront(): any;
+        popFront(): T | undefined;
         /**
          * Remove the last item of the list.
          * @return {*} The item removed. It's undefined if the list is empty.
          */
-        popBack(): any;
+        popBack(): T | undefined;
         /**
          * Removes the first times items of the list.
          * @param times {number} The number of times to repeat the popFront method.
          * @return {*} The item removed. It's undefined if the list is empty.
          */
-        multiPopFront(times: number): any[];
+        multiPopFront(times: number): (T | undefined)[];
         /**
          * Removes the last times items of the list.
          * @param times {number} The number of times to repeat the popBack method.
          * @return {*} The items removed.
          */
-        multiPopBack(times: number): any[];
+        multiPopBack(times: number): (T | undefined)[];
         /**
          * Returns the first item of the list without remove it.
          * @return {*} The item at the top of the list. It's undefined if the list is empty.
          */
-        peek(): any;
+        peek(): T | undefined;
         /**
          * Add the item at the index position.
          * @param item {*} The item to add.
          * @param index {number} The position where to add the item. If index is negative, the item won't be added.
          * @return {void}
          */
-        addAt(item: any, index: number): void;
+        addAt(item: T, index: number): void;
         /**
          * Remove the item at the position index.
          * @param index {Number} The position of the item to remove.
          * @return {*} The item stored at the position index. It's undefined if the index is out of bounds.
          */
-        removeAt(index: number): any;
+        removeAt(index: number): T | undefined;
         /**
          * Removes the item from the list.
          * @param item {*} The item to remove.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {void}
          */
-        remove(item: any, callback?: (item: any) => boolean): void;
+        remove(item: T, callback?: (item: T) => boolean): void;
         /**
          * Removes all the item from the list.
          * @param item {*} The item to remove.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {void}
          */
-        removeAll(item: any, callback?: (item: any) => boolean): void;
+        removeAll(item: T, callback?: (item: T) => boolean): void;
         /**
          * Removes all the items stored from the from position to the to position.
          * If from > to, the method will remove all the items up to the end.
@@ -772,14 +772,14 @@ declare namespace ds {
          * @param to {number} The position where stop to remove the items. The to position is included.
          * @return {Array<*>} The items removed.
          */
-        removeSegment(from: number, to: number): any[];
+        removeSegment(from: number, to: number): (T | undefined)[];
         /**
          * Change the item stored in the index position. If the index is out of bound, the node won't be updated.
          * @param index {number} The position of the node to modify.
          * @param item {*} The new item stored in the node.
          * @return {void}
          */
-        modifyAt(index: number, item: any): void;
+        modifyAt(index: number, item: T): void;
         /**
          * Removes all the items stored in the list.
          * @return {void}
@@ -791,33 +791,33 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {boolean} True if the list contains the item that satisfy the condition, false otherwise.
          */
-        contains(item: any, callback?: (item: any) => boolean): boolean;
+        contains(item: T, callback?: (item: T) => boolean): boolean;
         /**
          * Executes the callback function for each item of the stack.
          * This method modifies the list so if you don't need to modify it you must return the same item of the array.
          * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
          * @return {void}
          */
-        execute(callback: (item: any) => any): void;
+        execute(callback: (item: T) => T): void;
         /**
          * Delete the node from the list.
          * @param node {DLLNode} The node to delete.
          * @return {void}
          */
-        deleteNode(node: DLLNode): void;
+        deleteNode(node: DLLNode<T>): void;
         /**
          * Get the node at the position index relative from the node.
          * @param index {Number} The index, relative to the node, of the node to return.
          * @param [node = first] {DLLNode} The node from which start the search.
          * @return {DLLNode} The node at the position index.
          */
-        getNode(index: number, node?: DLLNode): DLLNode | undefined;
+        getNode(index: number, node?: DLLNode<T>): DLLNode<T> | undefined;
         /**
          * Get the item at the position index.
          * @param index {Number} The position of the item.
          * @return {*}. It's undefined if index isn't in the queue bounds.
          */
-        getItem(index: number): any;
+        getItem(index: number): T | undefined;
         /**
          * Sort the list.
          * @param [callback = function(item){return(item);}] {function} The function invoked in order to get the value for the evaluation of the sort criteria.
@@ -826,12 +826,12 @@ declare namespace ds {
          * This function callback will return the opposite of the attribute key of the item. In this case the list will be sorted in descending order.
          * @return {void}
          */
-        sort(callback?: (item: any) => number): void;
+        sort(callback?: (item: T) => number): void;
         /**
          * Transform the list into an array.
          * @return {Array<*>} The array built.
          */
-        toArray(): any[];
+        toArray(): T[];
         /**
          * Returns the length of the list.
          * @return {Number} The length of the list.
@@ -842,13 +842,13 @@ declare namespace ds {
          * @param array {Array<*>} The array from which build the list.
          * @return {void}
          */
-        fromArray(array: any[]): void;
+        fromArray(array: T[]): void;
         /**
          * Return the items that satisfy the condition determined by the callback.
          * @param callback {function} The function that implements the condition.
          * @return {Array<Object>} The array that contains the items that satisfy the condition.
          */
-        filter(callback: (item: any) => boolean): any[];
+        filter(callback: (item: T) => boolean): T[];
         /**
          * Reverse the list. This method reverses only the items, not the nodes.
          * @return {void}
@@ -865,55 +865,55 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The first position of the item.
          */
-        indexOf(item: any, callback?: (item: any) => boolean): number;
+        indexOf(item: T, callback?: (item: T) => boolean): number;
         /**
          * Returns the last position of the item in the list.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The last position of the item.
          */
-        lastIndexOf(item: any, callback?: (item: any) => boolean): number;
+        lastIndexOf(item: T, callback?: (item: T) => boolean): number;
         /**
          * Returns all the position in which the item has been found in the list.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback?: (item: any) => boolean): number[];
+        allIndexesOf(item: T, callback?: (item: T) => boolean): number[];
         /**
          * Add the list at the end of this list.
          * @param list {DoubleLinkedList} The list to join.
          * @return {void}
          */
-        join(list: DoubleLinkedList): void;
+        join(list: DoubleLinkedList<T>): void;
         /**
          * Divides the list at the index position. The node at the index position is the first new node of the list.
          * @param index {number} The position where to divide the list.
          * @return {DoubleLinkedList} The list formed by the nodes from the index position then. If the index is out of bound, the list will be empty.
          */
-        divide(index: number): DoubleLinkedList;
+        divide(index: number): DoubleLinkedList<T>;
         /**
          * Clones the list into a new list.
          * @return {DoubleLinkedList} The list cloned from this list.
          */
-        clone(): DoubleLinkedList;
+        clone(): DoubleLinkedList<T>;
         /**
          * Clones the list into a new list without cloning duplicated items.
          * @return {DoubleLinkedList} The list cloned from this list.
          */
-        cloneDistinct(): DoubleLinkedList;
+        cloneDistinct(): DoubleLinkedList<T>;
         /**
          * Splits the list into lists of desired size.
          * @param size {number} The size of the lists.
          * @return {Array<DoubleLinkedList>} The lists created by splitting the list.
          */
-        split(size: number): DoubleLinkedList[];
+        split(size: number): DoubleLinkedList<T>[];
         /**
          * Returns the number of items that satisfy the represented by the callback function.
          * @param callback {function} The condition to satisfy.
          * @return {number} The number of items that satisfy the condition.
          */
-        count(callback: (item: boolean) => boolean): number;
+        count(callback: (item: T) => boolean): number;
     }
 }
 /**
@@ -921,23 +921,23 @@ declare namespace ds {
  * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
-    class DoubleLinkedListIterator implements Iterator {
+    class DoubleLinkedListIterator<T> implements Iterator {
         /**
          * The aggregate relates to this iterator.
          * @type {DoubleLinkedList}
          */
-        aggregate: DoubleLinkedList;
+        aggregate: DoubleLinkedList<T>;
         /**
          * The pointer to the position.
          * @type {Node|null}
          */
-        pointer: DLLNode;
+        pointer: DLLNode<T>;
         /**
          * Class that implements the iterator for a double linked list.
          * @param aggregate {DoubleLinkedList} The aggregate to scan.
          * @constructor
          */
-        constructor(aggregate: DoubleLinkedList);
+        constructor(aggregate: DoubleLinkedList<T>);
         /**
          * @inheritDoc
          */
@@ -961,13 +961,13 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getItem(): any;
+        getItem(): T;
         /**
          * Return the node stored at the position pointed by the iterator.
          * @abstract
          * @return {Node|null} The node stored or null if it's out of the bounds.
          */
-        getNode(): DLLNode;
+        getNode(): DLLNode<T>;
     }
 }
 /**
@@ -975,7 +975,7 @@ declare namespace ds {
  * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
-    class HashTable {
+    class HashTable<T> {
         /**
          * The size of the table
          * @type {number}
@@ -994,7 +994,10 @@ declare namespace ds {
          * The items stored in the hash table.
          * @type {Array<DoubleLinkedList>}
          */
-        items: DoubleLinkedList[];
+        items: DoubleLinkedList<{
+            key: number;
+            item: T;
+        }>[];
         /**
          * The number of keys stored in the hash table.
          * @type {number}
@@ -1011,7 +1014,7 @@ declare namespace ds {
          * @param key {number} The key relatives to the item.
          * @param item {*} The item to store.
          */
-        insert(key: number, item: any): void;
+        insert(key: number, item: T): void;
         /**
          * Deletes the first item relatives to the key value.
          * @param key {number} The key to delete.
@@ -1029,7 +1032,7 @@ declare namespace ds {
          * @param key {number} The key of the item to search.
          * @return {*|undefined} The item found or undefined if the key does not exist.
          */
-        search(key: number): any;
+        search(key: number): T | undefined;
         /**
          * Checks if the hash table contains a key that satisfy the condition represented by the callback function.
          * @param key {number} The key to find.
@@ -1042,17 +1045,17 @@ declare namespace ds {
          * @param key {number} The key of the items to search.
          * @return {Array.<*>} An array with the items found.
          */
-        searchAll(key: number): any[];
+        searchAll(key: number): T[];
         /**
          * Returns the keys stored in the hash table.
          * @return {Array<number>} The keys stored in the table.
          */
-        getKeys(): any[];
+        getKeys(): number[];
         /**
          * Returns the items stored in the hash table.
          * @return {Array<*>} The items stored in the table.
          */
-        getItems(): any[];
+        getItems(): T[];
         /**
          * Removes all the keys and the items stored in the hash table.
          * @return {void}
@@ -1074,13 +1077,22 @@ declare namespace ds {
          * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
          * @return {void}
          */
-        execute(callback: (item: any) => any): void;
+        execute(callback: (item: {
+            key: number;
+            item: T;
+        }) => {
+            key: number;
+            item: T;
+        }): void;
         /**
          * Returns the items that satisfy the condition determined by the callback.
          * @param callback {function} The function that implements the condition.
          * @return {Array<*>} The array that contains the items that satisfy the condition.
          */
-        filter(callback: (item: any) => boolean): any[];
+        filter(callback: (item: {
+            key: number;
+            item: T;
+        }) => boolean): any[];
         /**
          * Returns the size of the hash table.
          * @return {number} The size of the hash table.
@@ -2344,32 +2356,32 @@ declare namespace ds {
  * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
-    class Element {
-        parents: DoubleLinkedList;
-        item: any;
+    class Element<T> {
+        parents: DoubleLinkedList<Set<T>>;
+        item: Set<T>;
         /**
          * Class for representing an element of a set.
          * @param item {*} The item to store in the element.
          * @constructor
          */
-        constructor(item: any);
+        constructor(item: Set<T>);
     }
-    class Set {
+    class Set<T> {
         /**
          * The parents of the set.
          * @type {DoubleLinkedList}
          */
-        parents: DoubleLinkedList;
+        parents: DoubleLinkedList<Set<T>>;
         /**
          * The elements stored.
          * @type {DoubleLinkedList}
          */
-        elements: DoubleLinkedList;
+        elements: DoubleLinkedList<Element<T>>;
         /**
          * The subsets of this set.
          * @type {DoubleLinkedList}
          */
-        sets: DoubleLinkedList;
+        sets: DoubleLinkedList<Set<T>>;
         /**
          * The size of the set. It's equal to his cardinality.
          * @type {number}
@@ -2385,52 +2397,52 @@ declare namespace ds {
          * @param element {Element} The element to add.
          * @return {void}
          */
-        insert(element: Element): void;
+        insert(element: Element<T>): void;
         /**
          * Add the elements to the set.
          * @param elements {Array<Element>} The elements to add.
          * @return {void}
          */
-        multiInsert(elements: Element[]): void;
+        multiInsert(elements: Element<T>[]): void;
         /**
          * Returns the set that represents the union of two sets.
          * @param set {Set} The set with make the union.
          * @return {Set} The set that represents the union.
          */
-        union(set: Set): Set;
+        union(set: Set<T>): Set<T>;
         /**
          * Returns the set that represents the intersection of two sets.
          * @param set {Set} The set to intersect with this.
          * @return {Set} The set that represents the intersection.
          */
-        intersect(set: Set): Set;
+        intersect(set: Set<T>): Set<T>;
         /**
          * Returns the set that represents the difference of two sets.
          * @param set {Set} The set to difference with this.
          * @return {Set} The set that represents the difference.
          */
-        difference(set: Set): Set;
+        difference(set: Set<T>): Set<T>;
         /**
          * Returns the set that represents the cartesian product of two sets.
          * @param set {Set} The set to make the cartesian product with this.
          * @return {Set} The set that represents the cartesian product .
          */
-        cartesianProduct(set: Set): Set;
+        cartesianProduct(set: Set<T>): Set<{}>;
         /**
          * Add the subset.
          * @param set {Set} The subset.
          */
-        addSubset(set: Set): void;
+        addSubset(set: Set<T>): void;
         /**
          * Add the subsets.
          * @param sets {Array<Set>} The subsets.
          */
-        addSubsets(sets: Set[]): void;
+        addSubsets(sets: Set<T>[]): void;
         /**
          * Returns the items that are stored in the set.
          * @return {Array} The items stored.
          */
-        getItems(): any[];
+        getItems(): Set<T>[];
         /**
          * Returns the cardinality of the set.
          * @return {number} The cardinality of the set.
@@ -2445,7 +2457,7 @@ declare namespace ds {
          * Clones the set into a new set.
          * @return {Set} The set cloned from this set.
          */
-        clone(): Set;
+        clone(): Set<T>;
     }
 }
 /**

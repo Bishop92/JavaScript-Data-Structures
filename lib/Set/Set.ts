@@ -4,40 +4,39 @@
  */
 namespace ds
 {
-	export class Element
+	export class Element<T>
 	{
-		parents: DoubleLinkedList;
-		item: any;
+		parents: DoubleLinkedList<Set<T>>;
+		item: Set<T>;
 		/**
 		 * Class for representing an element of a set.
 		 * @param item {*} The item to store in the element.
 		 * @constructor
 		 */
-		constructor(item: any)
+		constructor(item: Set<T>)
 		{
-			this.parents = new DoubleLinkedList();
+			this.parents = new DoubleLinkedList<Set<T>>();
 			this.item = item;
 		}
 	}
 
-	export class Set
+	export class Set<T>
 	{
-
 		/**
 		 * The parents of the set.
 		 * @type {DoubleLinkedList}
 		 */
-		parents: DoubleLinkedList;
+		parents: DoubleLinkedList<Set<T>>;
 		/**
 		 * The elements stored.
 		 * @type {DoubleLinkedList}
 		 */
-		elements: DoubleLinkedList;
+		elements: DoubleLinkedList<Element<T>>;
 		/**
 		 * The subsets of this set.
 		 * @type {DoubleLinkedList}
 		 */
-		sets: DoubleLinkedList;
+		sets: DoubleLinkedList<Set<T>>;
 		/**
 		 * The size of the set. It's equal to his cardinality.
 		 * @type {number}
@@ -56,13 +55,12 @@ namespace ds
 			this.size = 0;
 		}
 
-
 		/**
 		 * Add the element to the set.
 		 * @param element {Element} The element to add.
 		 * @return {void}
 		 */
-		insert(element: Element)
+		insert(element: Element<T>)
 		{
 			this.elements.pushBack(element);
 			element.parents.pushBack(this);
@@ -74,7 +72,7 @@ namespace ds
 		 * @param elements {Array<Element>} The elements to add.
 		 * @return {void}
 		 */
-		multiInsert(elements: Element[])
+		multiInsert(elements: Element<T>[])
 		{
 			for (var i = 0; i < elements.length; i++)
 			{
@@ -89,26 +87,28 @@ namespace ds
 		 * @param set {Set} The set with make the union.
 		 * @return {Set} The set that represents the union.
 		 */
-		union(set: Set)
+		union(set: Set<T>)
 		{
-			var parent = new Set();
+			var parent = new Set<T>();
 			parent.addSubsets([this, set]);
 			this.parents.pushBack(parent);
 			set.parents.pushBack(parent);
 			//change the parent of the subset
 			var that = this;
-			var f = function (item: any)
+			var f = function (item: Set<T>): Set<T>
 			{
 				if (item === that)
 					return parent;
+				return <any>undefined;
 			};
 			var it = this.sets.getIterator();
 			for (it.first(); !it.isDone(); it.next())
 				it.getItem().parents.execute(f);
-			f = function (item)
+			f = function (item): Set<T>
 			{
 				if (item === set)
 					return parent;
+				return <any>undefined;
 			};
 			it = set.sets.getIterator();
 			for (it.first(); !it.isDone(); it.next())
@@ -121,9 +121,9 @@ namespace ds
 		 * @param set {Set} The set to intersect with this.
 		 * @return {Set} The set that represents the intersection.
 		 */
-		intersect(set: Set)
+		intersect(set: Set<T>)
 		{
-			var intersection = new Set();
+			var intersection = new Set<T>();
 			//intersect this set with the set
 			var el = this.elements.getIterator();
 			for (el.first(); !el.isDone(); el.next())
@@ -147,9 +147,9 @@ namespace ds
 		 * @param set {Set} The set to difference with this.
 		 * @return {Set} The set that represents the difference.
 		 */
-		difference(set: Set)
+		difference(set: Set<T>)
 		{
-			var diff = new Set();
+			var diff = new Set<T>();
 			//intersect this set with the set
 			var el = this.elements.getIterator();
 			for (el.first(); !el.isDone(); el.next())
@@ -173,7 +173,7 @@ namespace ds
 		 * @param set {Set} The set to make the cartesian product with this.
 		 * @return {Set} The set that represents the cartesian product .
 		 */
-		cartesianProduct(set: Set)
+		cartesianProduct(set: Set<T>)
 		{
 			var el1 = this.getItems();
 			var el2 = set.getItems();
@@ -188,7 +188,7 @@ namespace ds
 		 * Add the subset.
 		 * @param set {Set} The subset.
 		 */
-		addSubset(set: Set)
+		addSubset(set: Set<T>)
 		{
 			this.sets.pushBack(set);
 			this.size += set.size;
@@ -198,7 +198,7 @@ namespace ds
 		 * Add the subsets.
 		 * @param sets {Array<Set>} The subsets.
 		 */
-		addSubsets(sets: Set[])
+		addSubsets(sets: Set<T>[])
 		{
 			for (var i = 0; i < sets.length; i++)
 				this.addSubset(sets[i]);
@@ -251,7 +251,7 @@ namespace ds
 		 */
 		clone()
 		{
-			var s = new Set();
+			var s = new Set<T>();
 			s.parents = this.parents.clone();
 			s.elements = this.elements.clone();
 			s.sets = this.sets.clone();

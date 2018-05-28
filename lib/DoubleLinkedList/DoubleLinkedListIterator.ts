@@ -4,26 +4,26 @@
  */
 namespace ds
 {
-	export class DoubleLinkedListIterator implements Iterator
+	export class DoubleLinkedListIterator<T> implements Iterator
 	{
 		/**
 		 * The aggregate relates to this iterator.
 		 * @type {DoubleLinkedList}
 		 */
-		aggregate: DoubleLinkedList;
+		aggregate: DoubleLinkedList<T>;
 
 		/**
 		 * The pointer to the position.
 		 * @type {Node|null}
 		 */
-		pointer: DLLNode = <any>null;
+		pointer: DLLNode<T> = <any>null;
 
 		/**
 		 * Class that implements the iterator for a double linked list.
 		 * @param aggregate {DoubleLinkedList} The aggregate to scan.
 		 * @constructor
 		 */
-		constructor(aggregate: DoubleLinkedList)
+		constructor(aggregate: DoubleLinkedList<T>)
 		{
 			this.aggregate = aggregate;
 		}

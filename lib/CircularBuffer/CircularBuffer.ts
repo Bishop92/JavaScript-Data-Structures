@@ -4,7 +4,7 @@
  */
 namespace ds
 {
-	export class CircularBuffer extends Aggregate
+	export class CircularBuffer<T> extends Aggregate
 	{
 
 		/**
@@ -21,7 +21,7 @@ namespace ds
 		 * The items stored in the buffer.
 		 * @type {Array<*>}
 		 */
-		items: any[] = [];
+		items: T[] = [];
 		/**
 		 * Is true if buffer is empty, false otherwise.
 		 * @type {boolean}
@@ -55,7 +55,7 @@ namespace ds
 		 */
 		getIterator()
 		{
-			return new CircularBufferIterator(this);
+			return new CircularBufferIterator<T>(this);
 		};
 
 		/**
@@ -63,7 +63,7 @@ namespace ds
 		 * @param item {*} The item to write.
 		 * @return {void}
 		 */
-		write(item: any)
+		write(item: T)
 		{
 			this.empty = false;
 			if (this.full)
@@ -175,7 +175,7 @@ namespace ds
 		 */
 		clone()
 		{
-			var buffer = new CircularBuffer(this.size);
+			var buffer = new CircularBuffer<T>(this.size);
 			buffer.head = this.head;
 			buffer.tail = this.tail;
 			for (var i = 0; i < this.items.length; i++)

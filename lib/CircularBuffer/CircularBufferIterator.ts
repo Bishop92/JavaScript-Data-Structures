@@ -5,13 +5,13 @@
 namespace ds
 {
 
-	export class CircularBufferIterator implements Iterator
+	export class CircularBufferIterator<T> implements Iterator
 	{
 		/**
 		 * The aggregate relates to this iterator.
 		 * @type {CircularBuffer}
 		 */
-		aggregate: CircularBuffer;
+		aggregate: CircularBuffer<T>;
 
 		/**
 		 * The pointer to the position.
@@ -29,11 +29,10 @@ namespace ds
 		 * @param aggregate {CircularBuffer} The aggregate to scan.
 		 * @constructor
 		 */
-		constructor(aggregate: CircularBuffer)
+		constructor(aggregate: CircularBuffer<T>)
 		{
 			this.aggregate = aggregate;
 		}
-
 
 		/**
 		 * @inheritDoc

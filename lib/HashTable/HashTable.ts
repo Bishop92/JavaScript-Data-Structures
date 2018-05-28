@@ -4,7 +4,7 @@
  */
 namespace ds
 {
-	export class HashTable
+	export class HashTable<T>
 	{
 
 		/**
@@ -30,7 +30,7 @@ namespace ds
 		 * The items stored in the hash table.
 		 * @type {Array<DoubleLinkedList>}
 		 */
-		items: DoubleLinkedList[] = [];
+		items: DoubleLinkedList<{ key: number, item: T }>[] = [];
 
 		/**
 		 * The number of keys stored in the hash table.
@@ -66,7 +66,7 @@ namespace ds
 		 * @param key {number} The key relatives to the item.
 		 * @param item {*} The item to store.
 		 */
-		insert(key: number, item: any)
+		insert(key: number, item: T)
 		{
 			this.keyLength++;
 			this.items[this.hash(key)].pushBack({ key: key, item: item });
@@ -228,7 +228,7 @@ namespace ds
 		 * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
 		 * @return {void}
 		 */
-		execute(callback: (item: any) => any)
+		execute(callback: (item: { key: number; item: T; }) => { key: number; item: T; })
 		{
 			for (var i = 0; i < this.size; i++)
 				this.items[i].execute(callback);
@@ -239,7 +239,7 @@ namespace ds
 		 * @param callback {function} The function that implements the condition.
 		 * @return {Array<*>} The array that contains the items that satisfy the condition.
 		 */
-		filter(callback: (item: any) => boolean)
+		filter(callback: (item: { key: number; item: T; }) => boolean)
 		{
 			var result: any[] = [];
 			for (var i = 0; i < this.size; i++)

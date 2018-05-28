@@ -99,7 +99,7 @@ namespace ds
 		 * @param item {*} The item to store.
 		 * @return {void}
 		 */
-		insertNonFull(node: BNode<T>, key: number, item: any)
+		insertNonFull(node: BNode<T>, key: number, item: T)
 		{
 			while (node)
 			{
@@ -596,7 +596,7 @@ namespace ds
 		 * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
 		 * @return {void}
 		 */
-		execute(callback: (item: any) => any, node?: BNode<T>)
+		execute(callback: (item: T) => T, node?: BNode<T>)
 		{
 			node = node || this.root;
 			for (var i = 0; i < node.items.length; i++)
@@ -620,7 +620,7 @@ namespace ds
 		 * @param callback {function} The function that implements the condition.
 		 * @return {Array<*>} The array that contains the items that satisfy the condition.
 		 */
-		filter(callback: (node: any) => boolean, node?: BNode<T>)
+		filter(callback: (item: T) => boolean, node?: BNode<T>)
 		{
 			var result: T[] = [];
 			node = node || this.root;
@@ -701,7 +701,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The first position of the item.
 		 */
-		indexOf(item: any, callback?: (item: any) => boolean)
+		indexOf(item: T, callback?: (item: T) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -724,7 +724,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The last position of the item.
 		 */
-		lastIndexOf(item: any, callback?: (item: any) => boolean)
+		lastIndexOf(item: T, callback?: (item: T) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -747,7 +747,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {Array<number>} The positions in which the item has been found.
 		 */
-		allIndexesOf(item: any, callback?: (item: any) => boolean)
+		allIndexesOf(item: T, callback?: (item: T) => boolean)
 		{
 			callback = callback || function (it)
 			{

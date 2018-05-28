@@ -166,7 +166,7 @@ QUnit.test("DoubleLinkedList - Sort with callback test", function (assert)
 
 QUnit.test("DoubleLinkedList - Filter test", function (assert)
 {
-	var list = new ds.DoubleLinkedList();
+	var list = new ds.DoubleLinkedList<number>();
 	const length = 100;
 
 	for (var i = 0; i < length; i++)

@@ -85,7 +85,7 @@ QUnit.test("BTree - To array test", function (assert)
 
 QUnit.test("BTree - Filter test", function (assert)
 {
-	var tree = new ds.BTree(3);
+	var tree = new ds.BTree<number>(3);
 
 	for (var i = 0; i < 10; i++)
 		tree.insert(i, i);

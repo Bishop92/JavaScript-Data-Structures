@@ -2018,11 +2018,13 @@ var ds;
         DoubleLinkedList.prototype.clone = function () {
             var list = new DoubleLinkedList();
             var node = this.first;
-            for (var i = 0; i < this.length; i++, node = node.next)
-                if (node.item.clone)
-                    list.pushBack(node.item.clone());
+            for (var i = 0; i < this.length; i++, node = node.next) {
+                var item = node.item;
+                if (item.clone)
+                    list.pushBack(item.clone());
                 else
-                    list.pushBack(node.item);
+                    list.pushBack(item);
+            }
             return list;
         };
         ;
@@ -2034,13 +2036,15 @@ var ds;
             var list = new DoubleLinkedList();
             var node = this.first;
             for (var i = 0; i < this.length; i++, node = node.next)
-                if (!list.contains(node.item))
-                    if (node.item.cloneDistinct)
-                        list.pushBack(node.item.cloneDistinct());
-                    else if (node.item.clone)
-                        list.pushBack(node.item.clone());
+                if (!list.contains(node.item)) {
+                    var item = node.item;
+                    if (item.cloneDistinct)
+                        list.pushBack(item.cloneDistinct());
+                    else if (item.clone)
+                        list.pushBack(item.clone());
                     else
-                        list.pushBack(node.item);
+                        list.pushBack(item);
+                }
             return list;
         };
         ;
@@ -5251,6 +5255,7 @@ var ds;
             var f = function (item) {
                 if (item === that)
                     return parent;
+                return undefined;
             };
             var it = this.sets.getIterator();
             for (it.first(); !it.isDone(); it.next())
@@ -5258,6 +5263,7 @@ var ds;
             f = function (item) {
                 if (item === set)
                     return parent;
+                return undefined;
             };
             it = set.sets.getIterator();
             for (it.first(); !it.isDone(); it.next())
