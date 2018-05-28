@@ -207,7 +207,7 @@ QUnit.test("Stack - Clone distinct test", function (assert)
 
 QUnit.test("Stack - Filter test", function (assert)
 {
-    var stack = new ds.Stack();
+    var stack = new ds.Stack<number>();
     const length = 100;
 
     for (var i = 0; i < length; i++)

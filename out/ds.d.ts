@@ -2358,13 +2358,13 @@ declare namespace ds {
 declare namespace ds {
     class Element<T> {
         parents: DoubleLinkedList<Set<T>>;
-        item: Set<T>;
+        item: T;
         /**
          * Class for representing an element of a set.
          * @param item {*} The item to store in the element.
          * @constructor
          */
-        constructor(item: Set<T>);
+        constructor(item: T);
     }
     class Set<T> {
         /**
@@ -2442,7 +2442,7 @@ declare namespace ds {
          * Returns the items that are stored in the set.
          * @return {Array} The items stored.
          */
-        getItems(): Set<T>[];
+        getItems(): T[];
         /**
          * Returns the cardinality of the set.
          * @return {number} The cardinality of the set.

@@ -7,13 +7,13 @@ namespace ds
 	export class Element<T>
 	{
 		parents: DoubleLinkedList<Set<T>>;
-		item: Set<T>;
+		item: T;
 		/**
 		 * Class for representing an element of a set.
 		 * @param item {*} The item to store in the element.
 		 * @constructor
 		 */
-		constructor(item: Set<T>)
+		constructor(item: T)
 		{
 			this.parents = new DoubleLinkedList<Set<T>>();
 			this.item = item;

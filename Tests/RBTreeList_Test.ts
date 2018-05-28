@@ -103,7 +103,7 @@ QUnit.test("RBTreeList - To array test", function (assert)
 
 QUnit.test("RBTreeList - Filter test", function (assert)
 {
-	var tree = new ds.RBTreeList();
+	var tree = new ds.RBTreeList<number>();
 
 	for (var i = 0; i < 100; i++)
 		tree.insert(i, i);

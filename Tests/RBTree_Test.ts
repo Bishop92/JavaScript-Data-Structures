@@ -106,7 +106,7 @@ QUnit.test("RBTree - To array test", function (assert)
 
 QUnit.test("RBTree - Filter test", function (assert)
 {
-	var tree = new ds.RBTree();
+	var tree = new ds.RBTree<number>();
 	const length = 100;
 
 	for (var i = 0; i < length; i++)

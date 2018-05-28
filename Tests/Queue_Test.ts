@@ -231,7 +231,7 @@ QUnit.test("Queue - Clone distinct test", function (assert)
 
 QUnit.test("Queue - Filter test", function (assert)
 {
-	var queue = new ds.Queue();
+	var queue = new ds.Queue<number>();
 	const length = 100;
 
 	for (var i = 0; i < length; i++)
