@@ -10,22 +10,22 @@ namespace ds
 		 * The aggregate relates to this iterator.
 		 * @type {RBTreeList}
 		 */
-		aggregate;
+		aggregate: RBTreeList;
 		/**
 		 * The pointer to the position.
 		 * @type {RBLNode|null}
 		 */
-		pointer = null;
+		pointer: RBLNode = <any>null;
 
 		/**
 		 * Class that implements the iterator for a red-black tree.
 		 * @param aggregate {RBTreeList} The aggregate to scan.
 		 * @constructor
 		 */
-		constructor(aggregate)
+		constructor(aggregate: RBTreeList)
 		{
 			this.aggregate = aggregate;
-			this.pointer = null;
+			this.pointer = <any>null;
 		}
 
 		/**

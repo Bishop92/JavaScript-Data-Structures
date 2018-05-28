@@ -43,7 +43,7 @@ namespace ds
 		 * @param item {*} The item to add.
 		 * @return {void}
 		 */
-		enqueue(priority, item)
+		enqueue(priority: number, item: any)
 		{
 			var queue = this.items.search(priority);
 			if (!queue)
@@ -61,7 +61,7 @@ namespace ds
 		 * @param items {Array<*>} The items to add.
 		 * @return {void}
 		 */
-		multiEnqueue(priority, items)
+		multiEnqueue(priority: number, items: any[])
 		{
 			for (var i = 0; i < items.length; i++)
 				this.enqueue(priority, items[i]);
@@ -91,7 +91,7 @@ namespace ds
 		 * @param times {number} The number of times to repeat the dequeue method.
 		 * @return {Array<*>} The items at the head of the queue.
 		 */
-		multiDequeue(times)
+		multiDequeue(times: number)
 		{
 			var items = [];
 			for (var i = 0; i < times && this.length; i++)
@@ -105,7 +105,7 @@ namespace ds
 		 * @param [length = 1] {number} The number of items to remove.
 		 * @return {void}
 		 */
-		remove(index, length?)
+		remove(index: number, length?: number)
 		{
 			length = length || 1;
 			var it = this.items.getIterator();
@@ -130,7 +130,7 @@ namespace ds
 		 * @param index {number} The index of the item.
 		 * @return {*} The item found. It's undefined if the position index is out of bounds.
 		 */
-		getItem(index)
+		getItem(index: number)
 		{
 			var it = this.items.getIterator();
 			for (it.last(); !it.isDone(); it.previous())
@@ -148,7 +148,7 @@ namespace ds
 		 * @param priority {number} The priority of the items.
 		 * @return {Array<*>} The items found.
 		 */
-		getItems(priority)
+		getItems(priority: number)
 		{
 			var items = this.items.search(priority);
 			if (items)
@@ -199,7 +199,7 @@ namespace ds
 		 * @param [callback = function(p){return(p===priority);}] The condition to satisfy. The callback must accept the current priority to check.
 		 * @return {boolean} True if the queue contains the priority that satisfy the condition, false otherwise.
 		 */
-		containsPriority(priority, callback?)
+		containsPriority(priority:number, callback?)
 		{
 			if (callback)
 				return this.items.fullContains(callback);
