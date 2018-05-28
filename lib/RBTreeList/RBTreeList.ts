@@ -6,7 +6,7 @@ namespace ds
 		 * The item stored.
 		 * @type {*}
 		 */
-		item: Queue<T>;
+		item: T;
 		/**
 		 * The key of the node.
 		 * @type {number}
@@ -49,7 +49,7 @@ namespace ds
 		 * @param item {*} The item to store in the node.
 		 * @constructor
 		 */
-		constructor(key: number, item: Queue<T>)
+		constructor(key: number, item: T)
 		{
 			this.item = item;
 			this.key = key;
@@ -108,7 +108,7 @@ namespace ds
 		 * @param item {*} The item to store.
 		 * @return {void}
 		 */
-		insert(key: number, item: Queue<T>)
+		insert(key: number, item: T)
 		{
 			var node = new RBLNode(key, item);
 			this.size++;
@@ -583,7 +583,7 @@ namespace ds
 		 * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
 		 * @return {void}
 		 */
-		execute(callback: (item: Queue<T>) => Queue<T>)
+		execute(callback: (item: T) => T)
 		{
 			for (var node = this.first; node; node = node.next)
 				node.item = callback(node.item);
@@ -594,7 +594,7 @@ namespace ds
 		 * @param callback {function} The function that implements the condition.
 		 * @return {Array<*>} The array that contains the items that satisfy the condition.
 		 */
-		filter(callback: (item: Queue<T>) => boolean)
+		filter(callback: (item: T) => boolean)
 		{
 			var result = [];
 			for (var node = this.first; node; node = node.next)
@@ -609,7 +609,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The first position of the item.
 		 */
-		indexOf(item: Queue<T>, callback?: (item: Queue<T>) => boolean)
+		indexOf(item: T, callback?: (item: T) => boolean)
 		{
 			callback = callback || function (it)
 			{

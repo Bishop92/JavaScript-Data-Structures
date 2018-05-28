@@ -73,7 +73,7 @@ QUnit.test("PriorityQueue - Is empty test", function (assert)
 
 QUnit.test("PriorityQueue - Clear test", function (assert)
 {
-	var queue = new ds.PriorityQueue();
+	var queue = new ds.PriorityQueue<number>();
 	queue.enqueue(5, 0);
 	queue.enqueue(5, 2);
 	queue.clear();

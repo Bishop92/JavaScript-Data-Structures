@@ -42,12 +42,12 @@ namespace ds
 		 * @param item {*} The item to add.
 		 * @return {void}
 		 */
-		enqueue(priority: number, item: Queue<T>)
+		enqueue(priority: number, item: T)
 		{
 			var queue = this.items.search(priority);
 			if (!queue)
 			{
-				queue = new Queue<Queue<T>>();
+				queue = new Queue<T>();
 				this.items.insert(priority, queue);
 			}
 			queue.enqueue(item);
@@ -129,7 +129,7 @@ namespace ds
 		 * @param index {number} The index of the item.
 		 * @return {*} The item found. It's undefined if the position index is out of bounds.
 		 */
-		getItem(index: number): Queue<T>
+		getItem(index: number): T
 		{
 			var it = this.items.getIterator();
 			for (it.last(); !it.isDone(); it.previous())
@@ -212,7 +212,7 @@ namespace ds
 		 */
 		toQueue()
 		{
-			var queue = new Queue<Queue<T>>();
+			var queue = new Queue<T>();
 			var it = this.items.getIterator();
 			for (it.last(); !it.isDone(); it.previous())
 			{

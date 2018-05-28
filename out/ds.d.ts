@@ -1435,7 +1435,7 @@ declare namespace ds {
          * @param item {*} The item to add.
          * @return {void}
          */
-        enqueue(priority: number, item: Queue<T>): void;
+        enqueue(priority: number, item: T): void;
         /**
          * Adds the items with the same priority at the tail of the queue.
          * @param priority {number} The priority of the items.
@@ -1447,13 +1447,13 @@ declare namespace ds {
          * Remove the item at the head of the queue.
          * @return {*} The item at the head of the queue. It's undefined if the queue is empty.
          */
-        dequeue(): Queue<T> | undefined;
+        dequeue(): T | undefined;
         /**
          * Removes the items at the head of the queue.
          * @param times {number} The number of times to repeat the dequeue method.
          * @return {Array<*>} The items at the head of the queue.
          */
-        multiDequeue(times: number): (Queue<T> | undefined)[];
+        multiDequeue(times: number): (T | undefined)[];
         /**
          * Removes the first length items from the position index.
          * @param index {number} The position where to start to remove the items.
@@ -1466,18 +1466,18 @@ declare namespace ds {
          * @param index {number} The index of the item.
          * @return {*} The item found. It's undefined if the position index is out of bounds.
          */
-        getItem(index: number): Queue<T>;
+        getItem(index: number): T;
         /**
          * Return the items relatives to the priority.
          * @param priority {number} The priority of the items.
          * @return {Array<*>} The items found.
          */
-        getItems(priority: number): Queue<T>[];
+        getItems(priority: number): T[];
         /**
          * Return the first item in the queue. The item is not removed.
          * @return {*} The first item. It's undefined if the queue is empty.
          */
-        peek(): Queue<T> | undefined;
+        peek(): T | undefined;
         /**
          * Return the length of the queue.
          * @return {number} The length of the queue.
@@ -1504,7 +1504,7 @@ declare namespace ds {
          * Return the queue created by the priority queue with the items in the same order but without the priority.
          * @return {Queue} The queue created.
          */
-        toQueue(): Queue<Queue<T>>;
+        toQueue(): Queue<T>;
         /**
          * Executes the callback function for each item of the queue.
          * This method modifies the queue so if you don't need to modify it you must return the same item of the array.
@@ -1524,7 +1524,7 @@ declare namespace ds {
          * @param callback {function} The function that implements the condition.
          * @return {Array<*>} The array that contains the items that satisfy the condition.
          */
-        filter(callback: (item: any) => any): Queue<T>[];
+        filter(callback: (item: any) => any): T[];
         /**
          * Clones the queue into a new queue.
          * @return {PriorityQueue} The queue cloned from this queue.
@@ -1587,7 +1587,7 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getItem(): Queue<T>;
+        getItem(): T;
     }
 }
 /**
@@ -2070,7 +2070,7 @@ declare namespace ds {
          * The item stored.
          * @type {*}
          */
-        item: Queue<T>;
+        item: T;
         /**
          * The key of the node.
          * @type {number}
@@ -2112,7 +2112,7 @@ declare namespace ds {
          * @param item {*} The item to store in the node.
          * @constructor
          */
-        constructor(key: number, item: Queue<T>);
+        constructor(key: number, item: T);
     }
     class RBTreeList<T> extends Aggregate {
         /**
@@ -2146,7 +2146,7 @@ declare namespace ds {
          * @param item {*} The item to store.
          * @return {void}
          */
-        insert(key: number, item: Queue<T>): void;
+        insert(key: number, item: T): void;
         /**
          * Preserve the properties of the tree after an insert.
          * @param node {RBLNode} The node to insert.
@@ -2185,7 +2185,7 @@ declare namespace ds {
          * @param [callback = function(k){return(k===key);}] The condition to satisfy. The callback must accept the current key to check.
          * @return {*} The item found or undefined if there isn't the key in the tree.
          */
-        search(key: number, node?: RBLNode<T>, callback?: (node: RBLNode<T>) => boolean): Queue<T> | undefined;
+        search(key: number, node?: RBLNode<T>, callback?: (node: RBLNode<T>) => boolean): T | undefined;
         /**
          * Checks if the tree contains a key or a node that satisfy the condition represented by the callback function.
          * This method avoid to search in branches where the key won't be found.
@@ -2244,7 +2244,7 @@ declare namespace ds {
          * Transform the tree into an array without preserving keys.
          * @return {Array<*>} The array that represents the tree.
          */
-        toArray(): Queue<T>[];
+        toArray(): T[];
         /**
          * Removes all the items stored in the tree.
          * @return {void}
@@ -2261,20 +2261,20 @@ declare namespace ds {
          * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
          * @return {void}
          */
-        execute(callback: (item: Queue<T>) => Queue<T>): void;
+        execute(callback: (item: T) => T): void;
         /**
          * Returns the items that satisfy the condition determined by the callback.
          * @param callback {function} The function that implements the condition.
          * @return {Array<*>} The array that contains the items that satisfy the condition.
          */
-        filter(callback: (item: Queue<T>) => boolean): Queue<T>[];
+        filter(callback: (item: T) => boolean): T[];
         /**
          * Returns the first position of the item in the tree.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The first position of the item.
          */
-        indexOf(item: Queue<T>, callback?: (item: Queue<T>) => boolean): number;
+        indexOf(item: T, callback?: (item: T) => boolean): number;
         /**
          * Returns the last position of the item in the tree.
          * @param item {*} The item to search.
@@ -2294,7 +2294,7 @@ declare namespace ds {
          * @param index {number} The position of the item.
          * @return {*} The item at the position. It's undefined if index isn't in the tree bounds.
          */
-        getItem(index: number): Queue<T> | undefined;
+        getItem(index: number): T | undefined;
     }
 }
 /**
@@ -2342,7 +2342,7 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getItem(): Queue<T>;
+        getItem(): T;
         /**
          * Return the node stored at the position pointed by the iterator.
          * @abstract
@@ -2691,7 +2691,7 @@ declare namespace ds {
          * @param [item = null] The item to store.
          * @return {void}
          */
-        insert(string: string, item?: any): void;
+        insert(string: string, item?: T): void;
         /**
          * Suggest the possible conclusion for the string.
          * @param string {string} The start of the string.
@@ -2704,14 +2704,14 @@ declare namespace ds {
          * @param [node {TNode|null} = null] The node from which start searching the strings.
          * @return {void}
          */
-        stringsToArray(result: string[], node?: TNode): void;
+        stringsToArray(result: string[], node?: TNode<T>): void;
         /**
          * Update the item related to the string searched.
          * @param string {string} The string for finding the item.
          * @param callback {function} The function to execute to update the item. It should accept the item the iteration is working on.
          * @return {void}
          */
-        updateItem(string: string, callback: (item: any) => any): void;
+        updateItem(string: string, callback: (item: T) => T): void;
         /**
          * Return the item related to the string searched.
          * @param string {string} The string for finding the item.
@@ -2728,13 +2728,13 @@ declare namespace ds {
          * @param [node = root] {Node} The node from which start the search.
          * @return {string} The string found.
          */
-        minimum(node?: TNode): any;
+        minimum(node?: TNode<T>): string;
         /**
          * Get the maximum string stored in the tree.
          * @param [node = root] {Node} The node from which start the search.
          * @return {string} The string found.
          */
-        maximum(node?: TNode): any;
+        maximum(node?: TNode<T>): string;
     }
 }
 /**
@@ -2752,7 +2752,7 @@ declare namespace ds {
          * The pointer to the position.
          * @type {TNode|null}
          */
-        pointer: TNode<T>;
+        pointer: string;
         /**
          * Class that implements the iterator for a trie.
          * @param aggregate {Trie} The aggregate to scan.
@@ -2782,6 +2782,6 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getItem(): T;
+        getItem(): any;
     }
 }

@@ -16,7 +16,7 @@ namespace ds
 		 * The pointer to the position.
 		 * @type {TNode|null}
 		 */
-		pointer: TNode<T> = <any>null;
+		pointer: string = <any>null;
 
 		/**
 		 * Class that implements the iterator for a trie.

@@ -37,7 +37,7 @@ namespace ds
         {
             this.item = item || <any>null;
             this.string = string || <any>null;
-            this.parent = null;
+            this.parent = <any>null;
             this.childs = [];
         }
 
@@ -83,7 +83,7 @@ namespace ds
          * @param [item = null] The item to store.
          * @return {void}
          */
-        insert(string: string, item?: any)
+        insert(string: string, item?: T)
         {
             var node = this.root;
 
@@ -105,7 +105,7 @@ namespace ds
                 ++this.size;
 
             node.string = string;
-            node.item = item;
+            node.item = <any>item;
         };
 
         /**
@@ -136,10 +136,9 @@ namespace ds
          * @param [node {TNode|null} = null] The node from which start searching the strings.
          * @return {void}
          */
-        stringsToArray(result: string[], node?: TNode)
+        stringsToArray(result: string[], node?: TNode<T>)
         {
             node = node || this.root;
-
 
             if (node.string)
             {
@@ -161,7 +160,7 @@ namespace ds
          * @param callback {function} The function to execute to update the item. It should accept the item the iteration is working on.
          * @return {void}
          */
-        updateItem(string: string, callback: (item: any) => any)
+        updateItem(string: string, callback: (item: T) => T)
         {
             var node = this.root;
 
@@ -218,7 +217,7 @@ namespace ds
          * @param [node = root] {Node} The node from which start the search.
          * @return {string} The string found.
          */
-        minimum(node?: TNode)
+        minimum(node?: TNode<T>)
         {
             node = node || this.root;
             return node.string;
@@ -229,7 +228,7 @@ namespace ds
          * @param [node = root] {Node} The node from which start the search.
          * @return {string} The string found.
          */
-        maximum(node?: TNode)
+        maximum(node?: TNode<T>)
         {
             node = node || this.root;
             while (node && node.childs[node.childs.length - 1])
