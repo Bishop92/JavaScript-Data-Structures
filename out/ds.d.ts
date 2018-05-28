@@ -238,7 +238,7 @@ declare namespace ds {
          * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
          * @return {void}
          */
-        execute(callback: (node: BNode) => BNode, node?: BNode): void;
+        execute(callback: (item: any) => any, node?: BNode): void;
         /**
          * Removes all the items stored in the tree.
          * @return {void}
@@ -249,7 +249,7 @@ declare namespace ds {
          * @param callback {function} The function that implements the condition.
          * @return {Array<*>} The array that contains the items that satisfy the condition.
          */
-        filter(callback: (node: BNode) => boolean, node?: BNode): BNode[];
+        filter(callback: (node: any) => boolean, node?: BNode): BNode[];
         /**
          * Clones the tree into a new tree.
          * @return {BTree} The tree cloned from this tree.
@@ -271,21 +271,21 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The first position of the item.
          */
-        indexOf(item: BNode, callback?: (node: BNode) => boolean): number;
+        indexOf(item: any, callback?: (item: any) => boolean): number;
         /**
          * Returns the last position of the item in the tree.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The last position of the item.
          */
-        lastIndexOf(item: BNode, callback?: (node: BNode) => boolean): number;
+        lastIndexOf(item: any, callback?: (item: any) => boolean): number;
         /**
          * Returns all the position in which the item has been found in the tree.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: BNode, callback?: (node: BNode) => boolean): number[];
+        allIndexesOf(item: any, callback?: (item: any) => boolean): number[];
         /**
          * Returns the item at the position index.
          * @param index {number} The position of the item.

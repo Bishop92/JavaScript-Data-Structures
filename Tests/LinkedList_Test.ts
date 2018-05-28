@@ -153,7 +153,7 @@ QUnit.test("LinkedList - Filter test", function (assert)
 
 	var result = list.filter(function (item)
 	{
-		return 1 - item % 2;
+		return Boolean(1 - item % 2);
 	});
 
 	assert.deepEqual(result[0], 98, "Filter of the even values");

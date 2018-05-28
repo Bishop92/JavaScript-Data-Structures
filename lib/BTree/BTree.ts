@@ -595,7 +595,7 @@ namespace ds
 		 * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
 		 * @return {void}
 		 */
-		execute(callback: (node: BNode) => BNode, node?: BNode)
+		execute(callback: (item: any) => any, node?: BNode)
 		{
 			node = node || this.root;
 			for (var i = 0; i < node.items.length; i++)
@@ -619,7 +619,7 @@ namespace ds
 		 * @param callback {function} The function that implements the condition.
 		 * @return {Array<*>} The array that contains the items that satisfy the condition.
 		 */
-		filter(callback: (node: BNode) => boolean, node?: BNode)
+		filter(callback: (node: any) => boolean, node?: BNode)
 		{
 			var result: BNode[] = [];
 			node = node || this.root;
@@ -699,7 +699,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The first position of the item.
 		 */
-		indexOf(item: BNode, callback?: (node: BNode) => boolean)
+		indexOf(item: any, callback?: (item: any) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -722,7 +722,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The last position of the item.
 		 */
-		lastIndexOf(item: BNode, callback?: (node: BNode) => boolean)
+		lastIndexOf(item: any, callback?: (item: any) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -745,7 +745,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {Array<number>} The positions in which the item has been found.
 		 */
-		allIndexesOf(item: BNode, callback?: (node: BNode) => boolean)
+		allIndexesOf(item: any, callback?: (item: any) => boolean)
 		{
 			callback = callback || function (it)
 			{

@@ -146,7 +146,7 @@ QUnit.test("BTree - Filter test", function (assert) {
     for (var i = 0; i < 10; i++)
         tree.insert(i, i);
     var result = tree.filter(function (item) {
-        return 1 - item % 2;
+        return Boolean(1 - item % 2);
     });
     assert.deepEqual(result, [0, 2, 4, 6, 8], "Filter on the even values");
 });
@@ -497,7 +497,7 @@ QUnit.test("DoubleLinkedList - Filter test", function (assert) {
     for (var i = 0; i < length; i++)
         list.pushFront(i);
     var result = list.filter(function (item) {
-        return 1 - item % 2;
+        return Boolean(1 - item % 2);
     });
     assert.deepEqual(result[0], 98, "Filter of the even values");
     assert.deepEqual(result[result.length - 1], 0, "Filter on the even values");
@@ -940,7 +940,7 @@ QUnit.test("LinkedList - Filter test", function (assert) {
     for (var i = 0; i < length; i++)
         list.pushFront(i);
     var result = list.filter(function (item) {
-        return 1 - item % 2;
+        return Boolean(1 - item % 2);
     });
     assert.deepEqual(result[0], 98, "Filter of the even values");
     assert.deepEqual(result[result.length - 1], 0, "Filter on the even values");
@@ -1528,7 +1528,7 @@ QUnit.test("Queue - Filter test", function (assert) {
     for (var i = 0; i < length; i++)
         queue.enqueue(i);
     var result = queue.filter(function (item) {
-        return 1 - item % 2;
+        return Boolean(1 - item % 2);
     });
     assert.deepEqual(result[0], 0, "Filter of the even values");
     assert.deepEqual(result[result.length - 1], 98, "Filter on the even values");
@@ -1651,7 +1651,7 @@ QUnit.test("RBTree - Filter test", function (assert) {
     for (var i = 0; i < length; i++)
         tree.insert(i, i);
     var result = tree.filter(function (item) {
-        return 1 - item % 2;
+        return Boolean(1 - item % 2);
     });
     assert.deepEqual(result[0], 0, "Filter of the even values");
     assert.deepEqual(result[result.length - 1], 98, "Filter on the even values");
@@ -1838,7 +1838,7 @@ QUnit.test("RBTreeList - Filter test", function (assert) {
     for (var i = 0; i < 100; i++)
         tree.insert(i, i);
     var result = tree.filter(function (item) {
-        return 1 - item % 2;
+        return Boolean(1 - item % 2);
     });
     assert.deepEqual(result[0], 0, "Filter of the even values");
     assert.deepEqual(result[result.length - 1], 98, "Filter on the even values");
@@ -2208,7 +2208,7 @@ QUnit.test("Stack - Filter test", function (assert) {
     for (var i = 0; i < length; i++)
         stack.push(i);
     var result = stack.filter(function (item) {
-        return 1 - item % 2;
+        return Boolean(1 - item % 2);
     });
     assert.deepEqual(result[0], 98, "Filter of the even values");
     assert.deepEqual(result[result.length - 1], 0, "Filter on the even values");

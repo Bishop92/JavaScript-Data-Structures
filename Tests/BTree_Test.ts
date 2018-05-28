@@ -92,7 +92,7 @@ QUnit.test("BTree - Filter test", function (assert)
 
 	var result = tree.filter(function (item)
 	{
-		return 1 - item % 2;
+		return Boolean(1 - item % 2);
 	});
 	assert.deepEqual(result, [0, 2, 4, 6, 8], "Filter on the even values");
 });

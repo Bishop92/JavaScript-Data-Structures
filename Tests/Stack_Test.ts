@@ -215,7 +215,7 @@ QUnit.test("Stack - Filter test", function (assert)
 
     var result = stack.filter(function (item)
     {
-        return 1 - item % 2;
+        return Boolean(1 - item % 2);
     });
 
     assert.deepEqual(result[0], 98, "Filter of the even values");
