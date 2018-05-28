@@ -47,7 +47,7 @@ class BSNode
 
 }
 
-class BSTree
+class BSTree extends Aggregate
 {
 	/**
 	 * The root of the tree.
@@ -56,6 +56,7 @@ class BSTree
 	root: BSNode;
 	constructor()
 	{
+		super();
 		this.root = <any>null;
 	}
 
