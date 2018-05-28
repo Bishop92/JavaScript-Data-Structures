@@ -10,20 +10,20 @@ namespace ds
 		 * The aggregate relates to this iterator.
 		 * @type {DoubleLinkedList}
 		 */
-		aggregate;
+		aggregate: DoubleLinkedList;
 
 		/**
 		 * The pointer to the position.
 		 * @type {Node|null}
 		 */
-		pointer = null;
+		pointer: DLLNode = <any>null;
 
 		/**
 		 * Class that implements the iterator for a double linked list.
 		 * @param aggregate {DoubleLinkedList} The aggregate to scan.
 		 * @constructor
 		 */
-		constructor(aggregate)
+		constructor(aggregate: DoubleLinkedList)
 		{
 			this.aggregate = aggregate;
 		}

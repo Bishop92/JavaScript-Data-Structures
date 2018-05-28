@@ -107,7 +107,6 @@ declare namespace ds {
          * @type {number}
          */
         size: number;
-        keys: any;
         /**
          * Class for managing a B-Tree.
          * @param minimumDegree {number} The minimum number of keys of a node.
@@ -188,7 +187,7 @@ declare namespace ds {
          * @param callback {function} The condition to satisfy. The callback must accept the current node to check.
          * @return {boolean} True if the tree contains the node that satisfy the condition, false otherwise.
          */
-        fullContains(callback: any): boolean;
+        fullContains(callback: (item: BNode) => boolean): boolean;
         /**
          * Get the key next to the param node key.
          * @param key {number} The key of which search the successor.
@@ -202,7 +201,7 @@ declare namespace ds {
          * @param [node = root] The node from start the search of the predecessor.
          * @return {number} The key found.
          */
-        predecessor(key: any, node?: any): any;
+        predecessor(key: number, node?: BNode): number;
         /**
          * Gets the minimum key stored in the tree.
          * @return {number} The key found.
@@ -239,7 +238,7 @@ declare namespace ds {
          * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
          * @return {void}
          */
-        execute(callback: any, node?: any): void;
+        execute(callback: (node: BNode) => BNode, node?: BNode): void;
         /**
          * Removes all the items stored in the tree.
          * @return {void}
@@ -250,7 +249,7 @@ declare namespace ds {
          * @param callback {function} The function that implements the condition.
          * @return {Array<*>} The array that contains the items that satisfy the condition.
          */
-        filter(callback: any, node?: any): any;
+        filter(callback: (node: BNode) => boolean, node?: BNode): BNode[];
         /**
          * Clones the tree into a new tree.
          * @return {BTree} The tree cloned from this tree.
@@ -272,27 +271,27 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The first position of the item.
          */
-        indexOf(item: any, callback?: any): number;
+        indexOf(item: BNode, callback?: (node: BNode) => boolean): number;
         /**
          * Returns the last position of the item in the tree.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The last position of the item.
          */
-        lastIndexOf(item: any, callback?: any): number;
+        lastIndexOf(item: BNode, callback?: (node: BNode) => boolean): number;
         /**
          * Returns all the position in which the item has been found in the tree.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback?: any): number[];
+        allIndexesOf(item: BNode, callback?: (node: BNode) => boolean): number[];
         /**
          * Returns the item at the position index.
          * @param index {number} The position of the item.
          * @return {*} The item at the position. It's undefined if index isn't in the tree bounds.
          */
-        getItem(index: any): any;
+        getItem(index: number): any;
     }
 }
 /**
@@ -519,7 +518,7 @@ declare namespace ds {
          * The items stored in the buffer.
          * @type {Array<*>}
          */
-        items: never[];
+        items: any[];
         /**
          * Is true if buffer is empty, false otherwise.
          * @type {boolean}
@@ -540,7 +539,7 @@ declare namespace ds {
          * @param size {Number} The size of the buffer.
          * @constructor
          */
-        constructor(size: any);
+        constructor(size: number);
         /**
          * @inheritDoc
          */
@@ -558,7 +557,7 @@ declare namespace ds {
          * @param to {Number} The index where stop to free (exclusive index)
          * @return {void}
          */
-        free(from: any, to: any): void;
+        free(from: number, to: number): void;
         /**
          * Free all the buffer.
          * @return {void}
@@ -569,7 +568,7 @@ declare namespace ds {
          * @param index {Number} The position of the item to read.
          * @return {*} The item read.
          */
-        read(index: any): never;
+        read(index: number): any;
         /**
          * Return true if the buffer is empty, false otherwise.
          * @return {boolean}
@@ -590,7 +589,7 @@ declare namespace ds {
          * @param size {number} The new size of the buffer.
          * @return {void}
          */
-        resize(size: any): void;
+        resize(size: number): void;
     }
 }
 /**
@@ -619,7 +618,7 @@ declare namespace ds {
          * @param aggregate {CircularBuffer} The aggregate to scan.
          * @constructor
          */
-        constructor(aggregate: any);
+        constructor(aggregate: CircularBuffer);
         /**
          * @inheritDoc
          */
@@ -643,7 +642,7 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getItem(): never;
+        getItem(): any;
     }
 }
 /**
@@ -661,12 +660,12 @@ declare namespace ds {
          * The next node. It's null if there's no a next node.
          * @type {DLLNode|null}
          */
-        next: null;
+        next: DLLNode;
         /**
          * The previous node. It's null if there's no a previous node.
          * @type {DLLNode|null}
          */
-        previous: null;
+        previous: DLLNode;
         /**
          * The single node of the list.
          * @param item {*} The item to store in the node.
@@ -679,12 +678,12 @@ declare namespace ds {
          * The first node of the list.
          * @type {DLLNode|null}
          */
-        first: null;
+        first: DLLNode;
         /**
          * The last node of the list.
          * @type {DLLNode|null}
          */
-        last: null;
+        last: DLLNode;
         /**
          * The length of the list.
          * @type {number}
@@ -727,13 +726,13 @@ declare namespace ds {
          * @param times {number} The number of times to repeat the popFront method.
          * @return {*} The item removed. It's undefined if the list is empty.
          */
-        multiPopFront(times: any): any[];
+        multiPopFront(times: number): any[];
         /**
          * Removes the last times items of the list.
          * @param times {number} The number of times to repeat the popBack method.
          * @return {*} The items removed.
          */
-        multiPopBack(times: any): any[];
+        multiPopBack(times: number): any[];
         /**
          * Returns the first item of the list without remove it.
          * @return {*} The item at the top of the list. It's undefined if the list is empty.
@@ -745,27 +744,27 @@ declare namespace ds {
          * @param index {number} The position where to add the item. If index is negative, the item won't be added.
          * @return {void}
          */
-        addAt(item: any, index: any): void;
+        addAt(item: any, index: number): void;
         /**
          * Remove the item at the position index.
          * @param index {Number} The position of the item to remove.
          * @return {*} The item stored at the position index. It's undefined if the index is out of bounds.
          */
-        removeAt(index: any): any;
+        removeAt(index: number): any;
         /**
          * Removes the item from the list.
          * @param item {*} The item to remove.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {void}
          */
-        remove(item: any, callback?: any): void;
+        remove(item: any, callback?: (item: any) => boolean): void;
         /**
          * Removes all the item from the list.
          * @param item {*} The item to remove.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {void}
          */
-        removeAll(item: any, callback?: any): void;
+        removeAll(item: any, callback?: (item: any) => boolean): void;
         /**
          * Removes all the items stored from the from position to the to position.
          * If from > to, the method will remove all the items up to the end.
@@ -773,14 +772,14 @@ declare namespace ds {
          * @param to {number} The position where stop to remove the items. The to position is included.
          * @return {Array<*>} The items removed.
          */
-        removeSegment(from: any, to: any): any[];
+        removeSegment(from: number, to: number): any[];
         /**
          * Change the item stored in the index position. If the index is out of bound, the node won't be updated.
          * @param index {number} The position of the node to modify.
          * @param item {*} The new item stored in the node.
          * @return {void}
          */
-        modifyAt(index: any, item: any): void;
+        modifyAt(index: number, item: any): void;
         /**
          * Removes all the items stored in the list.
          * @return {void}
@@ -792,33 +791,33 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {boolean} True if the list contains the item that satisfy the condition, false otherwise.
          */
-        contains(item: any, callback?: any): boolean;
+        contains(item: any, callback?: (item: any) => boolean): boolean;
         /**
          * Executes the callback function for each item of the stack.
          * This method modifies the list so if you don't need to modify it you must return the same item of the array.
          * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
          * @return {void}
          */
-        execute(callback: any): void;
+        execute(callback: (item: any) => any): void;
         /**
          * Delete the node from the list.
          * @param node {DLLNode} The node to delete.
          * @return {void}
          */
-        deleteNode(node: any): void;
+        deleteNode(node: DLLNode): void;
         /**
          * Get the node at the position index relative from the node.
          * @param index {Number} The index, relative to the node, of the node to return.
          * @param [node = first] {DLLNode} The node from which start the search.
          * @return {DLLNode} The node at the position index.
          */
-        getNode(index: any, node?: any): any;
+        getNode(index: number, node?: DLLNode): DLLNode | undefined;
         /**
          * Get the item at the position index.
          * @param index {Number} The position of the item.
          * @return {*}. It's undefined if index isn't in the queue bounds.
          */
-        getItem(index: any): any;
+        getItem(index: number): any;
         /**
          * Sort the list.
          * @param [callback = function(item){return(item);}] {function} The function invoked in order to get the value for the evaluation of the sort criteria.
@@ -827,7 +826,7 @@ declare namespace ds {
          * This function callback will return the opposite of the attribute key of the item. In this case the list will be sorted in descending order.
          * @return {void}
          */
-        sort(callback?: any): void;
+        sort(callback?: (item: any) => number): void;
         /**
          * Transform the list into an array.
          * @return {Array<*>} The array built.
@@ -843,13 +842,13 @@ declare namespace ds {
          * @param array {Array<*>} The array from which build the list.
          * @return {void}
          */
-        fromArray(array: any): void;
+        fromArray(array: any[]): void;
         /**
          * Return the items that satisfy the condition determined by the callback.
          * @param callback {function} The function that implements the condition.
          * @return {Array<Object>} The array that contains the items that satisfy the condition.
          */
-        filter(callback: any): any[];
+        filter(callback: (item: any) => boolean): any[];
         /**
          * Reverse the list. This method reverses only the items, not the nodes.
          * @return {void}
@@ -866,33 +865,33 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The first position of the item.
          */
-        indexOf(item: any, callback?: any): number;
+        indexOf(item: any, callback?: (item: any) => boolean): number;
         /**
          * Returns the last position of the item in the list.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The last position of the item.
          */
-        lastIndexOf(item: any, callback?: any): number;
+        lastIndexOf(item: any, callback?: (item: any) => boolean): number;
         /**
          * Returns all the position in which the item has been found in the list.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback?: any): number[];
+        allIndexesOf(item: any, callback?: (item: any) => boolean): number[];
         /**
          * Add the list at the end of this list.
          * @param list {DoubleLinkedList} The list to join.
          * @return {void}
          */
-        join(list: any): void;
+        join(list: DoubleLinkedList): void;
         /**
          * Divides the list at the index position. The node at the index position is the first new node of the list.
          * @param index {number} The position where to divide the list.
          * @return {DoubleLinkedList} The list formed by the nodes from the index position then. If the index is out of bound, the list will be empty.
          */
-        divide(index: any): DoubleLinkedList;
+        divide(index: number): DoubleLinkedList;
         /**
          * Clones the list into a new list.
          * @return {DoubleLinkedList} The list cloned from this list.
@@ -908,13 +907,13 @@ declare namespace ds {
          * @param size {number} The size of the lists.
          * @return {Array<DoubleLinkedList>} The lists created by splitting the list.
          */
-        split(size: any): DoubleLinkedList[];
+        split(size: number): DoubleLinkedList[];
         /**
          * Returns the number of items that satisfy the represented by the callback function.
          * @param callback {function} The condition to satisfy.
          * @return {number} The number of items that satisfy the condition.
          */
-        count(callback: any): number;
+        count(callback: (item: boolean) => boolean): number;
     }
 }
 /**
@@ -927,18 +926,18 @@ declare namespace ds {
          * The aggregate relates to this iterator.
          * @type {DoubleLinkedList}
          */
-        aggregate: any;
+        aggregate: DoubleLinkedList;
         /**
          * The pointer to the position.
          * @type {Node|null}
          */
-        pointer: null;
+        pointer: DLLNode;
         /**
          * Class that implements the iterator for a double linked list.
          * @param aggregate {DoubleLinkedList} The aggregate to scan.
          * @constructor
          */
-        constructor(aggregate: any);
+        constructor(aggregate: DoubleLinkedList);
         /**
          * @inheritDoc
          */
@@ -968,7 +967,7 @@ declare namespace ds {
          * @abstract
          * @return {Node|null} The node stored or null if it's out of the bounds.
          */
-        getNode(): null;
+        getNode(): DLLNode;
     }
 }
 /**

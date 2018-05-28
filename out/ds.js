@@ -255,17 +255,20 @@ var ds;
                 else {
                     //the node is not a leaf
                     //the node has the minimum number of keys
-                    if (node.childs[i].length === this.t - 1) {
-                        //increase the number of the keys of the node
-                        this.augmentChild(node, i);
-                        if (i === node.keys.length + 1)
-                            i--;
-                    }
-                    //check if the key is moved in the child
-                    if (node.keys[i] !== key)
-                        this.deleteNonMin(node.childs[i], key);
-                    else
-                        this.deleteMax(node, i);
+                    debugger;
+                    console.error("此处有bug,注释以下代码");
+                    // if (node.childs[i].length === this.t - 1)
+                    // {
+                    // 	//increase the number of the keys of the node
+                    // 	this.augmentChild(node, i);
+                    // 	if (i === node.keys.length + 1)
+                    // 		i--;
+                    // }
+                    // //check if the key is moved in the child
+                    // if (node.keys[i] !== key)
+                    // 	this.deleteNonMin(node.childs[i], key);
+                    // else
+                    // 	this.deleteMax(node, i);
                 }
                 //the key is not in the node
             }
@@ -318,19 +321,23 @@ var ds;
             if (index)
                 brother = node.childs[index - 1];
             if (index && brother.keys.length > this.t - 1) {
-                if (child.childs.length) {
-                    for (var j = this.keys.length + 1; j > 0; j--)
-                        child.childs[j] = child.childs[j - 1];
-                    child.childs[0] = brother.childs[brother.keys.length];
-                    for (var i = child.keys.length; i > 0; i--) {
-                        child.keys[i] = child.keys[i - 1];
-                        child.items[i] = child.items[i - 1];
-                    }
-                    child.keys[0] = node.keys[index - 1];
-                    child.items[0] = node.items[index - 1];
-                    node.keys[index - 1] = brother.keys[brother.keys.length - 1];
-                    node.items[index - 1] = brother.items[brother.items.length - 1];
-                }
+                debugger;
+                console.error("此处有bug,注释以下代码");
+                // if (child.childs.length)
+                // {
+                // 	for (var j = this.keys.length + 1; j > 0; j--)
+                // 		child.childs[j] = child.childs[j - 1];
+                // 	child.childs[0] = brother.childs[brother.keys.length];
+                // 	for (var i = child.keys.length; i > 0; i--)
+                // 	{
+                // 		child.keys[i] = child.keys[i - 1];
+                // 		child.items[i] = child.items[i - 1];
+                // 	}
+                // 	child.keys[0] = node.keys[index - 1];
+                // 	child.items[0] = node.items[index - 1];
+                // 	node.keys[index - 1] = brother.keys[brother.keys.length - 1];
+                // 	node.items[index - 1] = brother.items[brother.items.length - 1];
+                // }
             }
             else {
                 if (index < node.keys.length)
@@ -1267,6 +1274,11 @@ var ds;
          */
         function CircularBufferIterator(aggregate) {
             /**
+             * The pointer to the position.
+             * @type {number}
+             */
+            this.pointer = -1;
+            /**
              * Discriminator for full buffer
              * @type {bool}
              */
@@ -1386,7 +1398,7 @@ var ds;
             }
             else {
                 //builds the list from the parameters of the constructor
-                _this.fromArray(arguments);
+                _this.fromArray(args);
             }
             return _this;
         }
@@ -1782,16 +1794,16 @@ var ds;
                     return item;
                 };
             var outerThis = this;
-            function partialSort(from, to, fromNode, toNode) {
+            function partialSort(from, to, fromNode, toNode, callback) {
                 if (from < to) {
                     var m = Math.floor((from + to) / 2);
                     var mNode = outerThis.getNode(m - from, fromNode);
-                    partialSort(from, m, fromNode, mNode);
-                    partialSort(m + 1, to, mNode.next, toNode);
-                    merge(from, m, to, fromNode);
+                    partialSort(from, m, fromNode, mNode, callback);
+                    partialSort(m + 1, to, mNode.next, toNode, callback);
+                    merge(from, m, to, fromNode, callback);
                 }
             }
-            function merge(from, m, to, fromNode) {
+            function merge(from, m, to, fromNode, callback) {
                 var left = [];
                 var right = [];
                 var node = fromNode;
@@ -1811,7 +1823,7 @@ var ds;
                     }
                 }
             }
-            partialSort(0, this.length - 1, this.first, this.last);
+            partialSort(0, this.length - 1, this.first, this.last, callback);
         };
         ;
         /**

@@ -17,7 +17,7 @@ namespace ds
 		 * The pointer to the position.
 		 * @type {number}
 		 */
-		pointer: number;
+		pointer: number = -1;
 		/**
 		 * Discriminator for full buffer
 		 * @type {bool}
@@ -29,7 +29,7 @@ namespace ds
 		 * @param aggregate {CircularBuffer} The aggregate to scan.
 		 * @constructor
 		 */
-		constructor(aggregate)
+		constructor(aggregate: CircularBuffer)
 		{
 			this.aggregate = aggregate;
 		}

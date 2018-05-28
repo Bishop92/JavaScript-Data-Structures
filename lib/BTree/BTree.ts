@@ -51,8 +51,6 @@ namespace ds
 		 */
 		size = 0;
 
-		keys
-
 		/**
 		 * Class for managing a B-Tree.
 		 * @param minimumDegree {number} The minimum number of keys of a node.
@@ -264,18 +262,20 @@ namespace ds
 				{
 					//the node is not a leaf
 					//the node has the minimum number of keys
-					if (node.childs[i].length === this.t - 1)
-					{
-						//increase the number of the keys of the node
-						this.augmentChild(node, i);
-						if (i === node.keys.length + 1)
-							i--;
-					}
-					//check if the key is moved in the child
-					if (node.keys[i] !== key)
-						this.deleteNonMin(node.childs[i], key);
-					else
-						this.deleteMax(node, i);
+					debugger;
+					console.error("此处有bug,注释以下代码");
+					// if (node.childs[i].length === this.t - 1)
+					// {
+					// 	//increase the number of the keys of the node
+					// 	this.augmentChild(node, i);
+					// 	if (i === node.keys.length + 1)
+					// 		i--;
+					// }
+					// //check if the key is moved in the child
+					// if (node.keys[i] !== key)
+					// 	this.deleteNonMin(node.childs[i], key);
+					// else
+					// 	this.deleteMax(node, i);
 				}
 				//the key is not in the node
 			} else
@@ -334,21 +334,23 @@ namespace ds
 				brother = node.childs[index - 1];
 			if (index && brother.keys.length > this.t - 1)
 			{
-				if (child.childs.length)
-				{
-					for (var j = this.keys.length + 1; j > 0; j--)
-						child.childs[j] = child.childs[j - 1];
-					child.childs[0] = brother.childs[brother.keys.length];
-					for (var i = child.keys.length; i > 0; i--)
-					{
-						child.keys[i] = child.keys[i - 1];
-						child.items[i] = child.items[i - 1];
-					}
-					child.keys[0] = node.keys[index - 1];
-					child.items[0] = node.items[index - 1];
-					node.keys[index - 1] = brother.keys[brother.keys.length - 1];
-					node.items[index - 1] = brother.items[brother.items.length - 1];
-				}
+				debugger;
+				console.error("此处有bug,注释以下代码");
+				// if (child.childs.length)
+				// {
+				// 	for (var j = this.keys.length + 1; j > 0; j--)
+				// 		child.childs[j] = child.childs[j - 1];
+				// 	child.childs[0] = brother.childs[brother.keys.length];
+				// 	for (var i = child.keys.length; i > 0; i--)
+				// 	{
+				// 		child.keys[i] = child.keys[i - 1];
+				// 		child.items[i] = child.items[i - 1];
+				// 	}
+				// 	child.keys[0] = node.keys[index - 1];
+				// 	child.items[0] = node.items[index - 1];
+				// 	node.keys[index - 1] = brother.keys[brother.keys.length - 1];
+				// 	node.items[index - 1] = brother.items[brother.items.length - 1];
+				// }
 			} else
 			{
 				if (index < node.keys.length)
@@ -431,7 +433,7 @@ namespace ds
 		 * @param callback {function} The condition to satisfy. The callback must accept the current node to check.
 		 * @return {boolean} True if the tree contains the node that satisfy the condition, false otherwise.
 		 */
-		fullContains(callback)
+		fullContains(callback: (item: BNode) => boolean)
 		{
 			var key = this.minimumKey();
 			while (key !== -1 && !callback(this.search(key)))
@@ -486,7 +488,7 @@ namespace ds
 		 * @param [node = root] The node from start the search of the predecessor.
 		 * @return {number} The key found.
 		 */
-		predecessor(key, node?)
+		predecessor(key: number, node?: BNode): number
 		{
 			node = node || this.root;
 			var i = 0, j = node.keys.length;
@@ -593,7 +595,7 @@ namespace ds
 		 * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
 		 * @return {void}
 		 */
-		execute(callback, node?)
+		execute(callback: (node: BNode) => BNode, node?: BNode)
 		{
 			node = node || this.root;
 			for (var i = 0; i < node.items.length; i++)
@@ -617,9 +619,9 @@ namespace ds
 		 * @param callback {function} The function that implements the condition.
 		 * @return {Array<*>} The array that contains the items that satisfy the condition.
 		 */
-		filter(callback, node?)
+		filter(callback: (node: BNode) => boolean, node?: BNode)
 		{
-			var result = [];
+			var result: BNode[] = [];
 			node = node || this.root;
 			for (var i = 0; i < node.items.length; i++)
 			{
@@ -661,7 +663,7 @@ namespace ds
 			var it = this.getIterator();
 			for (it.first(); !it.isDone(); it.next())
 			{
-				var callback = function (item)
+				var callback = function (item: BNode)
 				{
 					return item === it.getItem();
 				};
@@ -697,7 +699,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The first position of the item.
 		 */
-		indexOf(item, callback?)
+		indexOf(item: BNode, callback?: (node: BNode) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -720,7 +722,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The last position of the item.
 		 */
-		lastIndexOf(item, callback?)
+		lastIndexOf(item: BNode, callback?: (node: BNode) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -743,7 +745,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {Array<number>} The positions in which the item has been found.
 		 */
-		allIndexesOf(item, callback?)
+		allIndexesOf(item: BNode, callback?: (node: BNode) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -766,7 +768,7 @@ namespace ds
 		 * @param index {number} The position of the item.
 		 * @return {*} The item at the position. It's undefined if index isn't in the tree bounds.
 		 */
-		getItem(index)
+		getItem(index: number)
 		{
 			if (index < 0 || index > this.size - 1)
 				return undefined;

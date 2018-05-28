@@ -21,7 +21,7 @@ namespace ds
 		 * The items stored in the buffer.
 		 * @type {Array<*>}
 		 */
-		items = [];
+		items: any[] = [];
 		/**
 		 * Is true if buffer is empty, false otherwise.
 		 * @type {boolean}
@@ -43,7 +43,7 @@ namespace ds
 		 * @param size {Number} The size of the buffer.
 		 * @constructor
 		 */
-		constructor(size)
+		constructor(size: number)
 		{
 			super();
 			this.size = size;
@@ -63,7 +63,7 @@ namespace ds
 		 * @param item {*} The item to write.
 		 * @return {void}
 		 */
-		write(item)
+		write(item: any)
 		{
 			this.empty = false;
 			if (this.full)
@@ -83,7 +83,7 @@ namespace ds
 		 * @param to {Number} The index where stop to free (exclusive index)
 		 * @return {void}
 		 */
-		free(from, to)
+		free(from: number, to: number)
 		{
 			if (from < 0)
 				from = 0;
@@ -146,7 +146,7 @@ namespace ds
 		 * @param index {Number} The position of the item to read.
 		 * @return {*} The item read.
 		 */
-		read(index)
+		read(index: number)
 		{
 			return this.items[index % this.size];
 		};
@@ -190,7 +190,7 @@ namespace ds
 		 * @param size {number} The new size of the buffer.
 		 * @return {void}
 		 */
-		resize(size)
+		resize(size: number)
 		{
 			if (this.size < size)
 			{

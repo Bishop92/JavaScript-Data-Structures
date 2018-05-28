@@ -10,24 +10,24 @@ namespace ds
 		 * The item stored.
 		 * @type {*}
 		 */
-		item;
+		item: any;
 		/**
 		 * The next node. It's null if there's no a next node.
 		 * @type {DLLNode|null}
 		 */
-		next = null;
+		next: DLLNode = <any>null;
 		/**
 		 * The previous node. It's null if there's no a previous node.
 		 * @type {DLLNode|null}
 		 */
-		previous = null;
+		previous: DLLNode = <any>null;
 
 		/**
 		 * The single node of the list.
 		 * @param item {*} The item to store in the node.
 		 * @constructor
 		 */
-		constructor(item)
+		constructor(item: any)
 		{
 			this.item = item;
 		}
@@ -40,12 +40,12 @@ namespace ds
 		 * The first node of the list.
 		 * @type {DLLNode|null}
 		 */
-		first = null;
+		first: DLLNode = <any>null;
 		/**
 		 * The last node of the list.
 		 * @type {DLLNode|null}
 		 */
-		last = null;
+		last: DLLNode = <any>null;
 		/**
 		 * The length of the list.
 		 * @type {number}
@@ -57,7 +57,7 @@ namespace ds
 		 * @param {...*} [args] The items for initializing the list.
 		 * @constructor
 		 */
-		constructor(...args)
+		constructor(...args: any[])
 		{
 			super();
 
@@ -68,7 +68,7 @@ namespace ds
 			} else
 			{
 				//builds the list from the parameters of the constructor
-				this.fromArray(arguments);
+				this.fromArray(args);
 			}
 		}
 
@@ -85,7 +85,7 @@ namespace ds
 		 * @param item {*} The item to add.
 		 * @return {void}
 		 */
-		pushFront(item)
+		pushFront(item: any)
 		{
 			var node = new DLLNode(item);
 			node.next = this.first;
@@ -103,7 +103,7 @@ namespace ds
 		 * @param item {*} The item to add.
 		 * @return {void}
 		 */
-		pushBack(item)
+		pushBack(item: any)
 		{
 			var node = new DLLNode(item);
 			node.previous = this.last;
@@ -127,9 +127,9 @@ namespace ds
 				var node = this.first;
 				this.first = node.next;
 				if (node.next)
-					node.next.previous = null;
+					node.next.previous = <any>null;
 				this.length--;
-				node.next = null;
+				node.next = <any>null;
 				return node.item;
 			}
 			return undefined;
@@ -146,9 +146,9 @@ namespace ds
 				var node = this.last;
 				this.last = node.previous;
 				if (node.previous)
-					node.previous.next = null;
+					node.previous.next = <any>null;
 				this.length--;
-				node.previous = null;
+				node.previous = <any>null;
 				return node.item;
 			}
 			return undefined;
@@ -159,7 +159,7 @@ namespace ds
 		 * @param times {number} The number of times to repeat the popFront method.
 		 * @return {*} The item removed. It's undefined if the list is empty.
 		 */
-		multiPopFront(times)
+		multiPopFront(times: number)
 		{
 			var result = [];
 			for (var i = 0; i < times && this.length; i++)
@@ -172,7 +172,7 @@ namespace ds
 		 * @param times {number} The number of times to repeat the popBack method.
 		 * @return {*} The items removed.
 		 */
-		multiPopBack(times)
+		multiPopBack(times: number)
 		{
 			var result = [];
 			for (var i = 0; i < times && this.length; i++)
@@ -197,7 +197,7 @@ namespace ds
 		 * @param index {number} The position where to add the item. If index is negative, the item won't be added.
 		 * @return {void}
 		 */
-		addAt(item, index)
+		addAt(item: any, index: number)
 		{
 			if (index < 0)
 				return;
@@ -240,7 +240,7 @@ namespace ds
 		 * @param index {Number} The position of the item to remove.
 		 * @return {*} The item stored at the position index. It's undefined if the index is out of bounds.
 		 */
-		removeAt(index)
+		removeAt(index: number)
 		{
 			if (index < 0 || index > this.length - 1)
 				return undefined;
@@ -254,8 +254,8 @@ namespace ds
 			//now node is the node to remove
 			node.previous.next = node.next;
 			node.next.previous = node.previous;
-			node.next = null;
-			node.previous = null;
+			node.next = <any>null;
+			node.previous = <any>null;
 			this.length--;
 			return node.item;
 		};
@@ -266,7 +266,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {void}
 		 */
-		remove(item, callback?)
+		remove(item: any, callback?: (item: any) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -281,7 +281,7 @@ namespace ds
 					if (node === this.first)
 						this.first = node.next;
 					if (node === this.last)
-						this.last = previous;
+						this.last = <any>previous;
 					if (previous)
 					{
 						previous.next = node.next;
@@ -301,7 +301,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {void}
 		 */
-		removeAll(item, callback?)
+		removeAll(item: any, callback?: (item: any) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -316,7 +316,7 @@ namespace ds
 					if (node === this.first)
 						this.first = node.next;
 					if (node === this.last)
-						this.last = previous;
+						this.last = <any>previous;
 					if (previous)
 					{
 						previous.next = node.next;
@@ -336,7 +336,7 @@ namespace ds
 		 * @param to {number} The position where stop to remove the items. The to position is included.
 		 * @return {Array<*>} The items removed.
 		 */
-		removeSegment(from, to)
+		removeSegment(from: number, to: number)
 		{
 			var result = [];
 			if (to > -1 && from < this.length)
@@ -369,7 +369,7 @@ namespace ds
 		 * @param item {*} The new item stored in the node.
 		 * @return {void}
 		 */
-		modifyAt(index, item)
+		modifyAt(index: number, item: any)
 		{
 			var node = this.getNode(index);
 			if (node)
@@ -382,8 +382,8 @@ namespace ds
 		 */
 		clear()
 		{
-			this.first = null;
-			this.last = null;
+			this.first = <any>null;
+			this.last = <any>null;
 			this.length = 0;
 		};
 
@@ -393,7 +393,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {boolean} True if the list contains the item that satisfy the condition, false otherwise.
 		 */
-		contains(item, callback?)
+		contains(item: any, callback?: (item: any) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -415,7 +415,7 @@ namespace ds
 		 * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
 		 * @return {void}
 		 */
-		execute(callback)
+		execute(callback: (item: any) => any)
 		{
 			var node = this.first;
 			while (node)
@@ -430,7 +430,7 @@ namespace ds
 		 * @param node {DLLNode} The node to delete.
 		 * @return {void}
 		 */
-		deleteNode(node)
+		deleteNode(node: DLLNode)
 		{
 			if (node === this.first)
 			{
@@ -453,7 +453,7 @@ namespace ds
 		 * @param [node = first] {DLLNode} The node from which start the search.
 		 * @return {DLLNode} The node at the position index.
 		 */
-		getNode(index, node?)
+		getNode(index: number, node?: DLLNode)
 		{
 			if (index < 0 || index > this.length - 1)
 				return undefined;
@@ -475,7 +475,7 @@ namespace ds
 		 * @param index {Number} The position of the item.
 		 * @return {*}. It's undefined if index isn't in the queue bounds.
 		 */
-		getItem(index)
+		getItem(index: number)
 		{
 			if (index < 0 || index > this.length - 1)
 				return undefined;
@@ -498,30 +498,29 @@ namespace ds
 		 * This function callback will return the opposite of the attribute key of the item. In this case the list will be sorted in descending order.
 		 * @return {void}
 		 */
-		sort(callback?)
+		sort(callback?: (item: any) => number)
 		{
-
 			if (!callback)
-				callback = function (item)
+				callback = function (item: number)
 				{
 					return item;
 				};
 
 			var outerThis = this;
 
-			function partialSort(from, to, fromNode, toNode)
+			function partialSort(from: number, to: number, fromNode: DLLNode, toNode: DLLNode, callback: (item: any) => number)
 			{
 				if (from < to)
 				{
 					var m = Math.floor((from + to) / 2);
-					var mNode = outerThis.getNode(m - from, fromNode);
-					partialSort(from, m, fromNode, mNode);
-					partialSort(m + 1, to, mNode.next, toNode);
-					merge(from, m, to, fromNode);
+					var mNode: DLLNode = <any>outerThis.getNode(m - from, fromNode);
+					partialSort(from, m, fromNode, mNode, callback);
+					partialSort(m + 1, to, mNode.next, toNode, callback);
+					merge(from, m, to, fromNode, callback);
 				}
 			}
 
-			function merge(from, m, to, fromNode)
+			function merge(from: number, m: number, to: number, fromNode: DLLNode, callback: (item: any) => number)
 			{
 				var left = [];
 				var right = [];
@@ -545,7 +544,7 @@ namespace ds
 				}
 			}
 
-			partialSort(0, this.length - 1, this.first, this.last);
+			partialSort(0, this.length - 1, this.first, this.last, callback);
 		};
 
 		/**
@@ -574,7 +573,7 @@ namespace ds
 		 * @param array {Array<*>} The array from which build the list.
 		 * @return {void}
 		 */
-		fromArray(array)
+		fromArray(array: any[])
 		{
 			var node = this.first;
 			for (var i = 0; i < Math.min(this.length, array.length); i++ , node = node.next)
@@ -592,7 +591,7 @@ namespace ds
 		 * @param callback {function} The function that implements the condition.
 		 * @return {Array<Object>} The array that contains the items that satisfy the condition.
 		 */
-		filter(callback)
+		filter(callback: (item: any) => boolean)
 		{
 			var result = [];
 			for (var node = this.first; node; node = node.next)
@@ -632,7 +631,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The first position of the item.
 		 */
-		indexOf(item, callback?)
+		indexOf(item: any, callback?: (item: any) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -656,7 +655,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The last position of the item.
 		 */
-		lastIndexOf(item, callback?)
+		lastIndexOf(item: any, callback?: (item: any) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -680,7 +679,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {Array<number>} The positions in which the item has been found.
 		 */
-		allIndexesOf(item, callback?)
+		allIndexesOf(item: any, callback?: (item: any) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -704,7 +703,7 @@ namespace ds
 		 * @param list {DoubleLinkedList} The list to join.
 		 * @return {void}
 		 */
-		join(list)
+		join(list: DoubleLinkedList)
 		{
 			if (this.last)
 				this.last.next = list.first;
@@ -721,13 +720,13 @@ namespace ds
 		 * @param index {number} The position where to divide the list.
 		 * @return {DoubleLinkedList} The list formed by the nodes from the index position then. If the index is out of bound, the list will be empty.
 		 */
-		divide(index)
+		divide(index: number)
 		{
 			var list = new DoubleLinkedList();
 			if (index > -1 && index < this.length)
 			{
 				var node = this.first;
-				var previous = null;
+				var previous: DLLNode = <any>null;
 				for (var i = 0; i < index; i++)
 				{
 					previous = node;
@@ -737,15 +736,15 @@ namespace ds
 				{
 					list.first = this.first;
 					list.last = this.last;
-					this.first = null;
-					this.last = null;
+					this.first = <any>null;
+					this.last = <any>null;
 				} else
 				{
 					list.first = node;
 					list.last = this.last;
 					this.last = previous;
-					previous.next = null;
-					node.previous = null;
+					previous.next = <any>null;
+					node.previous = <any>null;
 				}
 				list.length = this.length - index;
 				this.length = index;
@@ -793,7 +792,7 @@ namespace ds
 		 * @param size {number} The size of the lists.
 		 * @return {Array<DoubleLinkedList>} The lists created by splitting the list.
 		 */
-		split(size)
+		split(size: number)
 		{
 			var length = this.length;
 			var lists: DoubleLinkedList[] = [this];
@@ -807,7 +806,7 @@ namespace ds
 		 * @param callback {function} The condition to satisfy.
 		 * @return {number} The number of items that satisfy the condition.
 		 */
-		count(callback)
+		count(callback: (item: boolean) => boolean)
 		{
 			var count = 0;
 			var node = this.first;
