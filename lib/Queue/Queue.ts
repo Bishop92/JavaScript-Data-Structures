@@ -30,10 +30,10 @@ namespace ds
 
 			this.offsetIndex = 0;
 
-			if (args && args.length)
+			if (args && args.length == 1 && args[0] instanceof Array)
 			{
 				//builds the list from the range passed from the constructor
-				this.multiEnqueue(args);
+				this.multiEnqueue(args[0]);
 			} else
 			{
 				//builds the list from the parameters of the constructor
@@ -237,7 +237,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The first position of the item.
 		 */
-		indexOf(item, callback)
+		indexOf(item, callback?)
 		{
 			callback = callback || function (it)
 			{
@@ -259,7 +259,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The last position of the item.
 		 */
-		lastIndexOf(item, callback)
+		lastIndexOf(item, callback?)
 		{
 			callback = callback || function (it)
 			{
@@ -282,7 +282,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {Array<number>} The positions in which the item has been found.
 		 */
-		allIndexesOf(item, callback)
+		allIndexesOf(item, callback?)
 		{
 			callback = callback || function (it)
 			{

@@ -60,10 +60,10 @@ namespace ds
 		{
 			super();
 
-			if (args && args.length)
+			if (args && args.length == 1 && args[0] instanceof Array)
 			{
 				//builds the list from the range passed from the constructor
-				this.fromArray(args);
+				this.fromArray(args[0]);
 			} else
 			{
 				//builds the list from the parameters of the constructor
@@ -265,7 +265,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {void}
 		 */
-		remove(item, callback)
+		remove(item, callback?)
 		{
 			callback = callback || function (it)
 			{
@@ -300,7 +300,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {void}
 		 */
-		removeAll(item, callback)
+		removeAll(item, callback?)
 		{
 			callback = callback || function (it)
 			{
@@ -490,83 +490,6 @@ namespace ds
 		};
 
 		/**
-		 * Sort the list using web workers.
-		 * Using this method is discouraged. Many web browser set a limit to the maximum number of workers instantiated.
-		 * The items of the list, due to web workers implementation, will be serialized so they will lost own methods.
-		 * @return {void}
-		 */
-		parallelSort()
-		{
-
-			var workers = [];
-			var _array = this.toArray();
-			console.log(_array);
-
-			function partialSort(_from, _to, _id)
-			{
-				if (_from < _to)
-				{
-					var m = Math.floor((_from + _to) / 2);
-					var workerLeft = new Worker("DoubleLinkedList/WorkerSort.js");
-					var workerRight = new Worker("DoubleLinkedList/WorkerSort.js");
-					workers.push(workerLeft);
-					workers.push(workerRight);
-					var length = workers.length;
-					workerLeft.postMessage({ cmd: 'start', from: _from, to: m, worker: _id });
-					workerRight.postMessage({ cmd: 'start', from: m + 1, to: _to, worker: _id });
-					partialSort(_from, m, length - 2);
-					partialSort(m + 1, _to, length - 1);
-					workerLeft.onmessage = function (event)
-					{
-						var data = event.data;
-						switch (data.cmd)
-						{
-							case 'finished':
-								workers[data.worker].postMessage({ cmd: 'finished', array: _array });
-								break;
-							case 'replace':
-								_array[data.index] = data.value;
-								break;
-						}
-					};
-					workerRight.onmessage = function (event)
-					{
-						var data = event.data;
-						switch (data.cmd)
-						{
-							case 'finished':
-								workers[data.worker].postMessage({ cmd: 'finished', array: _array });
-								break;
-							case 'replace':
-								_array[data.index] = data.value;
-								break;
-						}
-					}
-				}
-			}
-
-			var outerThis = this;
-
-			var mainWorker = new Worker("DoubleLinkedList/WorkerSort.js");
-			workers.push(mainWorker);
-			mainWorker.postMessage({ cmd: 'start', from: 0, to: this.length - 1, worker: -1, array: _array });
-			mainWorker.onmessage = function (event)
-			{
-				var data = event.data;
-				switch (data.cmd)
-				{
-					case 'finished':
-						outerThis.fromArray(_array);
-						console.log(outerThis);
-						break;
-					case 'replace':
-						_array[data.index] = data.value;
-				}
-			};
-			partialSort(0, this.length - 1, 0);
-		};
-
-		/**
 		 * Sort the list.
 		 * @param [callback = function(item){return(item);}] {function} The function invoked in order to get the value for the evaluation of the sort criteria.
 		 * @example
@@ -574,7 +497,7 @@ namespace ds
 		 * This function callback will return the opposite of the attribute key of the item. In this case the list will be sorted in descending order.
 		 * @return {void}
 		 */
-		sort(callback)
+		sort(callback?)
 		{
 
 			if (!callback)
@@ -708,7 +631,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The first position of the item.
 		 */
-		indexOf(item, callback)
+		indexOf(item, callback?)
 		{
 			callback = callback || function (it)
 			{
@@ -732,7 +655,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The last position of the item.
 		 */
-		lastIndexOf(item, callback)
+		lastIndexOf(item, callback?)
 		{
 			callback = callback || function (it)
 			{
@@ -756,7 +679,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {Array<number>} The positions in which the item has been found.
 		 */
-		allIndexesOf(item, callback)
+		allIndexesOf(item, callback?)
 		{
 			callback = callback || function (it)
 			{

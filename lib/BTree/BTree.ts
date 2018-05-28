@@ -57,7 +57,7 @@ namespace ds
 		 * @param minimumDegree {number} The minimum number of keys of a node.
 		 * @constructor
 		 */
-		constructor(minimumDegree: number)
+		constructor(minimumDegree: number = 0)
 		{
 			super();
 
@@ -420,7 +420,7 @@ namespace ds
 		 * @param [callback = function(node,index){return(node.keys[index]===key);}] The condition to satisfy. The callback must accept the current node to check and optionally the position of the key.
 		 * @return {boolean} True if the tree contains the key.
 		 */
-		contains(key, callback)
+		contains(key, callback?)
 		{
 			return this.search(key, null, callback) !== undefined;
 		};
@@ -697,7 +697,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The first position of the item.
 		 */
-		indexOf(item, callback)
+		indexOf(item, callback?)
 		{
 			callback = callback || function (it)
 			{
@@ -720,7 +720,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The last position of the item.
 		 */
-		lastIndexOf(item, callback)
+		lastIndexOf(item, callback?)
 		{
 			callback = callback || function (it)
 			{
@@ -743,7 +743,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {Array<number>} The positions in which the item has been found.
 		 */
-		allIndexesOf(item, callback)
+		allIndexesOf(item, callback?)
 		{
 			callback = callback || function (it)
 			{

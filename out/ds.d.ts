@@ -256,7 +256,7 @@ declare namespace ds {
          * @param minimumDegree {number} The minimum number of keys of a node.
          * @constructor
          */
-        constructor(minimumDegree: number);
+        constructor(minimumDegree?: number);
         /**
          * @inheritDoc
          */
@@ -324,7 +324,7 @@ declare namespace ds {
          * @param [callback = function(node,index){return(node.keys[index]===key);}] The condition to satisfy. The callback must accept the current node to check and optionally the position of the key.
          * @return {boolean} True if the tree contains the key.
          */
-        contains(key: any, callback: any): boolean;
+        contains(key: any, callback?: any): boolean;
         /**
          * Checks if the tree contains a node that satisfy the condition represented by the callback function.
          * This method check all the tree avoiding the binary search.
@@ -415,21 +415,21 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The first position of the item.
          */
-        indexOf(item: any, callback: any): number;
+        indexOf(item: any, callback?: any): number;
         /**
          * Returns the last position of the item in the tree.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The last position of the item.
          */
-        lastIndexOf(item: any, callback: any): number;
+        lastIndexOf(item: any, callback?: any): number;
         /**
          * Returns all the position in which the item has been found in the tree.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback: any): any[];
+        allIndexesOf(item: any, callback?: any): any[];
         /**
          * Returns the item at the position index.
          * @param index {number} The position of the item.
@@ -747,14 +747,14 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {void}
          */
-        remove(item: any, callback: any): void;
+        remove(item: any, callback?: any): void;
         /**
          * Removes all the item from the list.
          * @param item {*} The item to remove.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {void}
          */
-        removeAll(item: any, callback: any): void;
+        removeAll(item: any, callback?: any): void;
         /**
          * Removes all the items stored from the from position to the to position.
          * If from > to, the method will remove all the items up to the end.
@@ -809,13 +809,6 @@ declare namespace ds {
          */
         getItem(index: any): any;
         /**
-         * Sort the list using web workers.
-         * Using this method is discouraged. Many web browser set a limit to the maximum number of workers instantiated.
-         * The items of the list, due to web workers implementation, will be serialized so they will lost own methods.
-         * @return {void}
-         */
-        parallelSort(): void;
-        /**
          * Sort the list.
          * @param [callback = function(item){return(item);}] {function} The function invoked in order to get the value for the evaluation of the sort criteria.
          * @example
@@ -823,7 +816,7 @@ declare namespace ds {
          * This function callback will return the opposite of the attribute key of the item. In this case the list will be sorted in descending order.
          * @return {void}
          */
-        sort(callback: any): void;
+        sort(callback?: any): void;
         /**
          * Transform the list into an array.
          * @return {Array<*>} The array built.
@@ -862,21 +855,21 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The first position of the item.
          */
-        indexOf(item: any, callback: any): number;
+        indexOf(item: any, callback?: any): number;
         /**
          * Returns the last position of the item in the list.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The last position of the item.
          */
-        lastIndexOf(item: any, callback: any): number;
+        lastIndexOf(item: any, callback?: any): number;
         /**
          * Returns all the position in which the item has been found in the list.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback: any): any[];
+        allIndexesOf(item: any, callback?: any): any[];
         /**
          * Add the list at the end of this list.
          * @param list {DoubleLinkedList} The list to join.
@@ -1031,7 +1024,7 @@ declare namespace ds {
          * @param [callback = function(k){return(k===key);}] The condition to satisfy. The callback must accept the current key to check.
          * @return {boolean} True if the hash table contains the key that satisfy the condition, false otherwise.
          */
-        containsKey(key: any, callback: any): boolean;
+        containsKey(key: any, callback?: any): boolean;
         /**
          * Searches all the items relative to the key value.
          * @param key {number} The key of the items to search.
@@ -1194,14 +1187,14 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {void}
          */
-        remove(item: any, callback: any): void;
+        remove(item: any, callback?: any): void;
         /**
          * Removes all the item from the list.
          * @param item {*} The item to remove.
          * @param [callback (item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {void}
          */
-        removeAll(item: any, callback: any): void;
+        removeAll(item: any, callback?: any): void;
         /**
          * Removes all the items stored from the from position to the to position.
          * If from > to, the method will remove all the items up to the end.
@@ -1281,21 +1274,21 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The first position of the item.
          */
-        indexOf(item: any, callback: any): number;
+        indexOf(item: any, callback?: any): number;
         /**
          * Returns the last position of the item in the list.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The last position of the item.
          */
-        lastIndexOf(item: any, callback: any): number;
+        lastIndexOf(item: any, callback?: any): number;
         /**
          * Returns all the position in which the item has been found in the list.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback: any): any[];
+        allIndexesOf(item: any, callback?: any): any[];
         /**
          * Add the list at the end of this list.
          * @param list {LinkedList} The list to join.
@@ -1479,7 +1472,7 @@ declare namespace ds {
          * @param [callback = function(p){return(p===priority);}] The condition to satisfy. The callback must accept the current priority to check.
          * @return {boolean} True if the queue contains the priority that satisfy the condition, false otherwise.
          */
-        containsPriority(priority: any, callback: any): boolean;
+        containsPriority(priority: any, callback?: any): boolean;
         /**
          * Return the queue created by the priority queue with the items in the same order but without the priority.
          * @return {Queue} The queue created.
@@ -1682,21 +1675,21 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The first position of the item.
          */
-        indexOf(item: any, callback: any): number;
+        indexOf(item: any, callback?: any): number;
         /**
          * Returns the last position of the item in the queue.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The last position of the item.
          */
-        lastIndexOf(item: any, callback: any): number;
+        lastIndexOf(item: any, callback?: any): number;
         /**
          * Returns all the position in which the item has been found in the queue.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback: any): any[];
+        allIndexesOf(item: any, callback?: any): any[];
         /**
          * Clones the queue into a new queue.
          * @return {Queue} The queue cloned from this queue.
@@ -1755,6 +1748,19 @@ declare namespace ds {
          */
         getItem(): any;
     }
+}
+/**
+ * Created by Stefano on 01/02/2015.
+ */
+declare namespace ds {
+    /**
+     * Create an array containing the value of the range
+     * @param from {number} The inclusive start value of the range.
+     * @param to {number} The inclusive end value of the range.
+     * @param [step=1] The step to sample the values
+     * @return {Array<number>} The array containing the value of the range.
+     */
+    function Range(from: any, to: any, step?: any): any[];
 }
 declare namespace ds {
     class RBNode {

@@ -309,6 +309,7 @@ var ds;
          * @constructor
          */
         function BTree(minimumDegree) {
+            if (minimumDegree === void 0) { minimumDegree = 0; }
             var _this = _super.call(this) || this;
             /**
              * The root of the tree.
@@ -1367,9 +1368,9 @@ var ds;
              * @type {number}
              */
             _this.length = 0;
-            if (args && args.length) {
+            if (args && args.length == 1 && args[0] instanceof Array) {
                 //builds the list from the range passed from the constructor
-                _this.fromArray(args);
+                _this.fromArray(args[0]);
             }
             else {
                 //builds the list from the parameters of the constructor
@@ -1753,70 +1754,6 @@ var ds;
                 for (index = this.length - index - 1, node = this.last; index > 0; index--)
                     node = node.previous;
             return node.item;
-        };
-        ;
-        /**
-         * Sort the list using web workers.
-         * Using this method is discouraged. Many web browser set a limit to the maximum number of workers instantiated.
-         * The items of the list, due to web workers implementation, will be serialized so they will lost own methods.
-         * @return {void}
-         */
-        DoubleLinkedList.prototype.parallelSort = function () {
-            var workers = [];
-            var _array = this.toArray();
-            console.log(_array);
-            function partialSort(_from, _to, _id) {
-                if (_from < _to) {
-                    var m = Math.floor((_from + _to) / 2);
-                    var workerLeft = new Worker("DoubleLinkedList/WorkerSort.js");
-                    var workerRight = new Worker("DoubleLinkedList/WorkerSort.js");
-                    workers.push(workerLeft);
-                    workers.push(workerRight);
-                    var length = workers.length;
-                    workerLeft.postMessage({ cmd: 'start', from: _from, to: m, worker: _id });
-                    workerRight.postMessage({ cmd: 'start', from: m + 1, to: _to, worker: _id });
-                    partialSort(_from, m, length - 2);
-                    partialSort(m + 1, _to, length - 1);
-                    workerLeft.onmessage = function (event) {
-                        var data = event.data;
-                        switch (data.cmd) {
-                            case 'finished':
-                                workers[data.worker].postMessage({ cmd: 'finished', array: _array });
-                                break;
-                            case 'replace':
-                                _array[data.index] = data.value;
-                                break;
-                        }
-                    };
-                    workerRight.onmessage = function (event) {
-                        var data = event.data;
-                        switch (data.cmd) {
-                            case 'finished':
-                                workers[data.worker].postMessage({ cmd: 'finished', array: _array });
-                                break;
-                            case 'replace':
-                                _array[data.index] = data.value;
-                                break;
-                        }
-                    };
-                }
-            }
-            var outerThis = this;
-            var mainWorker = new Worker("DoubleLinkedList/WorkerSort.js");
-            workers.push(mainWorker);
-            mainWorker.postMessage({ cmd: 'start', from: 0, to: this.length - 1, worker: -1, array: _array });
-            mainWorker.onmessage = function (event) {
-                var data = event.data;
-                switch (data.cmd) {
-                    case 'finished':
-                        outerThis.fromArray(_array);
-                        console.log(outerThis);
-                        break;
-                    case 'replace':
-                        _array[data.index] = data.value;
-                }
-            };
-            partialSort(0, this.length - 1, 0);
         };
         ;
         /**
@@ -2469,9 +2406,9 @@ var ds;
             _this.first = null;
             _this.last = null;
             _this.length = 0;
-            if (args && args.length) {
+            if (args && args.length == 1 && args[0] instanceof Array) {
                 //builds the list from the range passed from the constructor
-                _this.fromArray(args);
+                _this.fromArray(args[0]);
             }
             else {
                 //builds the list from the parameters of the constructor
@@ -3505,9 +3442,9 @@ var ds;
             _this.offsetIndex = 0;
             _this.items = [];
             _this.offsetIndex = 0;
-            if (args && args.length) {
+            if (args && args.length == 1 && args[0] instanceof Array) {
                 //builds the list from the range passed from the constructor
-                _this.multiEnqueue(args);
+                _this.multiEnqueue(args[0]);
             }
             else {
                 //builds the list from the parameters of the constructor
@@ -3842,6 +3779,28 @@ var ds;
         return QueueIterator;
     }());
     ds.QueueIterator = QueueIterator;
+})(ds || (ds = {}));
+/**
+ * Created by Stefano on 01/02/2015.
+ */
+var ds;
+(function (ds) {
+    /**
+     * Create an array containing the value of the range
+     * @param from {number} The inclusive start value of the range.
+     * @param to {number} The inclusive end value of the range.
+     * @param [step=1] The step to sample the values
+     * @return {Array<number>} The array containing the value of the range.
+     */
+    function Range(from, to, step) {
+        var range = [];
+        step = step || 1;
+        var sign = (step > 0 ? 1 : -1);
+        for (var i = 0; from * sign <= to * sign; from += step, ++i)
+            range[i] = from;
+        return range;
+    }
+    ds.Range = Range;
 })(ds || (ds = {}));
 var ds;
 (function (ds) {
@@ -5989,3 +5948,4 @@ var ds;
     }());
     ds.TrieIterator = TrieIterator;
 })(ds || (ds = {}));
+//# sourceMappingURL=ds.js.map

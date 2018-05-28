@@ -198,7 +198,7 @@ namespace ds
 		 * @param [callback = function(p){return(p===priority);}] The condition to satisfy. The callback must accept the current priority to check.
 		 * @return {boolean} True if the queue contains the priority that satisfy the condition, false otherwise.
 		 */
-		containsPriority(priority, callback)
+		containsPriority(priority, callback?)
 		{
 			if (callback)
 				return this.items.fullContains(callback);

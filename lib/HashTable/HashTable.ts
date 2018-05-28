@@ -129,7 +129,7 @@ namespace ds
 		 * @param [callback = function(k){return(k===key);}] The condition to satisfy. The callback must accept the current key to check.
 		 * @return {boolean} True if the hash table contains the key that satisfy the condition, false otherwise.
 		 */
-		containsKey(key, callback)
+		containsKey(key, callback?)
 		{
 			callback = callback || function (k)
 			{
