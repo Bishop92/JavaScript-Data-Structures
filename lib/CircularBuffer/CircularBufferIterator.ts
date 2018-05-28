@@ -1,8 +1,9 @@
+/**
+ * Created by Stefano on 06/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
+ */
 namespace ds
 {
-	/**
-	 * Created by Stefano on 06/04/2014.
-	 */
 
 	export class CircularBufferIterator implements Iterator
 	{

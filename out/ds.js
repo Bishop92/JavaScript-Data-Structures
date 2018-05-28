@@ -8,11 +8,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+/**
+ * Created by Stefano on 04/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
+ */
 var ds;
 (function (ds) {
-    /**
-     * Created by Stefano on 04/04/2014.
-     */
     var Aggregate = /** @class */ (function () {
         function Aggregate() {
         }
@@ -22,6 +23,7 @@ var ds;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 08/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 var ds;
 (function (ds) {
@@ -713,11 +715,12 @@ var ds;
     }(ds.Aggregate));
     ds.BTree = BTree;
 })(ds || (ds = {}));
+/**
+ * Created by Stefano on 06/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
+ */
 var ds;
 (function (ds) {
-    /**
-     * Created by Stefano on 06/04/2014.
-     */
     var BTreeIterator = /** @class */ (function () {
         /**
          * Class that implements the iterator for a binary search tree.
@@ -788,6 +791,7 @@ var ds;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 05/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 var ds;
 (function (ds) {
@@ -969,6 +973,7 @@ var ds;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 06/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 var ds;
 (function (ds) {
@@ -1039,6 +1044,7 @@ var ds;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 31/03/14.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 var ds;
 (function (ds) {
@@ -1243,11 +1249,12 @@ var ds;
     }(ds.Aggregate));
     ds.CircularBuffer = CircularBuffer;
 })(ds || (ds = {}));
+/**
+ * Created by Stefano on 06/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
+ */
 var ds;
 (function (ds) {
-    /**
-     * Created by Stefano on 06/04/2014.
-     */
     var CircularBufferIterator = /** @class */ (function () {
         /**
          * Class that implements the iterator for a circular buffer.
@@ -1315,6 +1322,7 @@ var ds;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 31/03/14.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 var ds;
 (function (ds) {
@@ -2053,6 +2061,7 @@ var ds;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 04/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 var ds;
 (function (ds) {
@@ -2127,6 +2136,7 @@ var ds;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 05/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 var ds;
 (function (ds) {
@@ -2355,6 +2365,7 @@ var ds;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 31/03/14.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 var ds;
 (function (ds) {
@@ -2986,6 +2997,7 @@ var ds;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 04/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 var ds;
 (function (ds) {
@@ -3063,6 +3075,7 @@ var ds;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 31/03/14.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 var ds;
 (function (ds) {
@@ -3330,6 +3343,7 @@ var ds;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 04/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 var ds;
 (function (ds) {
@@ -3413,6 +3427,7 @@ var ds;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 31/03/14.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 var ds;
 (function (ds) {
@@ -3716,6 +3731,7 @@ var ds;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 04/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 var ds;
 (function (ds) {
@@ -3782,6 +3798,7 @@ var ds;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 01/02/2015.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 var ds;
 (function (ds) {
@@ -4370,6 +4387,7 @@ var ds;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 06/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 var ds;
 (function (ds) {
@@ -5065,6 +5083,7 @@ var ds;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 06/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 var ds;
 (function (ds) {
@@ -5140,6 +5159,7 @@ var ds;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 12/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 var ds;
 (function (ds) {
@@ -5621,6 +5641,7 @@ var ds;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 04/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 var ds;
 (function (ds) {
@@ -5687,6 +5708,7 @@ var ds;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 02/02/2015.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 var ds;
 (function (ds) {
@@ -5884,6 +5906,7 @@ var ds;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 06/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 var ds;
 (function (ds) {

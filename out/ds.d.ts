@@ -1,7 +1,8 @@
+/**
+ * Created by Stefano on 04/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
+ */
 declare namespace ds {
-    /**
-     * Created by Stefano on 04/04/2014.
-     */
     abstract class Aggregate {
         /**
          * Returns the iterator relative to the aggregate.
@@ -62,6 +63,7 @@ declare namespace ds {
 }
 /**
  * Created by Stefano on 08/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
     class BNode {
@@ -290,10 +292,11 @@ declare namespace ds {
         getItem(index: any): any;
     }
 }
+/**
+ * Created by Stefano on 06/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
+ */
 declare namespace ds {
-    /**
-     * Created by Stefano on 06/04/2014.
-     */
     class BTreeIterator implements Iterator {
         /**
          * The aggregate relates to this iterator.
@@ -345,6 +348,7 @@ declare namespace ds {
 }
 /**
  * Created by Stefano on 05/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
     class BSNode {
@@ -440,6 +444,7 @@ declare namespace ds {
 }
 /**
  * Created by Stefano on 06/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
     class BSTreeIterator implements Iterator {
@@ -493,6 +498,7 @@ declare namespace ds {
 }
 /**
  * Created by Stefano on 31/03/14.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
     class CircularBuffer extends Aggregate {
@@ -584,10 +590,11 @@ declare namespace ds {
         resize(size: any): void;
     }
 }
+/**
+ * Created by Stefano on 06/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
+ */
 declare namespace ds {
-    /**
-     * Created by Stefano on 06/04/2014.
-     */
     class CircularBufferIterator implements Iterator {
         /**
          * The aggregate relates to this iterator.
@@ -638,6 +645,7 @@ declare namespace ds {
 }
 /**
  * Created by Stefano on 31/03/14.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
     class DLLNode {
@@ -908,6 +916,7 @@ declare namespace ds {
 }
 /**
  * Created by Stefano on 04/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
     class DoubleLinkedListIterator implements Iterator {
@@ -961,6 +970,7 @@ declare namespace ds {
 }
 /**
  * Created by Stefano on 05/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
     class HashTable {
@@ -1083,6 +1093,7 @@ declare namespace ds {
 }
 /**
  * Created by Stefano on 31/03/14.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
     class LLNode {
@@ -1327,6 +1338,7 @@ declare namespace ds {
 }
 /**
  * Created by Stefano on 04/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
     class LinkedListIterator implements Iterator {
@@ -1380,6 +1392,7 @@ declare namespace ds {
 }
 /**
  * Created by Stefano on 31/03/14.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
     class PriorityQueue extends Aggregate {
@@ -1512,6 +1525,7 @@ declare namespace ds {
 }
 /**
  * Created by Stefano on 04/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
     class PriorityQueueIterator implements Iterator {
@@ -1564,6 +1578,7 @@ declare namespace ds {
 }
 /**
  * Created by Stefano on 31/03/14.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
     class Queue extends Aggregate {
@@ -1704,6 +1719,7 @@ declare namespace ds {
 }
 /**
  * Created by Stefano on 04/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
     class QueueIterator implements Iterator {
@@ -1751,6 +1767,7 @@ declare namespace ds {
 }
 /**
  * Created by Stefano on 01/02/2015.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
     /**
@@ -1981,6 +1998,7 @@ declare namespace ds {
 }
 /**
  * Created by Stefano on 06/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
     class RBTreeIterator implements Iterator {
@@ -2267,6 +2285,7 @@ declare namespace ds {
 }
 /**
  * Created by Stefano on 06/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
     class RBTreeListIterator implements Iterator {
@@ -2320,6 +2339,7 @@ declare namespace ds {
 }
 /**
  * Created by Stefano on 12/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
     class Element {
@@ -2550,6 +2570,7 @@ declare namespace ds {
 }
 /**
  * Created by Stefano on 04/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
     class StackIterator implements Iterator {
@@ -2597,6 +2618,7 @@ declare namespace ds {
 }
 /**
  * Created by Stefano on 02/02/2015.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
     class TNode {
@@ -2703,6 +2725,7 @@ declare namespace ds {
 }
 /**
  * Created by Stefano on 06/04/2014.
+ * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
     class TrieIterator implements Iterator {
