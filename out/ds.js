@@ -256,20 +256,17 @@ var ds;
                 else {
                     //the node is not a leaf
                     //the node has the minimum number of keys
-                    debugger;
-                    console.error("此处有bug,注释以下代码");
-                    // if (node.childs[i].length === this.t - 1)
-                    // {
-                    // 	//increase the number of the keys of the node
-                    // 	this.augmentChild(node, i);
-                    // 	if (i === node.keys.length + 1)
-                    // 		i--;
-                    // }
-                    // //check if the key is moved in the child
-                    // if (node.keys[i] !== key)
-                    // 	this.deleteNonMin(node.childs[i], key);
-                    // else
-                    // 	this.deleteMax(node, i);
+                    if (node.childs[i].length === this.t - 1) {
+                        //increase the number of the keys of the node
+                        this.augmentChild(node, i);
+                        if (i === node.keys.length + 1)
+                            i--;
+                    }
+                    //check if the key is moved in the child
+                    if (node.keys[i] !== key)
+                        this.deleteNonMin(node.childs[i], key);
+                    else
+                        this.deleteMax(node, i);
                 }
                 //the key is not in the node
             }
@@ -322,23 +319,19 @@ var ds;
             if (index)
                 brother = node.childs[index - 1];
             if (index && brother.keys.length > this.t - 1) {
-                debugger;
-                console.error("此处有bug,注释以下代码");
-                // if (child.childs.length)
-                // {
-                // 	for (var j = this.keys.length + 1; j > 0; j--)
-                // 		child.childs[j] = child.childs[j - 1];
-                // 	child.childs[0] = brother.childs[brother.keys.length];
-                // 	for (var i = child.keys.length; i > 0; i--)
-                // 	{
-                // 		child.keys[i] = child.keys[i - 1];
-                // 		child.items[i] = child.items[i - 1];
-                // 	}
-                // 	child.keys[0] = node.keys[index - 1];
-                // 	child.items[0] = node.items[index - 1];
-                // 	node.keys[index - 1] = brother.keys[brother.keys.length - 1];
-                // 	node.items[index - 1] = brother.items[brother.items.length - 1];
-                // }
+                if (child.childs.length) {
+                    for (var j = this.keys.length + 1; j > 0; j--)
+                        child.childs[j] = child.childs[j - 1];
+                    child.childs[0] = brother.childs[brother.keys.length];
+                    for (var i = child.keys.length; i > 0; i--) {
+                        child.keys[i] = child.keys[i - 1];
+                        child.items[i] = child.items[i - 1];
+                    }
+                    child.keys[0] = node.keys[index - 1];
+                    child.items[0] = node.items[index - 1];
+                    node.keys[index - 1] = brother.keys[brother.keys.length - 1];
+                    node.items[index - 1] = brother.items[brother.items.length - 1];
+                }
             }
             else {
                 if (index < node.keys.length)
@@ -2374,13 +2367,11 @@ var ds;
          * @return {HashTable} The hash table cloned from this hash table.
          */
         HashTable.prototype.clone = function () {
-            debugger;
-            console.error("此处有bug，注释后面代码");
-            // var table = new HashTable(this.size);
-            // for (var i = 0; i < this.size; i++)
-            // 	for (var node = this.items[i].first; node; node = node.next)
-            // 		table.insert(node.key, node.item);
-            // return table;
+            var table = new HashTable(this.size);
+            for (var i = 0; i < this.size; i++)
+                for (var node = this.items[i].first; node; node = node.next)
+                    table.insert(node.key, node.item);
+            return table;
         };
         ;
         return HashTable;
@@ -5647,11 +5638,13 @@ var ds;
          */
         Stack.prototype.clone = function () {
             var stack = new Stack();
-            for (var i = 0; i < this.items.length; i++)
-                if (this.items[i].clone)
-                    stack.push(this.items[i].clone());
+            for (var i = 0; i < this.items.length; i++) {
+                var item = this.items[i];
+                if (item.clone)
+                    stack.push(item.clone());
                 else
-                    stack.push(this.items[i]);
+                    stack.push(item);
+            }
             return stack;
         };
         ;
@@ -5663,12 +5656,13 @@ var ds;
             var stack = new Stack();
             for (var i = 0; i < this.items.length; i++)
                 if (!stack.contains(this.items[i])) {
-                    if (this.items[i].cloneDistinct)
-                        stack.push(this.items[i].cloneDistinct());
-                    else if (this.items[i].clone)
-                        stack.push(this.items[i].clone());
+                    var item = this.items[i];
+                    if (item.cloneDistinct)
+                        stack.push(item.cloneDistinct());
+                    else if (item.clone)
+                        stack.push(item.clone());
                     else
-                        stack.push(this.items[i]);
+                        stack.push(item);
                 }
             return stack;
         };
@@ -5974,9 +5968,7 @@ var ds;
          * @inheritDoc
          */
         TrieIterator.prototype.next = function () {
-            debugger;
-            console.error("此处有bug，以下代码注释");
-            // this.pointer = this.aggregate.successor(this.pointer);
+            this.pointer = this.aggregate.successor(this.pointer);
         };
         ;
         /**
@@ -5990,9 +5982,7 @@ var ds;
          * @inheritDoc
          */
         TrieIterator.prototype.previous = function () {
-            debugger;
-            console.error("此处有bug，以下代码注释");
-            // this.pointer = this.aggregate.predecessor(this.pointer);
+            this.pointer = this.aggregate.predecessor(this.pointer);
         };
         ;
         /**
@@ -6006,9 +5996,7 @@ var ds;
          * @inheritDoc
          */
         TrieIterator.prototype.getItem = function () {
-            debugger;
-            console.error("此处有bug，以下代码注释");
-            // return this.pointer.item;
+            return this.pointer.item;
         };
         ;
         return TrieIterator;

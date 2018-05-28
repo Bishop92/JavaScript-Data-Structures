@@ -1102,7 +1102,7 @@ declare namespace ds {
          * Clones the hash table into a new hash table.
          * @return {HashTable} The hash table cloned from this hash table.
          */
-        clone(): void;
+        clone(): HashTable<T>;
     }
 }
 /**
@@ -2464,12 +2464,12 @@ declare namespace ds {
  * Created by Battistella Stefano on 31/03/14.
  */
 declare namespace ds {
-    class Stack extends Aggregate {
+    class Stack<T> extends Aggregate {
         /**
          * The list of the items in the stack.
          * @type {Array<*>}
          */
-        items: any[];
+        items: T[];
         /**
          * Class for managing a stack.
          * @param {...*} [args] The items for initializing the stack.
@@ -2479,35 +2479,35 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getIterator(): StackIterator;
+        getIterator(): StackIterator<T>;
         /**
          * Adds the item at the top of the stack.
          * @param item {*} The item to add.
          * return {void}
          */
-        push(item: any): void;
+        push(item: T): void;
         /**
          * Adds the items at the top of the stack.
          * @param items {Array<*>} The items to add.
          * @return {void}
          */
-        multiPush(items: any[]): void;
+        multiPush(items: T[]): void;
         /**
          * Removes the item at the top of the stack.
          * @return {*} The item at the top of the stack. It's undefined if the stack is empty.
          */
-        pop(): any;
+        pop(): T | undefined;
         /**
          * Removes the more item at the top of the stack.
          * @param times {number} The number of times to repeat the pop method.
          * @return {Array<*>} The items at the top of the stack.
          */
-        multiPop(times: number): any[];
+        multiPop(times: number): (T | undefined)[];
         /**
          * Returns the item at the top of the stack without remove it.
          * @return {*} The item at the top of the stack. It's undefined if the stack is empty.
          */
-        peek(): any;
+        peek(): T | undefined;
         /**
          * Removes all the items stored in the stack.
          * @return {void}
@@ -2519,20 +2519,20 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {boolean} True if the stack contains the item that satisfy the condition, false otherwise.
          */
-        contains(item: any, callback?: (item: any) => boolean): boolean;
+        contains(item: T, callback?: (item: T) => boolean): boolean;
         /**
          * Executes the callback function for each item of the stack.
          * This method modifies the stack so if you don't need to modify it you must return the same item of the array.
          * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
          * @return {void}
          */
-        execute(callback: (item: any) => any): void;
+        execute(callback: (item: T) => T): void;
         /**
          * Returns the item at the position index.
          * @param index The position of the item.
          * @return {*} The item at the position. It's undefined if index isn't in the stack bounds.
          */
-        getItem(index: number): any;
+        getItem(index: number): T | undefined;
         /**
          * Returns the length of the stack.
          * @return {Number} The length of the stack.
@@ -2548,38 +2548,38 @@ declare namespace ds {
          * @param callback {function} The function that implements the condition.
          * @return {Array<*>} The array that contains the items that satisfy the condition.
          */
-        filter(callback: (item: any) => boolean): any[];
+        filter(callback: (item: T) => boolean): T[];
         /**
          * Returns the first position of the item in the stack.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The first position of the item.
          */
-        indexOf(item: any, callback?: (item: any) => boolean): number;
+        indexOf(item: T, callback?: (item: T) => boolean): number;
         /**
          * Returns the last position of the item in the stack.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The last position of the item.
          */
-        lastIndexOf(item: any, callback?: (item: any) => boolean): number;
+        lastIndexOf(item: T, callback?: (item: T) => boolean): number;
         /**
          * Returns all the position in which the item has been found in the stack.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback?: (item: any) => boolean): number[];
+        allIndexesOf(item: T, callback?: (item: T) => boolean): number[];
         /**
          * Clones the stack into a new stack.
          * @return {Stack} The stack cloned from this stack.
          */
-        clone(): Stack;
+        clone(): Stack<T>;
         /**
          * Clones the stack into a new stack without cloning duplicated items.
          * @return {Stack} The stack cloned from this stack.
          */
-        cloneDistinct(): Stack;
+        cloneDistinct(): Stack<T>;
     }
 }
 /**
@@ -2587,12 +2587,12 @@ declare namespace ds {
  * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
-    class StackIterator implements Iterator {
+    class StackIterator<T> implements Iterator {
         /**
          * The aggregate relates to this iterator.
          * @type {Stack}
          */
-        aggregate: Stack;
+        aggregate: Stack<T>;
         /**
          * The pointer to the position.
          * @type {number}
@@ -2603,7 +2603,7 @@ declare namespace ds {
          * @param aggregate {Stack} The aggregate to scan.
          * @constructor
          */
-        constructor(aggregate: Stack);
+        constructor(aggregate: Stack<T>);
         /**
          * @inheritDoc
          */
@@ -2627,7 +2627,7 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getItem(): any;
+        getItem(): T;
     }
 }
 /**
@@ -2635,12 +2635,12 @@ declare namespace ds {
  * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
-    class TNode {
+    class TNode<T> {
         /**
          * The item stored.
          * @type {*|null}
          */
-        item: null;
+        item: T;
         /**
          * The key of the node.
          * @type {string|null}
@@ -2650,26 +2650,26 @@ declare namespace ds {
          * The parent node. It's null if there's no a parent node.
          * @type {TNode|null}
          */
-        parent: null;
+        parent: TNode<any>;
         /**
          * The children of the node.
          * @type {Array<TNode>}
          */
-        childs: TNode[];
+        childs: TNode<T>[];
         /**
          * The single node of the tree.
          * @param [string = null] The string of the node.
          * @param [item = null] The item to store in the node.
          * @constructor
          */
-        constructor(string?: string, item?: any);
+        constructor(string?: string, item?: T);
     }
-    class Trie extends Aggregate {
+    class Trie<T> extends Aggregate {
         /**
          * The root of the trie.
          * @type {TNode}
          */
-        root: TNode;
+        root: TNode<T>;
         /**
          * The size of the trie
          * @type {number}
@@ -2683,7 +2683,7 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getIterator(): TrieIterator;
+        getIterator(): TrieIterator<T>;
         /**
          * Insert the string in the tree creating the relative path to it.
          * If the string already exists then the values are updated
@@ -2717,7 +2717,7 @@ declare namespace ds {
          * @param string {string} The string for finding the item.
          * @returns {*} The item found. Undefined if the string is not in the trie
          */
-        getItem(string: string): null | undefined;
+        getItem(string: string): T | undefined;
         /**
          * Return the size of the trie.
          * @returns {number} The size of the tree.
@@ -2728,13 +2728,13 @@ declare namespace ds {
          * @param [node = root] {Node} The node from which start the search.
          * @return {string} The string found.
          */
-        minimum(node?: TNode): string;
+        minimum(node?: TNode): any;
         /**
          * Get the maximum string stored in the tree.
          * @param [node = root] {Node} The node from which start the search.
          * @return {string} The string found.
          */
-        maximum(node?: TNode): string;
+        maximum(node?: TNode): any;
     }
 }
 /**
@@ -2742,23 +2742,23 @@ declare namespace ds {
  * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
-    class TrieIterator implements Iterator {
+    class TrieIterator<T> implements Iterator {
         /**
          * The aggregate relates to this iterator.
          * @type {Trie}
          */
-        aggregate: Trie;
+        aggregate: Trie<T>;
         /**
          * The pointer to the position.
          * @type {TNode|null}
          */
-        pointer: string;
+        pointer: TNode<T>;
         /**
          * Class that implements the iterator for a trie.
          * @param aggregate {Trie} The aggregate to scan.
          * @constructor
          */
-        constructor(aggregate: Trie);
+        constructor(aggregate: Trie<T>);
         /**
          * @inheritDoc
          */
@@ -2782,6 +2782,6 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getItem(): void;
+        getItem(): T;
     }
 }

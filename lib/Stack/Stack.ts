@@ -3,13 +3,13 @@
  */
 namespace ds
 {
-	export class Stack extends Aggregate
+	export class Stack<T> extends Aggregate
 	{
 		/**
 		 * The list of the items in the stack.
 		 * @type {Array<*>}
 		 */
-		items: any[] = [];
+		items: T[] = [];
 		/**
 		 * Class for managing a stack.
 		 * @param {...*} [args] The items for initializing the stack.
@@ -36,7 +36,7 @@ namespace ds
 		 */
 		getIterator()
 		{
-			return new StackIterator(this);
+			return new StackIterator<T>(this);
 		};
 
 		/**
@@ -44,7 +44,7 @@ namespace ds
 		 * @param item {*} The item to add.
 		 * return {void}
 		 */
-		push(item: any)
+		push(item: T)
 		{
 			this.items.push(item);
 		};
@@ -54,7 +54,7 @@ namespace ds
 		 * @param items {Array<*>} The items to add.
 		 * @return {void}
 		 */
-		multiPush(items: any[])
+		multiPush(items: T[])
 		{
 			for (var i = 0; i < items.length; i++)
 				this.push(items[i]);
@@ -110,7 +110,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {boolean} True if the stack contains the item that satisfy the condition, false otherwise.
 		 */
-		contains(item: any, callback?: (item: any) => boolean)
+		contains(item: T, callback?: (item: T) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -128,7 +128,7 @@ namespace ds
 		 * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
 		 * @return {void}
 		 */
-		execute(callback: (item: any) => any)
+		execute(callback: (item: T) => T)
 		{
 			for (var i = this.items.length - 1; i > -1; i--)
 				this.items[i] = callback(this.items[i]);
@@ -169,7 +169,7 @@ namespace ds
 		 * @param callback {function} The function that implements the condition.
 		 * @return {Array<*>} The array that contains the items that satisfy the condition.
 		 */
-		filter(callback: (item: any) => boolean)
+		filter(callback: (item: T) => boolean)
 		{
 			var result = [];
 			for (var i = this.items.length - 1; i > -1; i--)
@@ -186,7 +186,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The first position of the item.
 		 */
-		indexOf(item: any, callback?: (item: any) => boolean)
+		indexOf(item: T, callback?: (item: T) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -208,7 +208,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The last position of the item.
 		 */
-		lastIndexOf(item: any, callback?: (item: any) => boolean)
+		lastIndexOf(item: T, callback?: (item: T) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -230,7 +230,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {Array<number>} The positions in which the item has been found.
 		 */
-		allIndexesOf(item: any, callback?: (item: any) => boolean)
+		allIndexesOf(item: T, callback?: (item: T) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -253,12 +253,16 @@ namespace ds
 		 */
 		clone()
 		{
-			var stack = new Stack();
+			var stack = new Stack<T>();
 			for (var i = 0; i < this.items.length; i++)
-				if (this.items[i].clone)
-					stack.push(this.items[i].clone());
+			{
+				var item: any = this.items[i];
+				if (item.clone)
+					stack.push(item.clone());
 				else
-					stack.push(this.items[i]);
+					stack.push(item);
+			}
+
 			return stack;
 		};
 
@@ -268,16 +272,17 @@ namespace ds
 		 */
 		cloneDistinct()
 		{
-			var stack = new Stack();
+			var stack = new Stack<T>();
 			for (var i = 0; i < this.items.length; i++)
 				if (!stack.contains(this.items[i]))
 				{
-					if (this.items[i].cloneDistinct)
-						stack.push(this.items[i].cloneDistinct());
-					else if (this.items[i].clone)
-						stack.push(this.items[i].clone());
+					var item: any = this.items[i];
+					if (item.cloneDistinct)
+						stack.push(item.cloneDistinct());
+					else if (item.clone)
+						stack.push(item.clone());
 					else
-						stack.push(this.items[i]);
+						stack.push(item);
 				}
 			return stack;
 		};

@@ -262,13 +262,11 @@ namespace ds
 		 */
 		clone()
 		{
-			debugger;
-			console.error("此处有bug，注释后面代码");
-			// var table = new HashTable(this.size);
-			// for (var i = 0; i < this.size; i++)
-			// 	for (var node = this.items[i].first; node; node = node.next)
-			// 		table.insert(node.key, node.item);
-			// return table;
+			var table = new HashTable<T>(this.size);
+			for (var i = 0; i < this.size; i++)
+				for (var node = this.items[i].first; node; node = node.next)
+					table.insert(node.key, node.item);
+			return table;
 		};
 	}
 

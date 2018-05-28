@@ -263,20 +263,18 @@ namespace ds
 				{
 					//the node is not a leaf
 					//the node has the minimum number of keys
-					debugger;
-					console.error("此处有bug,注释以下代码");
-					// if (node.childs[i].length === this.t - 1)
-					// {
-					// 	//increase the number of the keys of the node
-					// 	this.augmentChild(node, i);
-					// 	if (i === node.keys.length + 1)
-					// 		i--;
-					// }
-					// //check if the key is moved in the child
-					// if (node.keys[i] !== key)
-					// 	this.deleteNonMin(node.childs[i], key);
-					// else
-					// 	this.deleteMax(node, i);
+					if (node.childs[i].length === this.t - 1)
+					{
+						//increase the number of the keys of the node
+						this.augmentChild(node, i);
+						if (i === node.keys.length + 1)
+							i--;
+					}
+					//check if the key is moved in the child
+					if (node.keys[i] !== key)
+						this.deleteNonMin(node.childs[i], key);
+					else
+						this.deleteMax(node, i);
 				}
 				//the key is not in the node
 			} else
@@ -335,23 +333,21 @@ namespace ds
 				brother = node.childs[index - 1];
 			if (index && brother.keys.length > this.t - 1)
 			{
-				debugger;
-				console.error("此处有bug,注释以下代码");
-				// if (child.childs.length)
-				// {
-				// 	for (var j = this.keys.length + 1; j > 0; j--)
-				// 		child.childs[j] = child.childs[j - 1];
-				// 	child.childs[0] = brother.childs[brother.keys.length];
-				// 	for (var i = child.keys.length; i > 0; i--)
-				// 	{
-				// 		child.keys[i] = child.keys[i - 1];
-				// 		child.items[i] = child.items[i - 1];
-				// 	}
-				// 	child.keys[0] = node.keys[index - 1];
-				// 	child.items[0] = node.items[index - 1];
-				// 	node.keys[index - 1] = brother.keys[brother.keys.length - 1];
-				// 	node.items[index - 1] = brother.items[brother.items.length - 1];
-				// }
+				if (child.childs.length)
+				{
+					for (var j = this.keys.length + 1; j > 0; j--)
+						child.childs[j] = child.childs[j - 1];
+					child.childs[0] = brother.childs[brother.keys.length];
+					for (var i = child.keys.length; i > 0; i--)
+					{
+						child.keys[i] = child.keys[i - 1];
+						child.items[i] = child.items[i - 1];
+					}
+					child.keys[0] = node.keys[index - 1];
+					child.items[0] = node.items[index - 1];
+					node.keys[index - 1] = brother.keys[brother.keys.length - 1];
+					node.items[index - 1] = brother.items[brother.items.length - 1];
+				}
 			} else
 			{
 				if (index < node.keys.length)

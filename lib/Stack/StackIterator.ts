@@ -4,13 +4,13 @@
  */
 namespace ds
 {
-	export class StackIterator implements Iterator
+	export class StackIterator<T> implements Iterator
 	{
 		/**
 		 * The aggregate relates to this iterator.
 		 * @type {Stack}
 		 */
-		aggregate: Stack;
+		aggregate: Stack<T>;
 
 		/**
 		 * The pointer to the position.
@@ -22,7 +22,7 @@ namespace ds
 		 * @param aggregate {Stack} The aggregate to scan.
 		 * @constructor
 		 */
-		constructor(aggregate: Stack)
+		constructor(aggregate: Stack<T>)
 		{
 			this.aggregate = aggregate;
 			this.pointer = -1;

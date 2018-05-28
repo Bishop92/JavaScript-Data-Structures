@@ -4,13 +4,13 @@
  */
 namespace ds
 {
-    export class TNode
+    export class TNode<T>
     {
         /**
          * The item stored.
          * @type {*|null}
          */
-        item = null;
+        item: T = <any>null;
         /**
          * The key of the node.
          * @type {string|null}
@@ -20,12 +20,12 @@ namespace ds
          * The parent node. It's null if there's no a parent node.
          * @type {TNode|null}
          */
-        parent = null;
+        parent: TNode<any> = <any>null;
         /**
          * The children of the node.
          * @type {Array<TNode>}
          */
-        childs: TNode[] = [];
+        childs: TNode<T>[] = [];
 
         /**
          * The single node of the tree.
@@ -33,9 +33,9 @@ namespace ds
          * @param [item = null] The item to store in the node.
          * @constructor
          */
-        constructor(string?: string, item?: any)
+        constructor(string?: string, item?: T)
         {
-            this.item = item || null;
+            this.item = item || <any>null;
             this.string = string || <any>null;
             this.parent = null;
             this.childs = [];
@@ -43,13 +43,13 @@ namespace ds
 
     }
 
-    export class Trie extends Aggregate
+    export class Trie<T> extends Aggregate
     {
         /**
          * The root of the trie.
          * @type {TNode}
          */
-        root: TNode;
+        root: TNode<T>;
 
         /**
          * The size of the trie
@@ -64,7 +64,7 @@ namespace ds
         constructor()
         {
             super();
-            this.root = new TNode('');
+            this.root = new TNode<T>('');
             this.size = 0;
         }
 
@@ -73,7 +73,7 @@ namespace ds
          */
         getIterator()
         {
-            return new TrieIterator(this);
+            return new TrieIterator<T>(this);
         };
 
         /**
