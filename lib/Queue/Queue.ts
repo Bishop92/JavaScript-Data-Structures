@@ -1,334 +1,337 @@
 /**
  * Created by Stefano on 31/03/14.
  */
-class Queue extends Aggregate
+namespace ds
 {
-	/**
-	 * The list of the items in the queue.
-	 * @type {Array<*>}
-	 */
-	items = [];
-
-	/**
-	 * Decreases dequeue big O complexity by shifting starting indexs
-	 * for each dequeue, instead of splicing.
-	 * @type {int} 
-	 */
-	offsetIndex = 0;
-
-	/**
-	 * Class for managing a queue.
-	 * @param {...*} [args] The items for initializing the queue.
-	 * @constructor
-	 */
-	constructor(...args)
+	class Queue extends Aggregate
 	{
-		super();
-		this.items = [];
-
-		this.offsetIndex = 0;
-
-		if (args && args.length)
-		{
-			//builds the list from the range passed from the constructor
-			this.multiEnqueue(args);
-		} else
-		{
-			//builds the list from the parameters of the constructor
-			this.multiEnqueue(arguments);
-		}
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	getIterator()
-	{
-		return new QueueIterator(this);
-	};
-
-	/**
-	 * Adds the item at the tail of the queue.
-	 * @param item {*} The item to add.
-	 * @return {void}
-	 */
-	enqueue(item)
-	{
-		this.items.push(item);
-	};
-
-	/**
-	 * Adds the items at the tail of the queue.
-	 * @param items {Array<*>} The items to add.
-	 * @return {void}
-	 */
-	multiEnqueue(items)
-	{
-		for (var i = 0; i < items.length; i++)
-			this.items.push(items[i]);
-	};
-
-	/**
-	 * Removes the item at the head of the queue.
-	 * @return {*} The item at the head of the queue. It's undefined if the queue is empty.
-	 */
-	dequeue()
-	{
-		if (!(this.items.length - this.offsetIndex))
-			return undefined;
-
-		var dequeued = this.items[this.offsetIndex]; // holds the value, for cases that purge occurs
-		this.offsetIndex++;
 		/**
-		 * Automatically purge unneeded (already dequeued) 
-		 * indexs from the array when they take up 
-		 * more than one half the array
+		 * The list of the items in the queue.
+		 * @type {Array<*>}
 		 */
-		if (this.offsetIndex >= this.items.length / 2)
+		items = [];
+
+		/**
+		 * Decreases dequeue big O complexity by shifting starting indexs
+		 * for each dequeue, instead of splicing.
+		 * @type {int} 
+		 */
+		offsetIndex = 0;
+
+		/**
+		 * Class for managing a queue.
+		 * @param {...*} [args] The items for initializing the queue.
+		 * @constructor
+		 */
+		constructor(...args)
 		{
-			this.purge();
+			super();
+			this.items = [];
+
+			this.offsetIndex = 0;
+
+			if (args && args.length)
+			{
+				//builds the list from the range passed from the constructor
+				this.multiEnqueue(args);
+			} else
+			{
+				//builds the list from the parameters of the constructor
+				this.multiEnqueue(arguments);
+			}
 		}
 
-		return dequeued; //return dequeued item
-	};
-
-	/**
-	 * Removes the items at the head of the queue.
-	 * @param times {number} The number of times to repeat the dequeue method.
-	 * @return {Array<*>} The items at the head of the queue.
-	 */
-	multiDequeue(times)
-	{
-		var dequeued = []; // Holds variables that have been removed from the array
-		// Dequeue the desired number of items
-		console.log('items', this.items);
-		for (var i = 0; (i < times && this.items.length - this.offsetIndex > 0); i++)
+		/**
+		 * @inheritDoc
+		 */
+		getIterator()
 		{
-			console.log('calleds');
-			dequeued.push(this.dequeue());
-		}
-
-		return dequeued; //removes the last times item and returns the array
-	};
-
-	/**
-	 * Clears array indexs hidden by offset. To free up memory
-	 * @return {void}
-	 */
-	purge()
-	{
-		this.items.splice(0, this.offsetIndex);
-		this.offsetIndex = 0;
-	}
-
-	/**
-	 * Removes the first length items from the position index.
-	 * @param index {number} The position where to start to remove the items.
-	 * @param [length = 1] {number} The number of items to remove.
-	 * @return {void}
-	 */
-	remove(index, length)
-	{
-		length = length || 1;
-		this.items.splice(index, length);
-	};
-
-	/**
-	 * Returns the item at the position index.
-	 * @param index {number} The position of the item.
-	 * @return {*} The item at the position. It's undefined if index isn't in the queue bounds.
-	 */
-	getItem(index)
-	{
-		// take offsetIndex into account
-		var index = index + this.offsetIndex;
-		if (index < 0 || index > this.items.length - 1 - this.offsetIndex)
-			return undefined;
-		return this.items[index];
-	};
-
-	/**
-	 * Returns the first item in the queue. The item is not removed.
-	 * @return {*} The first item. It's undefined if the queue is empty.
-	 */
-	peek()
-	{
-		if (this.items.length - this.offsetIndex)
-			return this.items[this.offsetIndex];
-		return undefined
-	};
-
-	/**
-	 * Removes all the items stored in the queue.
-	 * @return {void}
-	 */
-	clear()
-	{
-		this.items = [];
-	};
-
-	/**
-	 * Checks if the queue contains an item that satisfy the condition represented by the callback function.
-	 * @param item {*} The item to find.
-	 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
-	 * @return {boolean} True if the queue contains the item that satisfy the condition, false otherwise.
-	 */
-	contains(item, callback?)
-	{
-		callback = callback || function (it)
-		{
-			return it === item;
+			return new QueueIterator(this);
 		};
-		var i = this.offsetIndex;
-		while (i < this.items.length && !callback(this.items[i]))
-			i++;
-		return i < this.items.length;
-	};
 
-	/**
-	 * Executes the callback function for each item of the queue.
-	 * This method modifies the queue so if you don't need to modify it you must return the same item of the array.
-	 * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
-	 * @return {void}
-	 */
-	execute(callback)
-	{
-		for (var i = this.offsetIndex; i < this.items.length; i++)
-			this.items[i] = callback(this.items[i]);
-	};
-
-	/**
-	 * Returns the length of the queue.
-	 * @return {number} The length of the queue.
-	 */
-	getLength()
-	{
-		return this.items.length - this.offsetIndex;
-	};
-
-	/**
-	 * Checks if the queue is empty.
-	 * @return {boolean} True if the queue is empty, false otherwise.
-	 */
-	isEmpty()
-	{
-		return !(this.items.length - this.offsetIndex);
-	};
-
-	/**
-	 * Returns the items that satisfy the condition determined by the callback.
-	 * @param callback {function} The function that implements the condition.
-	 * @return {Array<*>} The array that contains the items that satisfy the condition.
-	 */
-	filter(callback)
-	{
-		var result = [];
-		for (var i = this.offsetIndex; i < this.items.length; i++)
-			if (callback(this.items[i]))
-				result.push(this.items[i]);
-		return result;
-	};
-
-	/**
-	 * Returns the first position of the item in the queue.
-	 * @param item {*} The item to search.
-	 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
-	 * @return {number} The first position of the item.
-	 */
-	indexOf(item, callback)
-	{
-		callback = callback || function (it)
+		/**
+		 * Adds the item at the tail of the queue.
+		 * @param item {*} The item to add.
+		 * @return {void}
+		 */
+		enqueue(item)
 		{
-			return it === item;
+			this.items.push(item);
 		};
-		var i = this.offsetIndex;
-		while (i < this.items.length)
-		{
-			if (callback(this.items[i]))
-				return i - this.offsetIndex;
-			i++;
-		}
-		return -1;
-	};
 
-	/**
-	 * Returns the last position of the item in the queue.
-	 * @param item {*} The item to search.
-	 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
-	 * @return {number} The last position of the item.
-	 */
-	lastIndexOf(item, callback)
-	{
-		callback = callback || function (it)
+		/**
+		 * Adds the items at the tail of the queue.
+		 * @param items {Array<*>} The items to add.
+		 * @return {void}
+		 */
+		multiEnqueue(items)
 		{
-			return it === item;
+			for (var i = 0; i < items.length; i++)
+				this.items.push(items[i]);
 		};
-		var i = this.items.length - 1;
-		while (i > this.offsetIndex - 1)
-		{
-			console.log('l', this.offsetIndex);
-			if (callback(this.items[i]))
-				return i - this.offsetIndex;
-			i--;
-		}
-		return -1;
-	};
 
-	/**
-	 * Returns all the position in which the item has been found in the queue.
-	 * @param item {*} The item to search.
-	 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
-	 * @return {Array<number>} The positions in which the item has been found.
-	 */
-	allIndexesOf(item, callback)
-	{
-		callback = callback || function (it)
+		/**
+		 * Removes the item at the head of the queue.
+		 * @return {*} The item at the head of the queue. It's undefined if the queue is empty.
+		 */
+		dequeue()
 		{
-			return it === item;
+			if (!(this.items.length - this.offsetIndex))
+				return undefined;
+
+			var dequeued = this.items[this.offsetIndex]; // holds the value, for cases that purge occurs
+			this.offsetIndex++;
+			/**
+			 * Automatically purge unneeded (already dequeued) 
+			 * indexs from the array when they take up 
+			 * more than one half the array
+			 */
+			if (this.offsetIndex >= this.items.length / 2)
+			{
+				this.purge();
+			}
+
+			return dequeued; //return dequeued item
 		};
-		var i = this.offsetIndex;
-		var indexes = [];
-		while (i < this.items.length)
+
+		/**
+		 * Removes the items at the head of the queue.
+		 * @param times {number} The number of times to repeat the dequeue method.
+		 * @return {Array<*>} The items at the head of the queue.
+		 */
+		multiDequeue(times)
 		{
-			if (callback(this.items[i]))
-				indexes.push(i - this.offsetIndex);
-			i++;
+			var dequeued = []; // Holds variables that have been removed from the array
+			// Dequeue the desired number of items
+			console.log('items', this.items);
+			for (var i = 0; (i < times && this.items.length - this.offsetIndex > 0); i++)
+			{
+				console.log('calleds');
+				dequeued.push(this.dequeue());
+			}
+
+			return dequeued; //removes the last times item and returns the array
+		};
+
+		/**
+		 * Clears array indexs hidden by offset. To free up memory
+		 * @return {void}
+		 */
+		purge()
+		{
+			this.items.splice(0, this.offsetIndex);
+			this.offsetIndex = 0;
 		}
-		return indexes;
-	};
 
-	/**
-	 * Clones the queue into a new queue.
-	 * @return {Queue} The queue cloned from this queue.
-	 */
-	clone()
-	{
-		var queue = new Queue();
-		for (var i = this.offsetIndex; i < this.items.length; i++)
-			if (this.items[i].clone)
-				queue.enqueue(this.items[i].clone());
-			else
-				queue.enqueue(this.items[i]);
+		/**
+		 * Removes the first length items from the position index.
+		 * @param index {number} The position where to start to remove the items.
+		 * @param [length = 1] {number} The number of items to remove.
+		 * @return {void}
+		 */
+		remove(index, length)
+		{
+			length = length || 1;
+			this.items.splice(index, length);
+		};
 
-		return queue;
-	};
+		/**
+		 * Returns the item at the position index.
+		 * @param index {number} The position of the item.
+		 * @return {*} The item at the position. It's undefined if index isn't in the queue bounds.
+		 */
+		getItem(index)
+		{
+			// take offsetIndex into account
+			var index = index + this.offsetIndex;
+			if (index < 0 || index > this.items.length - 1 - this.offsetIndex)
+				return undefined;
+			return this.items[index];
+		};
 
-	/**
-	 * Clones the queue into a new queue without cloning duplicated items.
-	 * @return {Queue} The queue cloned from this queue.
-	 */
-	cloneDistinct()
-	{
-		var queue = new Queue();
-		for (var i = this.offsetIndex; i < this.items.length; i++)
-			if (!queue.contains(this.items[i]))
-				if (this.items[i].cloneDistinct)
-					queue.enqueue(this.items[i].cloneDistinct());
-				else if (this.items[i].clone)
+		/**
+		 * Returns the first item in the queue. The item is not removed.
+		 * @return {*} The first item. It's undefined if the queue is empty.
+		 */
+		peek()
+		{
+			if (this.items.length - this.offsetIndex)
+				return this.items[this.offsetIndex];
+			return undefined
+		};
+
+		/**
+		 * Removes all the items stored in the queue.
+		 * @return {void}
+		 */
+		clear()
+		{
+			this.items = [];
+		};
+
+		/**
+		 * Checks if the queue contains an item that satisfy the condition represented by the callback function.
+		 * @param item {*} The item to find.
+		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+		 * @return {boolean} True if the queue contains the item that satisfy the condition, false otherwise.
+		 */
+		contains(item, callback?)
+		{
+			callback = callback || function (it)
+			{
+				return it === item;
+			};
+			var i = this.offsetIndex;
+			while (i < this.items.length && !callback(this.items[i]))
+				i++;
+			return i < this.items.length;
+		};
+
+		/**
+		 * Executes the callback function for each item of the queue.
+		 * This method modifies the queue so if you don't need to modify it you must return the same item of the array.
+		 * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
+		 * @return {void}
+		 */
+		execute(callback)
+		{
+			for (var i = this.offsetIndex; i < this.items.length; i++)
+				this.items[i] = callback(this.items[i]);
+		};
+
+		/**
+		 * Returns the length of the queue.
+		 * @return {number} The length of the queue.
+		 */
+		getLength()
+		{
+			return this.items.length - this.offsetIndex;
+		};
+
+		/**
+		 * Checks if the queue is empty.
+		 * @return {boolean} True if the queue is empty, false otherwise.
+		 */
+		isEmpty()
+		{
+			return !(this.items.length - this.offsetIndex);
+		};
+
+		/**
+		 * Returns the items that satisfy the condition determined by the callback.
+		 * @param callback {function} The function that implements the condition.
+		 * @return {Array<*>} The array that contains the items that satisfy the condition.
+		 */
+		filter(callback)
+		{
+			var result = [];
+			for (var i = this.offsetIndex; i < this.items.length; i++)
+				if (callback(this.items[i]))
+					result.push(this.items[i]);
+			return result;
+		};
+
+		/**
+		 * Returns the first position of the item in the queue.
+		 * @param item {*} The item to search.
+		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+		 * @return {number} The first position of the item.
+		 */
+		indexOf(item, callback)
+		{
+			callback = callback || function (it)
+			{
+				return it === item;
+			};
+			var i = this.offsetIndex;
+			while (i < this.items.length)
+			{
+				if (callback(this.items[i]))
+					return i - this.offsetIndex;
+				i++;
+			}
+			return -1;
+		};
+
+		/**
+		 * Returns the last position of the item in the queue.
+		 * @param item {*} The item to search.
+		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+		 * @return {number} The last position of the item.
+		 */
+		lastIndexOf(item, callback)
+		{
+			callback = callback || function (it)
+			{
+				return it === item;
+			};
+			var i = this.items.length - 1;
+			while (i > this.offsetIndex - 1)
+			{
+				console.log('l', this.offsetIndex);
+				if (callback(this.items[i]))
+					return i - this.offsetIndex;
+				i--;
+			}
+			return -1;
+		};
+
+		/**
+		 * Returns all the position in which the item has been found in the queue.
+		 * @param item {*} The item to search.
+		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+		 * @return {Array<number>} The positions in which the item has been found.
+		 */
+		allIndexesOf(item, callback)
+		{
+			callback = callback || function (it)
+			{
+				return it === item;
+			};
+			var i = this.offsetIndex;
+			var indexes = [];
+			while (i < this.items.length)
+			{
+				if (callback(this.items[i]))
+					indexes.push(i - this.offsetIndex);
+				i++;
+			}
+			return indexes;
+		};
+
+		/**
+		 * Clones the queue into a new queue.
+		 * @return {Queue} The queue cloned from this queue.
+		 */
+		clone()
+		{
+			var queue = new Queue();
+			for (var i = this.offsetIndex; i < this.items.length; i++)
+				if (this.items[i].clone)
 					queue.enqueue(this.items[i].clone());
 				else
 					queue.enqueue(this.items[i]);
-		return queue;
-	};
-}
 
+			return queue;
+		};
+
+		/**
+		 * Clones the queue into a new queue without cloning duplicated items.
+		 * @return {Queue} The queue cloned from this queue.
+		 */
+		cloneDistinct()
+		{
+			var queue = new Queue();
+			for (var i = this.offsetIndex; i < this.items.length; i++)
+				if (!queue.contains(this.items[i]))
+					if (this.items[i].cloneDistinct)
+						queue.enqueue(this.items[i].cloneDistinct());
+					else if (this.items[i].clone)
+						queue.enqueue(this.items[i].clone());
+					else
+						queue.enqueue(this.items[i]);
+			return queue;
+		};
+	}
+
+}
