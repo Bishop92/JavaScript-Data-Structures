@@ -162,7 +162,7 @@ namespace ds
          * @param callback {function} The function to execute to update the item. It should accept the item the iteration is working on.
          * @return {void}
          */
-        updateItem(string, callback)
+        updateItem(string: string, callback)
         {
             var node = this.root;
 

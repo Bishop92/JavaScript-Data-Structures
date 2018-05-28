@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -14,6 +15,9 @@ var __extends = (this && this.__extends) || (function () {
  */
 var ds;
 (function (ds) {
+    /**
+     * 集合
+     */
     var Aggregate = /** @class */ (function () {
         function Aggregate() {
         }
@@ -310,7 +314,7 @@ var ds;
          */
         BTree.prototype.augmentChild = function (node, index) {
             var child = node.childs[index];
-            var brother;
+            var brother = null;
             if (index)
                 brother = node.childs[index - 1];
             if (index && brother.keys.length > this.t - 1) {
@@ -403,9 +407,9 @@ var ds;
          */
         BTree.prototype.fullContains = function (callback) {
             var key = this.minimumKey();
-            while (key !== null && !callback(this.search(key)))
+            while (key !== -1 && !callback(this.search(key)))
                 key = this.successor(key);
-            return key !== null;
+            return key !== -1;
         };
         ;
         /**
@@ -433,14 +437,14 @@ var ds;
             if (!node.childs.length) {
                 //check if the key hasn't been found
                 if (i > node.keys.length - 1)
-                    return null;
+                    return -1;
                 else
                     return node.keys[i];
             }
             //if it's not a leaf check if the successor is in the i-child
             var successor = this.successor(key, node.childs[i]);
             //if it's not in the child and has been found a key then return it
-            if (successor === null && i < node.keys.length)
+            if (successor === -1 && i < node.keys.length)
                 return node.keys[i];
             //return the value of the successor even if it's null
             return successor;
@@ -468,12 +472,12 @@ var ds;
             if (!node.childs.length) {
                 //check if a predecessor has been found
                 if (i < 0)
-                    return null;
+                    return -1;
                 else
                     return node.keys[i];
             }
             var predecessor = this.predecessor(key, node.childs[i + 1]);
-            if (predecessor === null && key > node.keys[0]) {
+            if (predecessor === -1 && key > node.keys[0]) {
                 return node.keys[i];
             }
             return predecessor;
@@ -489,7 +493,7 @@ var ds;
                 node = node.childs[0];
             if (node)
                 return node.keys[0];
-            return null;
+            return -1;
         };
         ;
         /**
@@ -502,7 +506,7 @@ var ds;
                 node = node.childs[node.childs.length - 1];
             if (node)
                 return node.keys[node.keys.length - 1];
-            return null;
+            return -1;
         };
         ;
         /**
@@ -647,7 +651,7 @@ var ds;
                 return it === item;
             };
             var i = 0, key = this.minimumKey();
-            while (key !== null) {
+            while (key !== -1) {
                 if (callback(this.search(key)))
                     return i;
                 key = this.successor(key);
@@ -667,7 +671,7 @@ var ds;
                 return it === item;
             };
             var i = this.size - 1, key = this.maximumKey();
-            while (key !== null) {
+            while (key !== -1) {
                 if (callback(this.search(key)))
                     return i;
                 i--;
@@ -688,7 +692,7 @@ var ds;
             };
             var i = 0, key = this.minimumKey();
             var indexes = [];
-            while (key !== null) {
+            while (key !== -1) {
                 if (callback(this.search(key)))
                     indexes.push(i);
                 i++;
@@ -732,7 +736,7 @@ var ds;
              * The pointer to the position.
              * @type {number}
              */
-            this.pointer = null;
+            this.pointer = -1;
             this.aggregate = aggregate;
         }
         /**
@@ -766,7 +770,7 @@ var ds;
          * @inheritDoc
          */
         BTreeIterator.prototype.isDone = function () {
-            return this.pointer === null;
+            return this.pointer === -1;
         };
         ;
         /**

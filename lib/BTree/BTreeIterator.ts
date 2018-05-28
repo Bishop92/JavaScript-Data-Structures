@@ -10,20 +10,20 @@ namespace ds
 		 * The aggregate relates to this iterator.
 		 * @type {BTree}
 		 */
-		aggregate;
+		aggregate: BTree;
 
 		/**
 		 * The pointer to the position.
 		 * @type {number}
 		 */
-		pointer = null;
+		pointer: number = -1;
 
 		/**
 		 * Class that implements the iterator for a binary search tree.
 		 * @param aggregate {BTree} The aggregate to scan.
 		 * @constructor
 		 */
-		constructor(aggregate)
+		constructor(aggregate: BTree)
 		{
 			this.aggregate = aggregate;
 		}
@@ -65,7 +65,7 @@ namespace ds
 		 */
 		isDone()
 		{
-			return this.pointer === null;
+			return this.pointer === -1;
 		};
 
 		/**

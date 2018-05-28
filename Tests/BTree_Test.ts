@@ -30,7 +30,7 @@ QUnit.test("BTree - Successor test", function (assert)
 		tree.insert(i, i);
 	for (var j = -1; j < 19; j++)
 		assert.deepEqual(tree.successor(j), j + 1, "Successor found");
-	assert.deepEqual(tree.successor(19), null, "Successor not found");
+	assert.deepEqual(tree.successor(19), -1, "Successor not found");
 });
 
 QUnit.test("BTree - Predecessor test", function (assert)
@@ -40,7 +40,7 @@ QUnit.test("BTree - Predecessor test", function (assert)
 		tree.insert(i, i);
 	for (var j = 40; j > 0; j--)
 		assert.deepEqual(tree.predecessor(j), j - 1, "Predecessor");
-	assert.deepEqual(tree.predecessor(0), null, "Predecessor not found");
+	assert.deepEqual(tree.predecessor(0), -1, "Predecessor not found");
 });
 
 QUnit.test("BTree - Minimum test", function (assert)

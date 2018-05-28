@@ -11,17 +11,17 @@ namespace ds
 		 * The keys stored it the node.
 		 * @type {Array<*>}
 		 */
-		keys = [];
+		keys: number[] = [];
 		/**
 		 * The items stored in the node.
 		 * @type {Array<*>}
 		 */
-		items = [];
+		items: any[] = [];
 		/**
 		 * The nodes child of the node.
 		 * @type {Array<BNode>}
 		 */
-		childs = [];
+		childs: BNode[] = [];
 		/**
 		 * The single node of the tree.
 		 * @constructor
@@ -65,7 +65,6 @@ namespace ds
 			this.t = minimumDegree;
 		}
 
-
 		/**
 		 * @inheritDoc
 		 */
@@ -80,7 +79,7 @@ namespace ds
 		 * @param item {*} The item to store.
 		 * @return {void}
 		 */
-		insert(key, item)
+		insert(key: number, item: any)
 		{
 			var node = this.root;
 			if (node.keys.length === 2 * this.t - 1)
@@ -102,7 +101,7 @@ namespace ds
 		 * @param item {*} The item to store.
 		 * @return {void}
 		 */
-		insertNonFull(node, key, item)
+		insertNonFull(node: BNode, key: number, item: any)
 		{
 			while (node)
 			{
@@ -147,7 +146,7 @@ namespace ds
 		 * @param [callback = function(node,index){return(node.keys[index]===key);}] The condition to satisfy. The callback must accept the current node to check and optionally the position of the key.
 		 * @return {*} The item found or undefined if there isn't the key in the tree.
 		 */
-		search(key, node?, callback?)
+		search(key: number, node?: BNode, callback?: (node: BNode, index: number) => boolean)
 		{
 			node = node || this.root;
 			callback = callback || function (node, index)
@@ -181,7 +180,7 @@ namespace ds
 		 * @param index {number} The position of the child to split.
 		 * @return {void}
 		 */
-		splitChild(node, index)
+		splitChild(node: BNode, index: number)
 		{
 			var newNode = new BNode();
 			var child = node.childs[index];
@@ -219,7 +218,7 @@ namespace ds
 		 * @param key {*} The key to delete.
 		 * @return {void}
 		 */
-		deleteKey(key)
+		deleteKey(key: number)
 		{
 			if (this.root.keys.length)
 			{
@@ -236,7 +235,7 @@ namespace ds
 		 * @param key {number} The key to delete.
 		 * @return {void}
 		 */
-		deleteNonMin(node, key)
+		deleteNonMin(node: BNode, key: number)
 		{
 			var i = 0, j = node.keys.length;
 			while (i < j)
@@ -298,7 +297,7 @@ namespace ds
 		 * @param index {number} The key to delete in the node.
 		 * @return {void}
 		 */
-		deleteMax(node, index)
+		deleteMax(node: BNode, index: number)
 		{
 			var child = node.childs[index];
 			var goAhead = true;
@@ -327,10 +326,10 @@ namespace ds
 		 * @param index {number} The index of the position to augment.
 		 * @return {void}
 		 */
-		augmentChild(node, index)
+		augmentChild(node: BNode, index: number)
 		{
 			var child = node.childs[index];
-			var brother;
+			var brother: BNode = <any>null;
 			if (index)
 				brother = node.childs[index - 1];
 			if (index && brother.keys.length > this.t - 1)
@@ -421,9 +420,9 @@ namespace ds
 		 * @param [callback = function(node,index){return(node.keys[index]===key);}] The condition to satisfy. The callback must accept the current node to check and optionally the position of the key.
 		 * @return {boolean} True if the tree contains the key.
 		 */
-		contains(key, callback?)
+		contains(key: number, callback?: (node: BNode, index: number) => boolean)
 		{
-			return this.search(key, null, callback) !== undefined;
+			return this.search(key, <any>null, callback) !== undefined;
 		};
 
 		/**
@@ -435,9 +434,9 @@ namespace ds
 		fullContains(callback)
 		{
 			var key = this.minimumKey();
-			while (key !== null && !callback(this.search(key)))
+			while (key !== -1 && !callback(this.search(key)))
 				key = this.successor(key);
-			return key !== null;
+			return key !== -1;
 		};
 
 		/**
@@ -446,7 +445,7 @@ namespace ds
 		 * @param [node = root] The node from start the search of the successor.
 		 * @return {number} The key found.
 		 */
-		successor(key, node?)
+		successor(key: number, node?: BNode): number
 		{
 			node = node || this.root;
 			var i = 0, j = node.keys.length;
@@ -468,14 +467,14 @@ namespace ds
 			{
 				//check if the key hasn't been found
 				if (i > node.keys.length - 1)
-					return null;
+					return -1;
 				else
 					return node.keys[i];
 			}
 			//if it's not a leaf check if the successor is in the i-child
 			var successor = this.successor(key, node.childs[i]);
 			//if it's not in the child and has been found a key then return it
-			if (successor === null && i < node.keys.length)
+			if (successor === -1 && i < node.keys.length)
 				return node.keys[i];
 			//return the value of the successor even if it's null
 			return successor;
@@ -506,12 +505,12 @@ namespace ds
 			{
 				//check if a predecessor has been found
 				if (i < 0)
-					return null;
+					return -1;
 				else
 					return node.keys[i];
 			}
 			var predecessor = this.predecessor(key, node.childs[i + 1]);
-			if (predecessor === null && key > node.keys[0])
+			if (predecessor === -1 && key > node.keys[0])
 			{
 				return node.keys[i];
 			}
@@ -529,7 +528,7 @@ namespace ds
 				node = node.childs[0];
 			if (node)
 				return node.keys[0];
-			return null;
+			return -1;
 		};
 
 		/**
@@ -543,7 +542,7 @@ namespace ds
 				node = node.childs[node.childs.length - 1];
 			if (node)
 				return node.keys[node.keys.length - 1];
-			return null;
+			return -1;
 		};
 
 		/**
@@ -609,7 +608,7 @@ namespace ds
 		 */
 		clear()
 		{
-			this.root = null;
+			this.root = <any>null;
 			this.size = 0;
 		};
 
@@ -705,7 +704,7 @@ namespace ds
 				return it === item;
 			};
 			var i = 0, key = this.minimumKey();
-			while (key !== null)
+			while (key !== -1)
 			{
 				if (callback(this.search(key)))
 					return i;
@@ -728,7 +727,7 @@ namespace ds
 				return it === item;
 			};
 			var i = this.size - 1, key = this.maximumKey();
-			while (key !== null)
+			while (key !== -1)
 			{
 				if (callback(this.search(key)))
 					return i;
@@ -752,7 +751,7 @@ namespace ds
 			};
 			var i = 0, key = this.minimumKey();
 			var indexes = [];
-			while (key !== null)
+			while (key !== -1)
 			{
 				if (callback(this.search(key)))
 					indexes.push(i);

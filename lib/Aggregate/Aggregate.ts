@@ -4,6 +4,9 @@
  */
 namespace ds
 {
+    /**
+     * 集合
+     */
     export abstract class Aggregate
     {
         /**

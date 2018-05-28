@@ -3,6 +3,9 @@
  * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
+    /**
+     * 集合
+     */
     abstract class Aggregate {
         /**
          * Returns the iterator relative to the aggregate.
@@ -71,7 +74,7 @@ declare namespace ds {
          * The keys stored it the node.
          * @type {Array<*>}
          */
-        keys: any[];
+        keys: number[];
         /**
          * The items stored in the node.
          * @type {Array<*>}
@@ -81,7 +84,7 @@ declare namespace ds {
          * The nodes child of the node.
          * @type {Array<BNode>}
          */
-        childs: any[];
+        childs: BNode[];
         /**
          * The single node of the tree.
          * @constructor
@@ -121,7 +124,7 @@ declare namespace ds {
          * @param item {*} The item to store.
          * @return {void}
          */
-        insert(key: any, item: any): void;
+        insert(key: number, item: any): void;
         /**
          * Insert the new node in the right position if the node is not full.
          * @param node {BNode} The node from which start to check the insertion.
@@ -129,7 +132,7 @@ declare namespace ds {
          * @param item {*} The item to store.
          * @return {void}
          */
-        insertNonFull(node: any, key: any, item: any): void;
+        insertNonFull(node: BNode, key: number, item: any): void;
         /**
          * Search the item relatives to the key that satisfy the condition represented by the callback function.
          * @param key {Number} The key to find.
@@ -137,48 +140,48 @@ declare namespace ds {
          * @param [callback = function(node,index){return(node.keys[index]===key);}] The condition to satisfy. The callback must accept the current node to check and optionally the position of the key.
          * @return {*} The item found or undefined if there isn't the key in the tree.
          */
-        search(key: any, node?: any, callback?: any): any;
+        search(key: number, node?: BNode, callback?: (node: BNode, index: number) => boolean): any;
         /**
          * Split the child of the node at the position index.
          * @param node {BNode} The parent of the child to split.
          * @param index {number} The position of the child to split.
          * @return {void}
          */
-        splitChild(node: any, index: any): void;
+        splitChild(node: BNode, index: number): void;
         /**
          * Delete the key from the tree.
          * @param key {*} The key to delete.
          * @return {void}
          */
-        deleteKey(key: any): void;
+        deleteKey(key: number): void;
         /**
          * Deletes a node that's a number of keys greater than the minimum for a node.
          * @param node {BNode} The node to delete.
          * @param key {number} The key to delete.
          * @return {void}
          */
-        deleteNonMin(node: any, key: any): void;
+        deleteNonMin(node: BNode, key: number): void;
         /**
          * Deletes a node that have the maximum number of keys for node.
          * @param node {BNode} The node to delete.
          * @param index {number} The key to delete in the node.
          * @return {void}
          */
-        deleteMax(node: any, index: any): void;
+        deleteMax(node: BNode, index: number): void;
         /**
          * Augments the number of keys stored in the node preserving the order.
          * @param node {BNode} The node to delete.
          * @param index {number} The index of the position to augment.
          * @return {void}
          */
-        augmentChild(node: any, index: any): void;
+        augmentChild(node: BNode, index: number): void;
         /**
          * Checks if the tree contains the key.
          * @param key {number} The key to find.
          * @param [callback = function(node,index){return(node.keys[index]===key);}] The condition to satisfy. The callback must accept the current node to check and optionally the position of the key.
          * @return {boolean} True if the tree contains the key.
          */
-        contains(key: any, callback?: any): boolean;
+        contains(key: number, callback?: (node: BNode, index: number) => boolean): boolean;
         /**
          * Checks if the tree contains a node that satisfy the condition represented by the callback function.
          * This method check all the tree avoiding the binary search.
@@ -192,7 +195,7 @@ declare namespace ds {
          * @param [node = root] The node from start the search of the successor.
          * @return {number} The key found.
          */
-        successor(key: any, node?: any): any;
+        successor(key: number, node?: BNode): number;
         /**
          * Get the key previous to the param key.
          * @param key {number} The key of which search the predecessor.
@@ -204,12 +207,12 @@ declare namespace ds {
          * Gets the minimum key stored in the tree.
          * @return {number} The key found.
          */
-        minimumKey(): any;
+        minimumKey(): number;
         /**
          * Gets the maximum key stored in the tree.
          * @return {number} The key found.
          */
-        maximumKey(): any;
+        maximumKey(): number;
         /**
          * Gets the item relatives to the minimum key stored in the tree.
          * @return {number} The item found.
@@ -247,7 +250,7 @@ declare namespace ds {
          * @param callback {function} The function that implements the condition.
          * @return {Array<*>} The array that contains the items that satisfy the condition.
          */
-        filter(callback: any, node?: any): any[];
+        filter(callback: any, node?: any): any;
         /**
          * Clones the tree into a new tree.
          * @return {BTree} The tree cloned from this tree.
@@ -283,7 +286,7 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback?: any): any[];
+        allIndexesOf(item: any, callback?: any): number[];
         /**
          * Returns the item at the position index.
          * @param index {number} The position of the item.
@@ -302,18 +305,18 @@ declare namespace ds {
          * The aggregate relates to this iterator.
          * @type {BTree}
          */
-        aggregate: any;
+        aggregate: BTree;
         /**
          * The pointer to the position.
          * @type {number}
          */
-        pointer: any;
+        pointer: number;
         /**
          * Class that implements the iterator for a binary search tree.
          * @param aggregate {BTree} The aggregate to scan.
          * @constructor
          */
-        constructor(aggregate: any);
+        constructor(aggregate: BTree);
         /**
          * @inheritDoc
          */
@@ -343,7 +346,7 @@ declare namespace ds {
          * @abstract
          * @return {number} The key stored or null if it's out of the bounds.
          */
-        getKey(): any;
+        getKey(): number;
     }
 }
 /**
@@ -516,7 +519,7 @@ declare namespace ds {
          * The items stored in the buffer.
          * @type {Array<*>}
          */
-        items: any[];
+        items: never[];
         /**
          * Is true if buffer is empty, false otherwise.
          * @type {boolean}
@@ -566,7 +569,7 @@ declare namespace ds {
          * @param index {Number} The position of the item to read.
          * @return {*} The item read.
          */
-        read(index: any): any;
+        read(index: any): never;
         /**
          * Return true if the buffer is empty, false otherwise.
          * @return {boolean}
@@ -640,7 +643,7 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getItem(): any;
+        getItem(): never;
     }
 }
 /**
@@ -658,12 +661,12 @@ declare namespace ds {
          * The next node. It's null if there's no a next node.
          * @type {DLLNode|null}
          */
-        next: any;
+        next: null;
         /**
          * The previous node. It's null if there's no a previous node.
          * @type {DLLNode|null}
          */
-        previous: any;
+        previous: null;
         /**
          * The single node of the list.
          * @param item {*} The item to store in the node.
@@ -676,12 +679,12 @@ declare namespace ds {
          * The first node of the list.
          * @type {DLLNode|null}
          */
-        first: any;
+        first: null;
         /**
          * The last node of the list.
          * @type {DLLNode|null}
          */
-        last: any;
+        last: null;
         /**
          * The length of the list.
          * @type {number}
@@ -877,7 +880,7 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback?: any): any[];
+        allIndexesOf(item: any, callback?: any): number[];
         /**
          * Add the list at the end of this list.
          * @param list {DoubleLinkedList} The list to join.
@@ -929,7 +932,7 @@ declare namespace ds {
          * The pointer to the position.
          * @type {Node|null}
          */
-        pointer: any;
+        pointer: null;
         /**
          * Class that implements the iterator for a double linked list.
          * @param aggregate {DoubleLinkedList} The aggregate to scan.
@@ -965,7 +968,7 @@ declare namespace ds {
          * @abstract
          * @return {Node|null} The node stored or null if it's out of the bounds.
          */
-        getNode(): any;
+        getNode(): null;
     }
 }
 /**
@@ -992,7 +995,7 @@ declare namespace ds {
          * The items stored in the hash table.
          * @type {Array<DoubleLinkedList>}
          */
-        items: any[];
+        items: never[];
         /**
          * The number of keys stored in the hash table.
          * @type {number}
@@ -1106,7 +1109,7 @@ declare namespace ds {
          * The next node. It's null if there's no a next node.
          * @type {LLNode|null}
          */
-        next: any;
+        next: null;
         /**
          * The single node of the list.
          * @param item {*} The item to store in the node.
@@ -1119,12 +1122,12 @@ declare namespace ds {
          * The first node of the list.
          * @type {LLNode|null}
          */
-        first: any;
+        first: null;
         /**
          * The last node of the list.
          * @type {LLNode|null}
          */
-        last: any;
+        last: null;
         /**
          * The length of the list.
          * @type {number}
@@ -1245,7 +1248,7 @@ declare namespace ds {
          * @param index {number} The position of the node.
          * @return {LLNode} The node stored at the position index. It's undefined if index isn't in the list bounds.
          */
-        getNode(index: any): any;
+        getNode(index: any): null | undefined;
         /**
          * Returns the item at the position index.
          * @param index {number} The position of the item.
@@ -1299,7 +1302,7 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback?: any): any[];
+        allIndexesOf(item: any, callback?: any): number[];
         /**
          * Add the list at the end of this list.
          * @param list {LinkedList} The list to join.
@@ -1351,7 +1354,7 @@ declare namespace ds {
          * The pointer to the position.
          * @type {Node|null}
          */
-        pointer: any;
+        pointer: null;
         /**
          * Class that implements the iterator for a linked list.
          * @param aggregate {LinkedList} The aggregate to scan.
@@ -1387,7 +1390,7 @@ declare namespace ds {
          * @abstract
          * @return {Node|null} The node stored or null if it's out of the bounds.
          */
-        getNode(): any;
+        getNode(): null;
     }
 }
 /**
@@ -1538,7 +1541,7 @@ declare namespace ds {
          * The pointer to the position of the node.
          * @type {RBLNode|null}
          */
-        pointerNode: any;
+        pointerNode: null;
         /**
          * The pointer to the position in the node.
          * @type {number}
@@ -1586,7 +1589,7 @@ declare namespace ds {
          * The list of the items in the queue.
          * @type {Array<*>}
          */
-        items: any[];
+        items: never[];
         /**
          * Decreases dequeue big O complexity by shifting starting indexs
          * for each dequeue, instead of splicing.
@@ -1619,13 +1622,13 @@ declare namespace ds {
          * Removes the item at the head of the queue.
          * @return {*} The item at the head of the queue. It's undefined if the queue is empty.
          */
-        dequeue(): any;
+        dequeue(): undefined;
         /**
          * Removes the items at the head of the queue.
          * @param times {number} The number of times to repeat the dequeue method.
          * @return {Array<*>} The items at the head of the queue.
          */
-        multiDequeue(times: any): any[];
+        multiDequeue(times: any): undefined[];
         /**
          * Clears array indexs hidden by offset. To free up memory
          * @return {void}
@@ -1643,12 +1646,12 @@ declare namespace ds {
          * @param index {number} The position of the item.
          * @return {*} The item at the position. It's undefined if index isn't in the queue bounds.
          */
-        getItem(index: any): any;
+        getItem(index: any): undefined;
         /**
          * Returns the first item in the queue. The item is not removed.
          * @return {*} The first item. It's undefined if the queue is empty.
          */
-        peek(): any;
+        peek(): undefined;
         /**
          * Removes all the items stored in the queue.
          * @return {void}
@@ -1704,7 +1707,7 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback?: any): any[];
+        allIndexesOf(item: any, callback?: any): number[];
         /**
          * Clones the queue into a new queue.
          * @return {Queue} The queue cloned from this queue.
@@ -1795,17 +1798,17 @@ declare namespace ds {
          * The parent node. It's null if there's no a parent node.
          * @type {RBNode|null}
          */
-        parent: any;
+        parent: null;
         /**
          * The left node. It's null if there's no a left node.
          * @type {RBNode|null}
          */
-        left: any;
+        left: null;
         /**
          * The right node. It's null if there's no a right node.
          * @type {RBNode|null}
          */
-        right: any;
+        right: null;
         /**
          * The type of the node. It's or red or black.
          * @type {string}
@@ -1824,7 +1827,7 @@ declare namespace ds {
          * The root of the tree.
          * @type {RBNode|null}
          */
-        root: any;
+        root: null;
         /**
          * The number of items stored in the tree.
          * @type {number}
@@ -1987,7 +1990,7 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback?: any): any[];
+        allIndexesOf(item: any, callback?: any): number[];
         /**
          * Returns the item at the position index.
          * @param index {number} The position of the item.
@@ -2011,7 +2014,7 @@ declare namespace ds {
          * The pointer to the position.
          * @type {RBNode|null}
          */
-        pointer: any;
+        pointer: null;
         /**
          * Class that implements the iterator for a red-black tree.
          * @param aggregate {RBTree} The aggregate to scan.
@@ -2047,7 +2050,7 @@ declare namespace ds {
          * @abstract
          * @return {RBNode|null} The node stored or null if it's out of the bounds.
          */
-        getNode(): any;
+        getNode(): null;
     }
 }
 declare namespace ds {
@@ -2066,27 +2069,27 @@ declare namespace ds {
          * The parent node. It's null if there's no a parent node.
          * @type {RBLNode|null}
          */
-        parent: any;
+        parent: null;
         /**
          * The left node. It's null if there's no a left node.
          * @type {RBLNode|null}
          */
-        left: any;
+        left: null;
         /**
          * The right node. It's null if there's no a right node.
          * @type {RBLNode|null}
          */
-        right: any;
+        right: null;
         /**
          * The next node. It's null if there's no a next node.
          * @type {RBLNode|null}
          */
-        next: any;
+        next: null;
         /**
          * The previous node. It's null if there's no a previous node.
          * @type {RBLNode|null}
          */
-        previous: any;
+        previous: null;
         /**
          * The type of the node. It's or red or black.
          * @type {string}
@@ -2105,17 +2108,17 @@ declare namespace ds {
          * The root of the tree.
          * @type {RBLNode|null}
          */
-        root: any;
+        root: null;
         /**
          * The first node of the tree.
          * @type {RBLNode|null}
          */
-        first: any;
+        first: null;
         /**
          * The last node of the tree.
          * @type {RBLNode|null}
          */
-        last: any;
+        last: null;
         /**
          * The size of the tree.
          * @type {number}
@@ -2274,7 +2277,7 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback?: any): any[];
+        allIndexesOf(item: any, callback?: any): number[];
         /**
          * Returns the item at the position index.
          * @param index {number} The position of the item.
@@ -2298,7 +2301,7 @@ declare namespace ds {
          * The pointer to the position.
          * @type {RBLNode|null}
          */
-        pointer: any;
+        pointer: null;
         /**
          * Class that implements the iterator for a red-black tree.
          * @param aggregate {RBTreeList} The aggregate to scan.
@@ -2334,7 +2337,7 @@ declare namespace ds {
          * @abstract
          * @return {RBNode|null} The node stored or null if it's out of the bounds.
          */
-        getNode(): any;
+        getNode(): null;
     }
 }
 /**
@@ -2455,7 +2458,7 @@ declare namespace ds {
          * The list of the items in the stack.
          * @type {Array<*>}
          */
-        items: any[];
+        items: never[];
         /**
          * Class for managing a stack.
          * @param {...*} [args] The items for initializing the stack.
@@ -2482,18 +2485,18 @@ declare namespace ds {
          * Removes the item at the top of the stack.
          * @return {*} The item at the top of the stack. It's undefined if the stack is empty.
          */
-        pop(): any;
+        pop(): undefined;
         /**
          * Removes the more item at the top of the stack.
          * @param times {number} The number of times to repeat the pop method.
          * @return {Array<*>} The items at the top of the stack.
          */
-        multiPop(times: any): any[];
+        multiPop(times: any): undefined[];
         /**
          * Returns the item at the top of the stack without remove it.
          * @return {*} The item at the top of the stack. It's undefined if the stack is empty.
          */
-        peek(): any;
+        peek(): undefined;
         /**
          * Removes all the items stored in the stack.
          * @return {void}
@@ -2518,7 +2521,7 @@ declare namespace ds {
          * @param index The position of the item.
          * @return {*} The item at the position. It's undefined if index isn't in the stack bounds.
          */
-        getItem(index: any): any;
+        getItem(index: any): undefined;
         /**
          * Returns the length of the stack.
          * @return {Number} The length of the stack.
@@ -2555,7 +2558,7 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback?: any): any[];
+        allIndexesOf(item: any, callback?: any): number[];
         /**
          * Clones the stack into a new stack.
          * @return {Stack} The stack cloned from this stack.
@@ -2626,22 +2629,22 @@ declare namespace ds {
          * The item stored.
          * @type {*|null}
          */
-        item: any;
+        item: null;
         /**
          * The key of the node.
          * @type {string|null}
          */
-        string: any;
+        string: null;
         /**
          * The parent node. It's null if there's no a parent node.
          * @type {TNode|null}
          */
-        parent: any;
+        parent: null;
         /**
          * The children of the node.
          * @type {Array<TNode>}
          */
-        childs: any[];
+        childs: never[];
         /**
          * The single node of the tree.
          * @param [string = null] The string of the node.
@@ -2697,13 +2700,13 @@ declare namespace ds {
          * @param callback {function} The function to execute to update the item. It should accept the item the iteration is working on.
          * @return {void}
          */
-        updateItem(string: any, callback: any): void;
+        updateItem(string: string, callback: any): void;
         /**
          * Return the item related to the string searched.
          * @param string {string} The string for finding the item.
          * @returns {*} The item found. Undefined if the string is not in the trie
          */
-        getItem(string: any): any;
+        getItem(string: any): null | undefined;
         /**
          * Return the size of the trie.
          * @returns {number} The size of the tree.
@@ -2738,7 +2741,7 @@ declare namespace ds {
          * The pointer to the position.
          * @type {TNode|null}
          */
-        pointer: any;
+        pointer: null;
         /**
          * Class that implements the iterator for a trie.
          * @param aggregate {Trie} The aggregate to scan.
