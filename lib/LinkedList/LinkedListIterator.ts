@@ -4,26 +4,26 @@
  */
 namespace ds
 {
-	export class LinkedListIterator implements Iterator
+	export class LinkedListIterator<T> implements Iterator
 	{
 		/**
 		 * The aggregate relates to this iterator.
 		 * @type {LinkedList}
 		 */
-		aggregate: LinkedList;
+		aggregate: LinkedList<T>;
 
 		/**
 		 * The pointer to the position.
 		 * @type {Node|null}
 		 */
-		pointer: LLNode = <any>null;
+		pointer: LLNode<T> = <any>null;
 
 		/**
 		 * Class that implements the iterator for a linked list.
 		 * @param aggregate {LinkedList} The aggregate to scan.
 		 * @constructor
 		 */
-		constructor(aggregate: LinkedList)
+		constructor(aggregate: LinkedList<T>)
 		{
 			this.aggregate = aggregate;
 			this.pointer = <any>null;

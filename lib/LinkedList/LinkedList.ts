@@ -4,43 +4,43 @@
  */
 namespace ds
 {
-	export class LLNode
+	export class LLNode<T>
 	{
 		/**
 		 * The item stored.
 		 * @type {*}
 		 */
-		item: any;
+		item: T;
 		/**
 		 * The next node. It's null if there's no a next node.
 		 * @type {LLNode|null}
 		 */
-		next: LLNode = <any>null;
+		next: LLNode<T> = <any>null;
 
 		/**
 		 * The single node of the list.
 		 * @param item {*} The item to store in the node.
 		 * @constructor
 		 */
-		constructor(item: any)
+		constructor(item: T)
 		{
 			this.item = item;
 		}
 	}
 
-	export class LinkedList extends Aggregate
+	export class LinkedList<T> extends Aggregate
 	{
 
 		/**
 		 * The first node of the list.
 		 * @type {LLNode|null}
 		 */
-		first: LLNode = <any>null;
+		first: LLNode<T> = <any>null;
 		/**
 		 * The last node of the list.
 		 * @type {LLNode|null}
 		 */
-		last: LLNode = <any>null;
+		last: LLNode<T> = <any>null;
 		/**
 		 * The length of the list.
 		 * @type {number}
@@ -75,7 +75,7 @@ namespace ds
 		 */
 		getIterator()
 		{
-			return new LinkedListIterator(this);
+			return new LinkedListIterator<T>(this);
 		};
 
 		/**
@@ -83,7 +83,7 @@ namespace ds
 		 * @param item {*} The item to add.
 		 * @return {void}
 		 */
-		pushFront(item: any)
+		pushFront(item: T)
 		{
 			var node = new LLNode(item);
 			node.next = this.first;
@@ -98,7 +98,7 @@ namespace ds
 		 * @param item {*} The item to add.
 		 * @return {void}
 		 */
-		pushBack(item: any)
+		pushBack(item: T)
 		{
 			var node = new LLNode(item);
 			if (this.last)
@@ -194,7 +194,7 @@ namespace ds
 		 * @param index {number} The position where to add the item. If index is negative, the item won't be added.
 		 * @return {void}
 		 */
-		addAt(item: any, index: number)
+		addAt(item: T, index: number)
 		{
 			if (index < 0)
 				return;
@@ -210,11 +210,11 @@ namespace ds
 			}
 			var node = this.first;
 			if (!node && index > 0)
-				this.pushBack(undefined);
+				this.pushBack(<any>undefined);
 			for (var i = 0; i < index - 1; i++ , node = node.next)
 			{
 				if (node === this.last)
-					this.pushBack(undefined);
+					this.pushBack(<any>undefined);
 			}
 			if (node === this.last)
 				this.pushBack(item);
@@ -259,14 +259,14 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {void}
 		 */
-		remove(item: any, callback?: (item: any) => boolean)
+		remove(item: T, callback?: (item: T) => boolean)
 		{
 			callback = callback || function (it)
 			{
 				return it === item;
 			};
 			var node = this.first;
-			var previous: LLNode = <any>null;
+			var previous: LLNode<T> = <any>null;
 			while (node)
 			{
 				if (callback(node.item))
@@ -290,14 +290,14 @@ namespace ds
 		 * @param [callback (item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {void}
 		 */
-		removeAll(item: any, callback?: (item: any) => boolean)
+		removeAll(item: T, callback?: (item: T) => boolean)
 		{
 			callback = callback || function (it)
 			{
 				return it === item;
 			};
 			var node = this.first;
-			var previous: LLNode = <any>null;
+			var previous: LLNode<T> = <any>null;
 			while (node)
 			{
 				if (callback(node.item))
@@ -377,7 +377,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {boolean} True if the list contains the item that satisfy the condition, false otherwise.
 		 */
-		contains(item: any, callback?: (item: any) => boolean)
+		contains(item: T, callback?: (item: T) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -399,7 +399,7 @@ namespace ds
 		 * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
 		 * @return {void}
 		 */
-		execute(callback: (item: any) => any)
+		execute(callback: (item: T) => any)
 		{
 			var node = this.first;
 			while (node)
@@ -465,7 +465,7 @@ namespace ds
 		 * @param array {Array<*>} The array from which build the list.
 		 * @return {void}
 		 */
-		fromArray(array: any[])
+		fromArray(array: T[])
 		{
 			var node = this.first;
 			for (var i = 0; i < Math.min(this.length, array.length); i++ , node = node.next)
@@ -483,7 +483,7 @@ namespace ds
 		 * @param callback {function} The function that implements the condition.
 		 * @return {Array<*>} The array that contains the items that satisfy the condition.
 		 */
-		filter(callback: (item: any) => boolean)
+		filter(callback: (item: T) => boolean)
 		{
 			var result = [];
 			for (var node = this.first; node; node = node.next)
@@ -509,7 +509,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The first position of the item.
 		 */
-		indexOf(item: any, callback?: (item: any) => boolean)
+		indexOf(item: T, callback?: (item: T) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -533,7 +533,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The last position of the item.
 		 */
-		lastIndexOf(item: any, callback?: (item: any) => boolean)
+		lastIndexOf(item: T, callback?: (item: T) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -558,7 +558,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {Array<number>} The positions in which the item has been found.
 		 */
-		allIndexesOf(item: any, callback?: (item: any) => boolean)
+		allIndexesOf(item: T, callback?: (item: T) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -582,7 +582,7 @@ namespace ds
 		 * @param list {LinkedList} The list to join.
 		 * @return {void}
 		 */
-		join(list: LinkedList)
+		join(list: LinkedList<T>)
 		{
 			if (this.last)
 				this.last.next = list.first;
@@ -599,11 +599,11 @@ namespace ds
 		 */
 		divide(index: number)
 		{
-			var list = new LinkedList();
+			var list = new LinkedList<T>();
 			if (index > -1 && index < this.length)
 			{
 				var node = this.first;
-				var previous: LLNode = <any>null;
+				var previous: LLNode<T> = <any>null;
 				for (var i = 0; i < index; i++)
 				{
 					previous = node;
@@ -634,13 +634,16 @@ namespace ds
 		 */
 		clone()
 		{
-			var list = new LinkedList();
+			var list = new LinkedList<T>();
 			var node = this.first;
 			for (var i = 0; i < this.length; i++ , node = node.next)
-				if (node.item.clone)
-					list.pushBack(node.item.clone());
+			{
+				var item: any = node.item;
+				if (item.clone)
+					list.pushBack(item.clone());
 				else
-					list.pushBack(node.item);
+					list.pushBack(item);
+			}
 			return list;
 		};
 
@@ -654,12 +657,15 @@ namespace ds
 			var node = this.first;
 			for (var i = 0; i < this.length; i++ , node = node.next)
 				if (!list.contains(node.item))
-					if (node.item.cloneDistinct)
-						list.pushBack(node.item.cloneDistinct());
-					else if (node.item.clone)
-						list.pushBack(node.item.clone());
+				{
+					var item: any = node.item;
+					if (item.cloneDistinct)
+						list.pushBack(item.cloneDistinct());
+					else if (item.clone)
+						list.pushBack(item.clone());
 					else
-						list.pushBack(node.item);
+						list.pushBack(item);
+				}
 			return list;
 		};
 
@@ -671,7 +677,7 @@ namespace ds
 		split(size: number)
 		{
 			var length = this.length;
-			var lists: LinkedList[] = [this];
+			var lists: LinkedList<T>[] = [this];
 			for (var i = size; i < length; i += size)
 				lists.push(lists[lists.length - 1].divide(size));
 			return lists;
