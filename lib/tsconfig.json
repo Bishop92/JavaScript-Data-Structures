@@ -7,8 +7,8 @@
     // "allowJs": true,                       /* Allow javascript files to be compiled. */
     // "checkJs": true,                       /* Report errors in .js files. */
     // "jsx": "preserve",                     /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */
-    "declaration": true,                   /* Generates corresponding '.d.ts' file. */
-    "sourceMap": true,                     /* Generates corresponding '.map' file. */
+    "declaration": true, /* Generates corresponding '.d.ts' file. */
+    "sourceMap": true, /* Generates corresponding '.map' file. */
     "outFile": "../out/ds.js", /* Concatenate and emit output to single file. */
     // "outDir": "./",                        /* Redirect output structure to the directory. */
     // "rootDir": "./",                       /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
@@ -47,7 +47,33 @@
     // "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
   },
-  "include": [
-    "**/*.ts"
+  "files": [
+    "Aggregate/Aggregate.ts",
+    "Aggregate/Iterator.ts",
+    "BTree/BTree.ts",
+    "BTree/BTreeIterator.ts",
+    "BSTree/BSTree.ts",
+    "BSTree/BSTreeIterator.ts",
+    "CircularBuffer/CircularBuffer.ts",
+    "CircularBuffer/CircularBufferIterator.ts",
+    "DoubleLinkedList/DoubleLinkedList.ts",
+    "DoubleLinkedList/DoubleLinkedListIterator.ts",
+    "HashTable/HashTable.ts",
+    "LinkedList/LinkedList.ts",
+    "LinkedList/LinkedListIterator.ts",
+    "PriorityQueue/PriorityQueue.ts",
+    "PriorityQueue/PriorityQueueIterator.ts",
+    "Queue/Queue.ts",
+    "Queue/QueueIterator.ts",
+    "Range/Range.ts",
+    "RBTree/RBTree.ts",
+    "RBTree/RBTreeIterator.ts",
+    "RBTreeList/RBTreeList.ts",
+    "RBTreeList/RBTreeListIterator.ts",
+    "Set/Set.ts",
+    "Stack/Stack.ts",
+    "Stack/StackIterator.ts",
+    "Trie/Trie.ts",
+    "Trie/TrieIterator.ts"
   ]
 }

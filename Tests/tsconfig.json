@@ -47,9 +47,24 @@
     // "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
   },
-  "include": [
+  "files": [
     "../out/ds.d.ts",
     "qunit.d.ts",
-    "**/*.ts"
+    //
+    "BSTree_Test.ts",
+    "BTree_Test.ts",
+    "CircularBuffer_Test.ts",
+    "DoubleLinkedList_Test.ts",
+    "HashTable_Test.ts",
+    "LinkedList_Test.ts",
+    "PriorityQueue_Test.ts",
+    "Queue_Test.ts",
+    "Range_Test.ts",
+    "RBTree_Test.ts",
+    "RBTreeList_Test.ts",
+    "Set_Test.ts",
+    "Stack_Test.ts",
+    "Trie_Test.ts",
+    ""
   ]
 }
