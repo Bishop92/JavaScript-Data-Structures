@@ -1722,6 +1722,272 @@ declare class QueueIterator implements Iterator {
      */
     getItem(): any;
 }
+declare class RBNode {
+    /**
+     * The item stored.
+     * @type {*}
+     */
+    item: any;
+    /**
+     * The key of the node.
+     * @type {number}
+     */
+    key: any;
+    /**
+     * The parent node. It's null if there's no a parent node.
+     * @type {RBNode|null}
+     */
+    parent: any;
+    /**
+     * The left node. It's null if there's no a left node.
+     * @type {RBNode|null}
+     */
+    left: any;
+    /**
+     * The right node. It's null if there's no a right node.
+     * @type {RBNode|null}
+     */
+    right: any;
+    /**
+     * The type of the node. It's or red or black.
+     * @type {string}
+     */
+    type: string;
+    /**
+     * The single node of the tree.
+     * @param key {number} The key of the node.
+     * @param item {*} The item to store in the node.
+     * @constructor
+     */
+    constructor(key: any, item: any);
+}
+declare class RBTree extends Aggregate {
+    /**
+     * The root of the tree.
+     * @type {RBNode|null}
+     */
+    root: any;
+    /**
+     * The number of items stored in the tree.
+     * @type {number}
+     */
+    size: number;
+    /**
+     * Class for managing a red-black tree.
+     * @constructor
+     */
+    constructor();
+    /**
+     * @inheritDoc
+     */
+    getIterator(): RBTreeIterator;
+    /**
+     * Insert the item relatives to the key value in the tree.
+     * @param key {number} The key to store.
+     * @param item {*} The item to store.
+     * @return {void}
+     */
+    insert(key: any, item: any): void;
+    /**
+     * Preserve the properties of the tree after an insert.
+     * @param node {RBNode} The node to insert.
+     * @return {void}
+     */
+    insertFixUp(node: any): void;
+    /**
+     * Delete the node from the tree.
+     * @param node {RBNode} The node to delete.
+     * @return {void}
+     */
+    deleteNode(node: any): void;
+    /**
+     * Preserve the properties of the tree after a deletion.
+     * @param node {RBNode} The node to delete.
+     * @param parent {RBNode} The parent of the node.
+     * @return {void}
+     */
+    deleteFixUp(node: any, parent: any): void;
+    /**
+     * Get the node with the key next to the param node key.
+     * @param node {RBNode} The node of which search the successor.
+     * @return {RBNode} The node found.
+     */
+    successor(node: any): any;
+    /**
+     * Get the node with the key previous to the param node key.
+     * @param node {RBNode} The node of which search the predecessor.
+     * @return {RBNode} The node found.
+     */
+    predecessor(node: any): any;
+    /**
+     * Search the item relatives to the key and to the nodes that satisfy the condition represented by the callback function.
+     * @param key {number} The key to find.
+     * @param [node = root] {RBNode} The node from which start the search.
+     * @param [callback = function(node){return(node.key===key);}] The condition to satisfy. The callback must accept the current node to check.
+     * @return {*} The item found or undefined if there isn't the key in the tree.
+     */
+    search(key: any, node: any, callback: any): any;
+    /**
+     * Checks if the tree contains a key or a node that satisfy the condition represented by the callback function.
+     * This method avoid to search in branches where the key won't be found.
+     * @param key {*} The key to find.
+     * @param [callback = function(node){return(node.key===key);}] The condition to satisfy. The callback must accept the current node to check.
+     * @return {boolean} True if the tree contains the key or a node that satisfy the condition, false otherwise.
+     */
+    contains(key: any, callback: any): boolean;
+    /**
+     * Checks if the tree contains a node that satisfy the condition represented by the callback function.
+     * This method check all the tree avoiding the binary search.
+     * @param callback {function} The condition to satisfy. The callback must accept the current node to check.
+     * @return {boolean} True if the tree contains the node that satisfy the condition, false otherwise.
+     */
+    fullContains(callback: any): boolean;
+    /**
+     * Get the item relatives to the minimum key stored in the tree.
+     * @param [node = root] {Node} The node from which start the search.
+     * @return {RBNode} The node found.
+     */
+    minimum(node?: any): any;
+    /**
+     * Get the item relatives to the maximum key stored in the tree.
+     * @param [node = root] {Node} The node from which start the search.
+     * @return {RBNode} The node found.
+     */
+    maximum(node?: any): any;
+    /**
+     * Rotate the node with its right child.
+     * @param node {RBNode} The node to rotate.
+     * @return {void}
+     */
+    leftRotate(node: any): void;
+    /**
+     * Rotate the node with its left child.
+     * @param node {RBNode} The node to rotate.
+     * @return {void}
+     */
+    rightRotate(node: any): void;
+    /**
+     * Returns the size of the tree.
+     * @return {number} The size of the tree.
+     */
+    getSize(): number;
+    /**
+     * Clones the queue into a new queue.
+     * @return {RBTree} The tree cloned from this queue.
+     */
+    clone(): RBTree;
+    /**
+     * Clones the tree into a new tree without cloning duplicated items.
+     * @return {RBTree} The tree cloned from this tree.
+     */
+    cloneDistinct(): RBTree;
+    /**
+     * Transform the tree into an array without preserving keys.
+     * @return {Array<*>} The array that represents the tree.
+     */
+    toArray(): any[];
+    /**
+     * Removes all the items stored in the tree.
+     * @return {void}
+     */
+    clear(): void;
+    /**
+     * Checks if the tree is empty.
+     * @return {boolean} True if the tree is empty, false otherwise.
+     */
+    isEmpty(): boolean;
+    /**
+     * Executes the callback function for each item of the tree.
+     * This method modifies the tree so if you don't need to modify it you must return the same item stored.
+     * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
+     * @return {void}
+     */
+    execute(callback: any): void;
+    /**
+     * Returns the items that satisfy the condition determined by the callback.
+     * @param callback {function} The function that implements the condition.
+     * @return {Array<*>} The array that contains the items that satisfy the condition.
+     */
+    filter(callback: any): any[];
+    /**
+     * Returns the first position of the item in the tree.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {number} The first position of the item.
+     */
+    indexOf(item: any, callback: any): number;
+    /**
+     * Returns the last position of the item in the tree.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {number} The last position of the item.
+     */
+    lastIndexOf(item: any, callback: any): number;
+    /**
+     * Returns all the position in which the item has been found in the tree.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {Array<number>} The positions in which the item has been found.
+     */
+    allIndexesOf(item: any, callback: any): any[];
+    /**
+     * Returns the item at the position index.
+     * @param index {number} The position of the item.
+     * @return {*} The item at the position. It's undefined if index isn't in the tree bounds.
+     */
+    getItem(index: any): any;
+}
+/**
+ * Created by Stefano on 06/04/2014.
+ */
+declare class RBTreeIterator implements Iterator {
+    /**
+     * The aggregate relates to this iterator.
+     * @type {RBTree}
+     */
+    aggregate: any;
+    /**
+     * The pointer to the position.
+     * @type {RBNode|null}
+     */
+    pointer: any;
+    /**
+     * Class that implements the iterator for a red-black tree.
+     * @param aggregate {RBTree} The aggregate to scan.
+     * @constructor
+     */
+    constructor(aggregate: any);
+    /**
+     * @inheritDoc
+     */
+    first(): void;
+    /**
+     * @inheritDoc
+     */
+    next(): void;
+    /**
+     * @inheritDoc
+     */
+    last(): void;
+    /**
+     * @inheritDoc
+     */
+    previous(): void;
+    /**
+     * @inheritDoc
+     */
+    isDone(): boolean;
+    /**
+     * @inheritDoc
+     */
+    getItem(): any;
+    /**
+     * Return the node stored at the position pointed by the iterator.
+     * @abstract
+     * @return {RBNode|null} The node stored or null if it's out of the bounds.
+     */
+    getNode(): any;
+}
 declare class RBLNode {
     /**
      * The item stored.
@@ -2003,4 +2269,318 @@ declare class RBTreeListIterator implements Iterator {
      * @return {RBNode|null} The node stored or null if it's out of the bounds.
      */
     getNode(): any;
+}
+/**
+ * Created by Battistella Stefano on 31/03/14.
+ */
+declare class Stack extends Aggregate {
+    /**
+     * The list of the items in the stack.
+     * @type {Array<*>}
+     */
+    items: any[];
+    /**
+     * Class for managing a stack.
+     * @param {...*} [args] The items for initializing the stack.
+     * @constructor
+     */
+    constructor(...args: any[]);
+    /**
+     * @inheritDoc
+     */
+    getIterator(): StackIterator;
+    /**
+     * Adds the item at the top of the stack.
+     * @param item {*} The item to add.
+     * return {void}
+     */
+    push(item: any): void;
+    /**
+     * Adds the items at the top of the stack.
+     * @param items {Array<*>} The items to add.
+     * @return {void}
+     */
+    multiPush(items: any): void;
+    /**
+     * Removes the item at the top of the stack.
+     * @return {*} The item at the top of the stack. It's undefined if the stack is empty.
+     */
+    pop(): any;
+    /**
+     * Removes the more item at the top of the stack.
+     * @param times {number} The number of times to repeat the pop method.
+     * @return {Array<*>} The items at the top of the stack.
+     */
+    multiPop(times: any): any[];
+    /**
+     * Returns the item at the top of the stack without remove it.
+     * @return {*} The item at the top of the stack. It's undefined if the stack is empty.
+     */
+    peek(): any;
+    /**
+     * Removes all the items stored in the stack.
+     * @return {void}
+     */
+    clear(): void;
+    /**
+     * Checks if the stack contains an item that satisfy the condition represented by the callback function.
+     * @param item {*} The item to find.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {boolean} True if the stack contains the item that satisfy the condition, false otherwise.
+     */
+    contains(item: any, callback?: any): boolean;
+    /**
+     * Executes the callback function for each item of the stack.
+     * This method modifies the stack so if you don't need to modify it you must return the same item of the array.
+     * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
+     * @return {void}
+     */
+    execute(callback: any): void;
+    /**
+     * Returns the item at the position index.
+     * @param index The position of the item.
+     * @return {*} The item at the position. It's undefined if index isn't in the stack bounds.
+     */
+    getItem(index: any): any;
+    /**
+     * Returns the length of the stack.
+     * @return {Number} The length of the stack.
+     */
+    getLength(): number;
+    /**
+     * Checks if the stack is empty.
+     * @return {boolean} True if the stack is empty, false otherwise.
+     */
+    isEmpty(): boolean;
+    /**
+     * Returns the items that satisfy the condition determined by the callback.
+     * @param callback {function} The function that implements the condition.
+     * @return {Array<*>} The array that contains the items that satisfy the condition.
+     */
+    filter(callback: any): any[];
+    /**
+     * Returns the first position of the item in the stack.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {number} The first position of the item.
+     */
+    indexOf(item: any, callback: any): number;
+    /**
+     * Returns the last position of the item in the stack.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {number} The last position of the item.
+     */
+    lastIndexOf(item: any, callback: any): number;
+    /**
+     * Returns all the position in which the item has been found in the stack.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {Array<number>} The positions in which the item has been found.
+     */
+    allIndexesOf(item: any, callback: any): any[];
+    /**
+     * Clones the stack into a new stack.
+     * @return {Stack} The stack cloned from this stack.
+     */
+    clone(): Stack;
+    /**
+     * Clones the stack into a new stack without cloning duplicated items.
+     * @return {Stack} The stack cloned from this stack.
+     */
+    cloneDistinct(): Stack;
+}
+/**
+ * Created by Stefano on 04/04/2014.
+ */
+declare class StackIterator implements Iterator {
+    /**
+     * The aggregate relates to this iterator.
+     * @type {Stack}
+     */
+    aggregate: any;
+    /**
+     * The pointer to the position.
+     * @type {number}
+     */
+    pointer: number;
+    /**
+     * Class that implements the iterator for a linked list.
+     * @param aggregate {Stack} The aggregate to scan.
+     * @constructor
+     */
+    constructor(aggregate: any);
+    /**
+     * @inheritDoc
+     */
+    first(): void;
+    /**
+     * @inheritDoc
+     */
+    next(): void;
+    /**
+     * @inheritDoc
+     */
+    last(): void;
+    /**
+     * @inheritDoc
+     */
+    previous(): void;
+    /**
+     * @inheritDoc
+     */
+    isDone(): boolean;
+    /**
+     * @inheritDoc
+     */
+    getItem(): any;
+}
+/**
+ * Created by Stefano on 02/02/2015.
+ */
+declare class TNode {
+    /**
+     * The item stored.
+     * @type {*|null}
+     */
+    item: any;
+    /**
+     * The key of the node.
+     * @type {string|null}
+     */
+    string: any;
+    /**
+     * The parent node. It's null if there's no a parent node.
+     * @type {TNode|null}
+     */
+    parent: any;
+    /**
+     * The children of the node.
+     * @type {Array<TNode>}
+     */
+    childs: any[];
+    /**
+     * The single node of the tree.
+     * @param [string = null] The string of the node.
+     * @param [item = null] The item to store in the node.
+     * @constructor
+     */
+    constructor(string?: any, item?: any);
+}
+declare class Trie extends Aggregate {
+    /**
+     * The root of the trie.
+     * @type {TNode}
+     */
+    root: TNode;
+    /**
+     * The size of the trie
+     * @type {number}
+     */
+    size: number;
+    /**
+     * Class for managing a trie
+     * @constructor
+     */
+    constructor();
+    /**
+     * @inheritDoc
+     */
+    getIterator(): TrieIterator;
+    /**
+     * Insert the string in the tree creating the relative path to it.
+     * If the string already exists then the values are updated
+     * @param string {string} The string to store.
+     * @param [item = null] The item to store.
+     * @return {void}
+     */
+    insert(string: any, item: any): void;
+    /**
+     * Suggest the possible conclusion for the string.
+     * @param string {string} The start of the string.
+     * @return {Array<string>} The array of possible string conclusion to fill.
+     */
+    suggest(string: any): any[];
+    /**
+     * Return all the string saved under the node in the array.
+     * @param result {Array<string>} The array to fill.
+     * @param [node {TNode|null} = null] The node from which start searching the strings.
+     * @return {void}
+     */
+    stringsToArray(result: any, node: any): void;
+    /**
+     * Update the item related to the string searched.
+     * @param string {string} The string for finding the item.
+     * @param callback {function} The function to execute to update the item. It should accept the item the iteration is working on.
+     * @return {void}
+     */
+    updateItem(string: any, callback: any): void;
+    /**
+     * Return the item related to the string searched.
+     * @param string {string} The string for finding the item.
+     * @returns {*} The item found. Undefined if the string is not in the trie
+     */
+    getItem(string: any): any;
+    /**
+     * Return the size of the trie.
+     * @returns {number} The size of the tree.
+     */
+    getSize(): number;
+    /**
+     * Get the minimum string stored in the tree.
+     * @param [node = root] {Node} The node from which start the search.
+     * @return {string} The string found.
+     */
+    minimum(node: any): any;
+    /**
+     * Get the maximum string stored in the tree.
+     * @param [node = root] {Node} The node from which start the search.
+     * @return {string} The string found.
+     */
+    maximum(node: any): any;
+}
+/**
+ * Created by Stefano on 06/04/2014.
+ */
+declare class TrieIterator implements Iterator {
+    /**
+     * The aggregate relates to this iterator.
+     * @type {Trie}
+     */
+    aggregate: any;
+    /**
+     * The pointer to the position.
+     * @type {TNode|null}
+     */
+    pointer: any;
+    /**
+     * Class that implements the iterator for a trie.
+     * @param aggregate {Trie} The aggregate to scan.
+     * @constructor
+     */
+    constructor(aggregate: any);
+    /**
+     * @inheritDoc
+     */
+    first(): void;
+    /**
+     * @inheritDoc
+     */
+    next(): void;
+    /**
+     * @inheritDoc
+     */
+    last(): void;
+    /**
+     * @inheritDoc
+     */
+    previous(): void;
+    /**
+     * @inheritDoc
+     */
+    isDone(): boolean;
+    /**
+     * @inheritDoc
+     */
+    getItem(): any;
 }

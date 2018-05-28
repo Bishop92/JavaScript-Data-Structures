@@ -3779,6 +3779,638 @@ var QueueIterator = /** @class */ (function () {
     ;
     return QueueIterator;
 }());
+var RBNode = /** @class */ (function () {
+    /**
+     * The single node of the tree.
+     * @param key {number} The key of the node.
+     * @param item {*} The item to store in the node.
+     * @constructor
+     */
+    function RBNode(key, item) {
+        /**
+         * The parent node. It's null if there's no a parent node.
+         * @type {RBNode|null}
+         */
+        this.parent = null;
+        /**
+         * The left node. It's null if there's no a left node.
+         * @type {RBNode|null}
+         */
+        this.left = null;
+        /**
+         * The right node. It's null if there's no a right node.
+         * @type {RBNode|null}
+         */
+        this.right = null;
+        /**
+         * The type of the node. It's or red or black.
+         * @type {string}
+         */
+        this.type = 'r';
+        this.item = item;
+        this.key = key;
+        this.parent = null;
+        this.left = null;
+        this.right = null;
+        this.type = 'r';
+    }
+    return RBNode;
+}());
+var RBTree = /** @class */ (function (_super) {
+    __extends(RBTree, _super);
+    /**
+     * Class for managing a red-black tree.
+     * @constructor
+     */
+    function RBTree() {
+        var _this = _super.call(this) || this;
+        /**
+         * The root of the tree.
+         * @type {RBNode|null}
+         */
+        _this.root = null;
+        /**
+         * The number of items stored in the tree.
+         * @type {number}
+         */
+        _this.size = 0;
+        _this.root = null;
+        _this.size = 0;
+        return _this;
+    }
+    /**
+     * @inheritDoc
+     */
+    RBTree.prototype.getIterator = function () {
+        return new RBTreeIterator(this);
+    };
+    ;
+    /**
+     * Insert the item relatives to the key value in the tree.
+     * @param key {number} The key to store.
+     * @param item {*} The item to store.
+     * @return {void}
+     */
+    RBTree.prototype.insert = function (key, item) {
+        var node = new RBNode(key, item);
+        this.size++;
+        if (!this.root) {
+            this.root = node;
+            node.type = 'b';
+            return;
+        }
+        var p = this.root;
+        for (var n = this.root; n;) {
+            p = n;
+            if (key < n.key)
+                n = n.left;
+            else
+                n = n.right;
+        }
+        node.parent = p;
+        if (!p)
+            this.root = node;
+        else if (key < p.key)
+            p.left = node;
+        else
+            p.right = node;
+        this.insertFixUp(node);
+    };
+    ;
+    /**
+     * Preserve the properties of the tree after an insert.
+     * @param node {RBNode} The node to insert.
+     * @return {void}
+     */
+    RBTree.prototype.insertFixUp = function (node) {
+        for (var parent = node.parent; parent && parent.type === 'r'; parent = node.parent) {
+            if (parent === parent.parent.left) {
+                var uncle = parent.parent.right;
+                if (uncle && uncle.type === 'r') {
+                    parent.type = 'b';
+                    uncle.type = 'b';
+                    parent.parent.type = 'r';
+                    node = parent.parent;
+                }
+                else if (node === parent.right) {
+                    node = parent;
+                    this.leftRotate(node);
+                }
+                else {
+                    parent.type = 'b';
+                    parent.parent.type = 'r';
+                    this.rightRotate(parent.parent);
+                }
+            }
+            else {
+                var uncle = parent.parent.left;
+                if (uncle && uncle.type === 'r') {
+                    parent.type = 'b';
+                    uncle.type = 'b';
+                    parent.parent.type = 'r';
+                    node = parent.parent;
+                }
+                else if (node === parent.left) {
+                    node = parent;
+                    this.rightRotate(node);
+                }
+                else {
+                    parent.type = 'b';
+                    parent.parent.type = 'r';
+                    this.leftRotate(parent.parent);
+                }
+            }
+        }
+        this.root.type = 'b';
+    };
+    ;
+    /**
+     * Delete the node from the tree.
+     * @param node {RBNode} The node to delete.
+     * @return {void}
+     */
+    RBTree.prototype.deleteNode = function (node) {
+        var successor;
+        this.size--;
+        if (!node.left || !node.right)
+            successor = node;
+        else {
+            successor = this.successor(node);
+            node.key = successor.key;
+            node.item = successor.item;
+        }
+        var child;
+        if (!successor.left)
+            child = successor.right;
+        else
+            child = successor.left;
+        if (child)
+            child.parent = successor.parent;
+        if (!successor.parent)
+            this.root = child;
+        else if (successor === successor.parent.left)
+            successor.parent.left = child;
+        else
+            successor.parent.right = child;
+        if (successor.type === 'b')
+            this.deleteFixUp(child, successor.parent);
+    };
+    ;
+    /**
+     * Preserve the properties of the tree after a deletion.
+     * @param node {RBNode} The node to delete.
+     * @param parent {RBNode} The parent of the node.
+     * @return {void}
+     */
+    RBTree.prototype.deleteFixUp = function (node, parent) {
+        while (node !== this.root && (!node || node.type === 'b')) {
+            if (node === parent.left) {
+                var brother = parent.right;
+                if (brother && brother.type === 'r') {
+                    brother.type = 'b';
+                    parent.type = 'r';
+                    this.leftRotate(parent);
+                    brother = parent.right;
+                }
+                if (brother && (!brother.left || brother.left.type === 'b') && (!brother.right || brother.right.type === 'b')) {
+                    brother.type = 'r';
+                    node = parent;
+                }
+                else {
+                    if (!brother.right || brother.right.type === 'b') {
+                        brother.left.type = 'b';
+                        brother.type = 'r';
+                        this.rightRotate(brother);
+                        brother = parent.right;
+                    }
+                    brother.type = parent.type;
+                    parent.type = 'b';
+                    brother.right.type = 'b';
+                    this.leftRotate(parent);
+                    node = this.root;
+                }
+            }
+            else {
+                var brother = parent.left;
+                if (brother && brother.type === 'r') {
+                    brother.type = 'b';
+                    parent.type = 'r';
+                    this.rightRotate(parent);
+                    brother = parent.left;
+                }
+                if (brother && (!brother.left || brother.left.type === 'b') && (!brother.right || brother.right.type === 'b')) {
+                    brother.type = 'r';
+                    node = parent;
+                }
+                else {
+                    if (!brother.left || brother.left.type === 'b') {
+                        brother.right.type = 'b';
+                        brother.type = 'r';
+                        this.leftRotate(brother);
+                        brother = parent.left;
+                    }
+                    brother.type = parent.type;
+                    parent.type = 'b';
+                    brother.left.type = 'b';
+                    this.rightRotate(parent);
+                    node = this.root;
+                }
+            }
+            parent = node.parent;
+        }
+        if (node)
+            node.type = 'b';
+    };
+    ;
+    /**
+     * Get the node with the key next to the param node key.
+     * @param node {RBNode} The node of which search the successor.
+     * @return {RBNode} The node found.
+     */
+    RBTree.prototype.successor = function (node) {
+        if (node.right)
+            return this.minimum(node.right);
+        var parent = node.parent;
+        while (parent && node === parent.right) {
+            node = parent;
+            parent = parent.parent;
+        }
+        return parent;
+    };
+    ;
+    /**
+     * Get the node with the key previous to the param node key.
+     * @param node {RBNode} The node of which search the predecessor.
+     * @return {RBNode} The node found.
+     */
+    RBTree.prototype.predecessor = function (node) {
+        if (node.left)
+            return this.maximum(node.left);
+        var parent = node.parent;
+        while (parent && node === parent.left) {
+            node = parent;
+            parent = parent.parent;
+        }
+        return parent;
+    };
+    ;
+    /**
+     * Search the item relatives to the key and to the nodes that satisfy the condition represented by the callback function.
+     * @param key {number} The key to find.
+     * @param [node = root] {RBNode} The node from which start the search.
+     * @param [callback = function(node){return(node.key===key);}] The condition to satisfy. The callback must accept the current node to check.
+     * @return {*} The item found or undefined if there isn't the key in the tree.
+     */
+    RBTree.prototype.search = function (key, node, callback) {
+        node = node || this.root;
+        callback = callback || function (node) {
+            return node.key === key;
+        };
+        while (node && !callback(node))
+            if (key < node.key)
+                node = node.left;
+            else
+                node = node.right;
+        if (node)
+            return node.item;
+        return undefined;
+    };
+    ;
+    /**
+     * Checks if the tree contains a key or a node that satisfy the condition represented by the callback function.
+     * This method avoid to search in branches where the key won't be found.
+     * @param key {*} The key to find.
+     * @param [callback = function(node){return(node.key===key);}] The condition to satisfy. The callback must accept the current node to check.
+     * @return {boolean} True if the tree contains the key or a node that satisfy the condition, false otherwise.
+     */
+    RBTree.prototype.contains = function (key, callback) {
+        return this.search(key, null, callback) !== undefined;
+    };
+    ;
+    /**
+     * Checks if the tree contains a node that satisfy the condition represented by the callback function.
+     * This method check all the tree avoiding the binary search.
+     * @param callback {function} The condition to satisfy. The callback must accept the current node to check.
+     * @return {boolean} True if the tree contains the node that satisfy the condition, false otherwise.
+     */
+    RBTree.prototype.fullContains = function (callback) {
+        var node = this.minimum();
+        while (node && !callback(node.key))
+            node = this.successor(node);
+        return node !== null;
+    };
+    ;
+    /**
+     * Get the item relatives to the minimum key stored in the tree.
+     * @param [node = root] {Node} The node from which start the search.
+     * @return {RBNode} The node found.
+     */
+    RBTree.prototype.minimum = function (node) {
+        node = node || this.root;
+        while (node && node.left)
+            node = node.left;
+        return node;
+    };
+    ;
+    /**
+     * Get the item relatives to the maximum key stored in the tree.
+     * @param [node = root] {Node} The node from which start the search.
+     * @return {RBNode} The node found.
+     */
+    RBTree.prototype.maximum = function (node) {
+        node = node || this.root;
+        while (node && node.right)
+            node = node.right;
+        return node;
+    };
+    ;
+    /**
+     * Rotate the node with its right child.
+     * @param node {RBNode} The node to rotate.
+     * @return {void}
+     */
+    RBTree.prototype.leftRotate = function (node) {
+        var child = node.right;
+        node.right = child.left;
+        if (child.left !== null)
+            child.left.parent = node;
+        child.parent = node.parent;
+        if (node.parent === null)
+            this.root = child;
+        else if (node === node.parent.left)
+            node.parent.left = child;
+        else
+            node.parent.right = child;
+        node.parent = child;
+        child.left = node;
+    };
+    ;
+    /**
+     * Rotate the node with its left child.
+     * @param node {RBNode} The node to rotate.
+     * @return {void}
+     */
+    RBTree.prototype.rightRotate = function (node) {
+        var child = node.left;
+        node.left = child.right;
+        if (child.right !== null)
+            child.right.parent = node;
+        child.parent = node.parent;
+        if (node.parent === null)
+            this.root = child;
+        else if (node === node.parent.left)
+            node.parent.left = child;
+        else
+            node.parent.right = child;
+        node.parent = child;
+        child.right = node;
+    };
+    ;
+    /**
+     * Returns the size of the tree.
+     * @return {number} The size of the tree.
+     */
+    RBTree.prototype.getSize = function () {
+        return this.size;
+    };
+    ;
+    /**
+     * Clones the queue into a new queue.
+     * @return {RBTree} The tree cloned from this queue.
+     */
+    RBTree.prototype.clone = function () {
+        var tree = new RBTree();
+        var it = this.getIterator();
+        for (it.first(); !it.isDone(); it.next())
+            if (it.getNode().item.clone)
+                tree.insert(it.getNode().key, it.getNode().item.clone());
+            else
+                tree.insert(it.getNode().key, it.getNode().item);
+        return tree;
+    };
+    ;
+    /**
+     * Clones the tree into a new tree without cloning duplicated items.
+     * @return {RBTree} The tree cloned from this tree.
+     */
+    RBTree.prototype.cloneDistinct = function () {
+        var tree = new RBTree();
+        var it = this.getIterator();
+        for (it.first(); !it.isDone(); it.next()) {
+            var callback = function (node) {
+                return node.key === it.getNode().key && node.item === it.getNode().item;
+            };
+            if (!tree.contains(it.getNode().key, callback)) {
+                if (it.getNode().item.cloneDistinct)
+                    tree.insert(it.getNode().key, it.getNode().item.cloneDistinct());
+                else if (it.getNode().item.clone)
+                    tree.insert(it.getNode().key, it.getNode().item.clone());
+                else
+                    tree.insert(it.getNode().key, it.getNode().item);
+            }
+        }
+        return tree;
+    };
+    ;
+    /**
+     * Transform the tree into an array without preserving keys.
+     * @return {Array<*>} The array that represents the tree.
+     */
+    RBTree.prototype.toArray = function () {
+        var result = [];
+        for (var node = this.minimum(); node; node = this.successor(node))
+            result.push(node.item);
+        return result;
+    };
+    ;
+    /**
+     * Removes all the items stored in the tree.
+     * @return {void}
+     */
+    RBTree.prototype.clear = function () {
+        this.root = null;
+        this.size = 0;
+    };
+    ;
+    /**
+     * Checks if the tree is empty.
+     * @return {boolean} True if the tree is empty, false otherwise.
+     */
+    RBTree.prototype.isEmpty = function () {
+        return !this.size;
+    };
+    ;
+    /**
+     * Executes the callback function for each item of the tree.
+     * This method modifies the tree so if you don't need to modify it you must return the same item stored.
+     * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
+     * @return {void}
+     */
+    RBTree.prototype.execute = function (callback) {
+        for (var node = this.minimum(); node; node = this.successor(node))
+            node.item = callback(node.item);
+    };
+    ;
+    /**
+     * Returns the items that satisfy the condition determined by the callback.
+     * @param callback {function} The function that implements the condition.
+     * @return {Array<*>} The array that contains the items that satisfy the condition.
+     */
+    RBTree.prototype.filter = function (callback) {
+        var result = [];
+        for (var node = this.minimum(); node; node = this.successor(node))
+            if (callback(node.item))
+                result.push(node.item);
+        return result;
+    };
+    ;
+    /**
+     * Returns the first position of the item in the tree.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {number} The first position of the item.
+     */
+    RBTree.prototype.indexOf = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var i = 0, node = this.minimum();
+        while (node) {
+            if (callback(node.item))
+                return i;
+            node = this.successor(node);
+            i++;
+        }
+        return -1;
+    };
+    ;
+    /**
+     * Returns the last position of the item in the tree.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {number} The last position of the item.
+     */
+    RBTree.prototype.lastIndexOf = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var i = this.size - 1, node = this.maximum();
+        while (node) {
+            if (callback(node.item))
+                return i;
+            i--;
+            node = this.predecessor(node);
+        }
+        return -1;
+    };
+    ;
+    /**
+     * Returns all the position in which the item has been found in the tree.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {Array<number>} The positions in which the item has been found.
+     */
+    RBTree.prototype.allIndexesOf = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var i = 0, node = this.minimum();
+        var indexes = [];
+        while (node) {
+            if (callback(node.item))
+                indexes.push(i);
+            i++;
+            node = this.successor(node);
+        }
+        return indexes;
+    };
+    ;
+    /**
+     * Returns the item at the position index.
+     * @param index {number} The position of the item.
+     * @return {*} The item at the position. It's undefined if index isn't in the tree bounds.
+     */
+    RBTree.prototype.getItem = function (index) {
+        if (index < 0 || index > this.size - 1)
+            return undefined;
+        for (var node = this.minimum(), i = 0; i < index; node = this.successor(node))
+            i++;
+        return node.item;
+    };
+    ;
+    return RBTree;
+}(Aggregate));
+/**
+ * Created by Stefano on 06/04/2014.
+ */
+var RBTreeIterator = /** @class */ (function () {
+    /**
+     * Class that implements the iterator for a red-black tree.
+     * @param aggregate {RBTree} The aggregate to scan.
+     * @constructor
+     */
+    function RBTreeIterator(aggregate) {
+        /**
+         * The pointer to the position.
+         * @type {RBNode|null}
+         */
+        this.pointer = null;
+        this.aggregate = aggregate;
+        this.pointer = null;
+    }
+    /**
+     * @inheritDoc
+     */
+    RBTreeIterator.prototype.first = function () {
+        this.pointer = this.aggregate.minimum();
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    RBTreeIterator.prototype.next = function () {
+        this.pointer = this.aggregate.successor(this.pointer);
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    RBTreeIterator.prototype.last = function () {
+        this.pointer = this.aggregate.maximum();
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    RBTreeIterator.prototype.previous = function () {
+        this.pointer = this.aggregate.predecessor(this.pointer);
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    RBTreeIterator.prototype.isDone = function () {
+        return !this.pointer;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    RBTreeIterator.prototype.getItem = function () {
+        return this.pointer.item;
+    };
+    ;
+    /**
+     * Return the node stored at the position pointed by the iterator.
+     * @abstract
+     * @return {RBNode|null} The node stored or null if it's out of the bounds.
+     */
+    RBTreeIterator.prototype.getNode = function () {
+        return this.pointer;
+    };
+    ;
+    return RBTreeIterator;
+}());
 var RBLNode = /** @class */ (function () {
     /**
      * The single node of the tree.
@@ -4464,4 +5096,578 @@ var RBTreeListIterator = /** @class */ (function () {
     };
     ;
     return RBTreeListIterator;
+}());
+/**
+ * Created by Battistella Stefano on 31/03/14.
+ */
+var Stack = /** @class */ (function (_super) {
+    __extends(Stack, _super);
+    /**
+     * Class for managing a stack.
+     * @param {...*} [args] The items for initializing the stack.
+     * @constructor
+     */
+    function Stack() {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        var _this = _super.call(this) || this;
+        /**
+         * The list of the items in the stack.
+         * @type {Array<*>}
+         */
+        _this.items = [];
+        _this.items = [];
+        if (args && args.length) {
+            //builds the stack from the range passed from the constructor
+            _this.multiPush(args);
+        }
+        else {
+            //builds the stack from the parameters of the constructor
+            _this.multiPush(arguments);
+        }
+        return _this;
+    }
+    /**
+     * @inheritDoc
+     */
+    Stack.prototype.getIterator = function () {
+        return new StackIterator(this);
+    };
+    ;
+    /**
+     * Adds the item at the top of the stack.
+     * @param item {*} The item to add.
+     * return {void}
+     */
+    Stack.prototype.push = function (item) {
+        this.items.push(item);
+    };
+    ;
+    /**
+     * Adds the items at the top of the stack.
+     * @param items {Array<*>} The items to add.
+     * @return {void}
+     */
+    Stack.prototype.multiPush = function (items) {
+        for (var i = 0; i < items.length; i++)
+            this.push(items[i]);
+    };
+    ;
+    /**
+     * Removes the item at the top of the stack.
+     * @return {*} The item at the top of the stack. It's undefined if the stack is empty.
+     */
+    Stack.prototype.pop = function () {
+        if (!this.items.length)
+            return undefined;
+        return this.items.pop();
+    };
+    ;
+    /**
+     * Removes the more item at the top of the stack.
+     * @param times {number} The number of times to repeat the pop method.
+     * @return {Array<*>} The items at the top of the stack.
+     */
+    Stack.prototype.multiPop = function (times) {
+        var result = [];
+        for (var i = 0; i < times && this.items.length; i++)
+            result.push(this.pop());
+        return result;
+    };
+    ;
+    /**
+     * Returns the item at the top of the stack without remove it.
+     * @return {*} The item at the top of the stack. It's undefined if the stack is empty.
+     */
+    Stack.prototype.peek = function () {
+        if (!this.items.length)
+            return undefined;
+        return this.items[this.items.length - 1];
+    };
+    ;
+    /**
+     * Removes all the items stored in the stack.
+     * @return {void}
+     */
+    Stack.prototype.clear = function () {
+        this.items = [];
+    };
+    ;
+    /**
+     * Checks if the stack contains an item that satisfy the condition represented by the callback function.
+     * @param item {*} The item to find.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {boolean} True if the stack contains the item that satisfy the condition, false otherwise.
+     */
+    Stack.prototype.contains = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var i = 0;
+        while (i < this.items.length && !callback(this.items[i]))
+            i++;
+        return i < this.items.length;
+    };
+    ;
+    /**
+     * Executes the callback function for each item of the stack.
+     * This method modifies the stack so if you don't need to modify it you must return the same item of the array.
+     * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
+     * @return {void}
+     */
+    Stack.prototype.execute = function (callback) {
+        for (var i = this.items.length - 1; i > -1; i--)
+            this.items[i] = callback(this.items[i]);
+    };
+    ;
+    /**
+     * Returns the item at the position index.
+     * @param index The position of the item.
+     * @return {*} The item at the position. It's undefined if index isn't in the stack bounds.
+     */
+    Stack.prototype.getItem = function (index) {
+        if (index < 0 || index > this.items.length - 1)
+            return undefined;
+        return this.items[this.items.length - index - 1];
+    };
+    ;
+    /**
+     * Returns the length of the stack.
+     * @return {Number} The length of the stack.
+     */
+    Stack.prototype.getLength = function () {
+        return this.items.length;
+    };
+    ;
+    /**
+     * Checks if the stack is empty.
+     * @return {boolean} True if the stack is empty, false otherwise.
+     */
+    Stack.prototype.isEmpty = function () {
+        return !this.items.length;
+    };
+    ;
+    /**
+     * Returns the items that satisfy the condition determined by the callback.
+     * @param callback {function} The function that implements the condition.
+     * @return {Array<*>} The array that contains the items that satisfy the condition.
+     */
+    Stack.prototype.filter = function (callback) {
+        var result = [];
+        for (var i = this.items.length - 1; i > -1; i--) {
+            if (callback(this.items[i]))
+                result.push(this.items[i]);
+        }
+        return result;
+    };
+    ;
+    /**
+     * Returns the first position of the item in the stack.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {number} The first position of the item.
+     */
+    Stack.prototype.indexOf = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var i = this.items.length - 1;
+        while (i > -1) {
+            if (callback(this.items[i]))
+                return i;
+            i--;
+        }
+        return -1;
+    };
+    ;
+    /**
+     * Returns the last position of the item in the stack.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {number} The last position of the item.
+     */
+    Stack.prototype.lastIndexOf = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var i = 0;
+        while (i < this.items.length) {
+            if (callback(this.items[i]))
+                return i;
+            i++;
+        }
+        return -1;
+    };
+    ;
+    /**
+     * Returns all the position in which the item has been found in the stack.
+     * @param item {*} The item to search.
+     * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
+     * @return {Array<number>} The positions in which the item has been found.
+     */
+    Stack.prototype.allIndexesOf = function (item, callback) {
+        callback = callback || function (it) {
+            return it === item;
+        };
+        var i = this.items.length - 1;
+        var indexes = [];
+        while (i > -1) {
+            if (callback(this.items[i]))
+                indexes.push(i);
+            i--;
+        }
+        return indexes;
+    };
+    ;
+    /**
+     * Clones the stack into a new stack.
+     * @return {Stack} The stack cloned from this stack.
+     */
+    Stack.prototype.clone = function () {
+        var stack = new Stack();
+        for (var i = 0; i < this.items.length; i++)
+            if (this.items[i].clone)
+                stack.push(this.items[i].clone());
+            else
+                stack.push(this.items[i]);
+        return stack;
+    };
+    ;
+    /**
+     * Clones the stack into a new stack without cloning duplicated items.
+     * @return {Stack} The stack cloned from this stack.
+     */
+    Stack.prototype.cloneDistinct = function () {
+        var stack = new Stack();
+        for (var i = 0; i < this.items.length; i++)
+            if (!stack.contains(this.items[i])) {
+                if (this.items[i].cloneDistinct)
+                    stack.push(this.items[i].cloneDistinct());
+                else if (this.items[i].clone)
+                    stack.push(this.items[i].clone());
+                else
+                    stack.push(this.items[i]);
+            }
+        return stack;
+    };
+    ;
+    return Stack;
+}(Aggregate));
+/**
+ * Created by Stefano on 04/04/2014.
+ */
+var StackIterator = /** @class */ (function () {
+    /**
+     * Class that implements the iterator for a linked list.
+     * @param aggregate {Stack} The aggregate to scan.
+     * @constructor
+     */
+    function StackIterator(aggregate) {
+        /**
+         * The pointer to the position.
+         * @type {number}
+         */
+        this.pointer = -1;
+        this.aggregate = aggregate;
+        this.pointer = -1;
+    }
+    /**
+     * @inheritDoc
+     */
+    StackIterator.prototype.first = function () {
+        this.pointer = this.aggregate.items.length - 1;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    StackIterator.prototype.next = function () {
+        this.pointer--;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    StackIterator.prototype.last = function () {
+        this.pointer = 0;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    StackIterator.prototype.previous = function () {
+        this.pointer++;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    StackIterator.prototype.isDone = function () {
+        return this.pointer < 0 || this.pointer > this.aggregate.items.length - 1;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    StackIterator.prototype.getItem = function () {
+        return this.aggregate.items[this.pointer];
+    };
+    ;
+    return StackIterator;
+}());
+/**
+ * Created by Stefano on 02/02/2015.
+ */
+var TNode = /** @class */ (function () {
+    /**
+     * The single node of the tree.
+     * @param [string = null] The string of the node.
+     * @param [item = null] The item to store in the node.
+     * @constructor
+     */
+    function TNode(string, item) {
+        /**
+         * The item stored.
+         * @type {*|null}
+         */
+        this.item = null;
+        /**
+         * The key of the node.
+         * @type {string|null}
+         */
+        this.string = null;
+        /**
+         * The parent node. It's null if there's no a parent node.
+         * @type {TNode|null}
+         */
+        this.parent = null;
+        /**
+         * The children of the node.
+         * @type {Array<TNode>}
+         */
+        this.childs = [];
+        this.item = item || null;
+        this.string = string || null;
+        this.parent = null;
+        this.childs = [];
+    }
+    return TNode;
+}());
+var Trie = /** @class */ (function (_super) {
+    __extends(Trie, _super);
+    /**
+     * Class for managing a trie
+     * @constructor
+     */
+    function Trie() {
+        var _this = _super.call(this) || this;
+        /**
+         * The size of the trie
+         * @type {number}
+         */
+        _this.size = 0;
+        _this.root = new TNode('');
+        _this.size = 0;
+        return _this;
+    }
+    /**
+     * @inheritDoc
+     */
+    Trie.prototype.getIterator = function () {
+        return new TrieIterator(this);
+    };
+    ;
+    /**
+     * Insert the string in the tree creating the relative path to it.
+     * If the string already exists then the values are updated
+     * @param string {string} The string to store.
+     * @param [item = null] The item to store.
+     * @return {void}
+     */
+    Trie.prototype.insert = function (string, item) {
+        var node = this.root;
+        var i = 0;
+        while (i < string.length && node.childs[string.charCodeAt(i)]) {
+            node = node.childs[string.charCodeAt(i)];
+            ++i;
+        }
+        while (i < string.length) {
+            node.childs[string.charCodeAt(i)] = new TNode();
+            node = node.childs[string.charCodeAt(i)];
+            ++i;
+        }
+        if (node.string != string)
+            ++this.size;
+        node.string = string;
+        node.item = item;
+    };
+    ;
+    /**
+     * Suggest the possible conclusion for the string.
+     * @param string {string} The start of the string.
+     * @return {Array<string>} The array of possible string conclusion to fill.
+     */
+    Trie.prototype.suggest = function (string) {
+        var node = this.root;
+        for (var i = 0; i < string.length && node; ++i) {
+            node = node.childs[string.charCodeAt(i)];
+        }
+        var results = [];
+        if (node) {
+            this.stringsToArray(results, node);
+        }
+        return results;
+    };
+    ;
+    /**
+     * Return all the string saved under the node in the array.
+     * @param result {Array<string>} The array to fill.
+     * @param [node {TNode|null} = null] The node from which start searching the strings.
+     * @return {void}
+     */
+    Trie.prototype.stringsToArray = function (result, node) {
+        node = node || this.root;
+        if (node.string) {
+            result.push(node.string);
+        }
+        for (var key in node.childs) {
+            if (key !== 'length' && node.childs.hasOwnProperty(key)) {
+                this.stringsToArray(result, node.childs[key]);
+            }
+        }
+    };
+    ;
+    /**
+     * Update the item related to the string searched.
+     * @param string {string} The string for finding the item.
+     * @param callback {function} The function to execute to update the item. It should accept the item the iteration is working on.
+     * @return {void}
+     */
+    Trie.prototype.updateItem = function (string, callback) {
+        var node = this.root;
+        var i = 0;
+        while (i < string.length && node.childs[string.charCodeAt(i)]) {
+            node = node.childs[string.charCodeAt(i)];
+            ++i;
+        }
+        // Update the value only if the node reached correspond to the string
+        if (node && node.string == string) {
+            node.item = callback(node.item);
+        }
+    };
+    ;
+    /**
+     * Return the item related to the string searched.
+     * @param string {string} The string for finding the item.
+     * @returns {*} The item found. Undefined if the string is not in the trie
+     */
+    Trie.prototype.getItem = function (string) {
+        var node = this.root;
+        var i = 0;
+        while (i < string.length && node.childs[string.charCodeAt(i)]) {
+            node = node.childs[string.charCodeAt(i)];
+            ++i;
+        }
+        // Return the value only if the node reached correspond to the string
+        if (node && node.string == string) {
+            return node.item;
+        }
+        return undefined;
+    };
+    ;
+    /**
+     * Return the size of the trie.
+     * @returns {number} The size of the tree.
+     */
+    Trie.prototype.getSize = function () {
+        return this.size;
+    };
+    ;
+    /**
+     * Get the minimum string stored in the tree.
+     * @param [node = root] {Node} The node from which start the search.
+     * @return {string} The string found.
+     */
+    Trie.prototype.minimum = function (node) {
+        node = node || this.root;
+        return node.string;
+    };
+    ;
+    /**
+     * Get the maximum string stored in the tree.
+     * @param [node = root] {Node} The node from which start the search.
+     * @return {string} The string found.
+     */
+    Trie.prototype.maximum = function (node) {
+        node = node || this.root;
+        while (node && node.childs[node.childs.length - 1])
+            node = node.childs[node.childs.length - 1];
+        return node.string;
+    };
+    ;
+    return Trie;
+}(Aggregate));
+/**
+ * Created by Stefano on 06/04/2014.
+ */
+var TrieIterator = /** @class */ (function () {
+    /**
+     * Class that implements the iterator for a trie.
+     * @param aggregate {Trie} The aggregate to scan.
+     * @constructor
+     */
+    function TrieIterator(aggregate) {
+        /**
+         * The pointer to the position.
+         * @type {TNode|null}
+         */
+        this.pointer = null;
+        this.aggregate = aggregate;
+        this.pointer = null;
+    }
+    /**
+     * @inheritDoc
+     */
+    TrieIterator.prototype.first = function () {
+        this.pointer = this.aggregate.minimum();
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    TrieIterator.prototype.next = function () {
+        this.pointer = this.aggregate.successor(this.pointer);
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    TrieIterator.prototype.last = function () {
+        this.pointer = this.aggregate.maximum();
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    TrieIterator.prototype.previous = function () {
+        this.pointer = this.aggregate.predecessor(this.pointer);
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    TrieIterator.prototype.isDone = function () {
+        return !this.pointer;
+    };
+    ;
+    /**
+     * @inheritDoc
+     */
+    TrieIterator.prototype.getItem = function () {
+        return this.pointer.item;
+    };
+    ;
+    return TrieIterator;
 }());
