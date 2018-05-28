@@ -989,12 +989,12 @@ declare namespace ds {
          * @param key {number} The key to hash.
          * @return {number} The hash of the key.
          */
-        hash: (key) => number;
+        hash: (key: number) => number;
         /**
          * The items stored in the hash table.
          * @type {Array<DoubleLinkedList>}
          */
-        items: never[];
+        items: DoubleLinkedList[];
         /**
          * The number of keys stored in the hash table.
          * @type {number}
@@ -1005,44 +1005,44 @@ declare namespace ds {
          * @param size {number} The size of the table.
          * @constructor
          */
-        constructor(size: any);
+        constructor(size: number);
         /**
          * Stores the item with its key.
          * @param key {number} The key relatives to the item.
          * @param item {*} The item to store.
          */
-        insert(key: any, item: any): void;
+        insert(key: number, item: any): void;
         /**
          * Deletes the first item relatives to the key value.
          * @param key {number} The key to delete.
          * @return {void}
          */
-        deleteKey(key: any): void;
+        deleteKey(key: number): void;
         /**
          * Deletes all the items relative to the key value.
          * @param key {number} The key to delete.
          * @return {void}
          */
-        deleteAllKey(key: any): void;
+        deleteAllKey(key: number): void;
         /**
          * Searches the item relative to the key value.
          * @param key {number} The key of the item to search.
          * @return {*|undefined} The item found or undefined if the key does not exist.
          */
-        search(key: any): any;
+        search(key: number): any;
         /**
          * Checks if the hash table contains a key that satisfy the condition represented by the callback function.
          * @param key {number} The key to find.
          * @param [callback = function(k){return(k===key);}] The condition to satisfy. The callback must accept the current key to check.
          * @return {boolean} True if the hash table contains the key that satisfy the condition, false otherwise.
          */
-        containsKey(key: any, callback?: any): boolean;
+        containsKey(key: number, callback?: (key: number) => boolean): boolean;
         /**
          * Searches all the items relative to the key value.
          * @param key {number} The key of the items to search.
          * @return {Array.<*>} An array with the items found.
          */
-        searchAll(key: any): any[];
+        searchAll(key: number): any[];
         /**
          * Returns the keys stored in the hash table.
          * @return {Array<number>} The keys stored in the table.
@@ -1074,13 +1074,13 @@ declare namespace ds {
          * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
          * @return {void}
          */
-        execute(callback: any): void;
+        execute(callback: (item: any) => any): void;
         /**
          * Returns the items that satisfy the condition determined by the callback.
          * @param callback {function} The function that implements the condition.
          * @return {Array<*>} The array that contains the items that satisfy the condition.
          */
-        filter(callback: any): any[];
+        filter(callback: (item: any) => boolean): any[];
         /**
          * Returns the size of the hash table.
          * @return {number} The size of the hash table.
@@ -1090,7 +1090,7 @@ declare namespace ds {
          * Clones the hash table into a new hash table.
          * @return {HashTable} The hash table cloned from this hash table.
          */
-        clone(): HashTable;
+        clone(): void;
     }
 }
 /**

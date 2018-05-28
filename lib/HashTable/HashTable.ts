@@ -24,13 +24,13 @@ namespace ds
 		 * @param key {number} The key to hash.
 		 * @return {number} The hash of the key.
 		 */
-		hash: (key) => number;
+		hash: (key: number) => number;
 
 		/**
 		 * The items stored in the hash table.
 		 * @type {Array<DoubleLinkedList>}
 		 */
-		items = [];
+		items: DoubleLinkedList[] = [];
 
 		/**
 		 * The number of keys stored in the hash table.
@@ -43,7 +43,7 @@ namespace ds
 		 * @param size {number} The size of the table.
 		 * @constructor
 		 */
-		constructor(size)
+		constructor(size: number)
 		{
 			this.size = size;
 			this.p = 1000;
@@ -66,7 +66,7 @@ namespace ds
 		 * @param key {number} The key relatives to the item.
 		 * @param item {*} The item to store.
 		 */
-		insert(key, item)
+		insert(key: number, item: any)
 		{
 			this.keyLength++;
 			this.items[this.hash(key)].pushBack({ key: key, item: item });
@@ -77,7 +77,7 @@ namespace ds
 		 * @param key {number} The key to delete.
 		 * @return {void}
 		 */
-		deleteKey(key)
+		deleteKey(key: number)
 		{
 			var list = this.items[this.hash(key)];
 			var it = list.getIterator();
@@ -95,7 +95,7 @@ namespace ds
 		 * @param key {number} The key to delete.
 		 * @return {void}
 		 */
-		deleteAllKey(key)
+		deleteAllKey(key: number)
 		{
 			var list = this.items[this.hash(key)];
 			var it = list.getIterator();
@@ -114,7 +114,7 @@ namespace ds
 		 * @param key {number} The key of the item to search.
 		 * @return {*|undefined} The item found or undefined if the key does not exist.
 		 */
-		search(key)
+		search(key: number)
 		{
 			var list = this.items[this.hash(key)];
 			var it = list.getIterator();
@@ -130,7 +130,7 @@ namespace ds
 		 * @param [callback = function(k){return(k===key);}] The condition to satisfy. The callback must accept the current key to check.
 		 * @return {boolean} True if the hash table contains the key that satisfy the condition, false otherwise.
 		 */
-		containsKey(key, callback?)
+		containsKey(key: number, callback?: (key: number) => boolean)
 		{
 			callback = callback || function (k)
 			{
@@ -149,7 +149,7 @@ namespace ds
 		 * @param key {number} The key of the items to search.
 		 * @return {Array.<*>} An array with the items found.
 		 */
-		searchAll(key)
+		searchAll(key: number)
 		{
 			var list = this.items[this.hash(key)];
 			var it = list.getIterator();
@@ -228,7 +228,7 @@ namespace ds
 		 * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
 		 * @return {void}
 		 */
-		execute(callback)
+		execute(callback: (item: any) => any)
 		{
 			for (var i = 0; i < this.size; i++)
 				this.items[i].execute(callback);
@@ -239,9 +239,9 @@ namespace ds
 		 * @param callback {function} The function that implements the condition.
 		 * @return {Array<*>} The array that contains the items that satisfy the condition.
 		 */
-		filter(callback)
+		filter(callback: (item: any) => boolean)
 		{
-			var result = [];
+			var result: any[] = [];
 			for (var i = 0; i < this.size; i++)
 				result.concat(this.items[i].filter(callback));
 			return result;
@@ -262,11 +262,13 @@ namespace ds
 		 */
 		clone()
 		{
-			var table = new HashTable(this.size);
-			for (var i = 0; i < this.size; i++)
-				for (var node = this.items[i].first; node; node = node.next)
-					table.insert(node.key, node.item);
-			return table;
+			debugger;
+			console.error("此处有bug，注释后面代码");
+			// var table = new HashTable(this.size);
+			// for (var i = 0; i < this.size; i++)
+			// 	for (var node = this.items[i].first; node; node = node.next)
+			// 		table.insert(node.key, node.item);
+			// return table;
 		};
 	}
 

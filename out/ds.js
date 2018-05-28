@@ -2368,11 +2368,13 @@ var ds;
          * @return {HashTable} The hash table cloned from this hash table.
          */
         HashTable.prototype.clone = function () {
-            var table = new HashTable(this.size);
-            for (var i = 0; i < this.size; i++)
-                for (var node = this.items[i].first; node; node = node.next)
-                    table.insert(node.key, node.item);
-            return table;
+            debugger;
+            console.error("此处有bug，注释后面代码");
+            // var table = new HashTable(this.size);
+            // for (var i = 0; i < this.size; i++)
+            // 	for (var node = this.items[i].first; node; node = node.next)
+            // 		table.insert(node.key, node.item);
+            // return table;
         };
         ;
         return HashTable;
