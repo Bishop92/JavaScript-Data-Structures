@@ -1108,7 +1108,7 @@ declare namespace ds {
          * The next node. It's null if there's no a next node.
          * @type {LLNode|null}
          */
-        next: null;
+        next: LLNode;
         /**
          * The single node of the list.
          * @param item {*} The item to store in the node.
@@ -1121,12 +1121,12 @@ declare namespace ds {
          * The first node of the list.
          * @type {LLNode|null}
          */
-        first: null;
+        first: LLNode;
         /**
          * The last node of the list.
          * @type {LLNode|null}
          */
-        last: null;
+        last: LLNode;
         /**
          * The length of the list.
          * @type {number}
@@ -1169,13 +1169,13 @@ declare namespace ds {
          * @param times {number} The number of times to repeat the popFront method.
          * @return {*} The item removed. It's undefined if the list is empty.
          */
-        multiPopFront(times: any): any[];
+        multiPopFront(times: number): any[];
         /**
          * Removes the last times items of the list.
          * @param times {number} The number of times to repeat the popBack method.
          * @return {*} The items removed.
          */
-        multiPopBack(times: any): any[];
+        multiPopBack(times: number): any[];
         /**
          * Returns the first item of the list without remove it.
          * @return {*} The item at the top of the list. It's undefined if the list is empty.
@@ -1187,27 +1187,27 @@ declare namespace ds {
          * @param index {number} The position where to add the item. If index is negative, the item won't be added.
          * @return {void}
          */
-        addAt(item: any, index: any): void;
+        addAt(item: any, index: number): void;
         /**
          * Removes the item at the index position.
          * @param index {number} The position of the item to remove.
          * @return {*} The item stored at the position index. It's undefined if the index is out of bounds.
          */
-        removeAt(index: any): any;
+        removeAt(index: number): any;
         /**
          * Removes the item from the list.
          * @param item {*} The item to remove.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {void}
          */
-        remove(item: any, callback?: any): void;
+        remove(item: any, callback?: (item: any) => boolean): void;
         /**
          * Removes all the item from the list.
          * @param item {*} The item to remove.
          * @param [callback (item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {void}
          */
-        removeAll(item: any, callback?: any): void;
+        removeAll(item: any, callback?: (item: any) => boolean): void;
         /**
          * Removes all the items stored from the from position to the to position.
          * If from > to, the method will remove all the items up to the end.
@@ -1215,14 +1215,14 @@ declare namespace ds {
          * @param to {number} The position where stop to remove the items. The to position is included.
          * @return {Array<*>} The items removed.
          */
-        removeSegment(from: any, to: any): any[];
+        removeSegment(from: number, to: number): any[];
         /**
          * Change the item stored in the index position. If the index is out of bound, the node won't be updated.
          * @param index {number} The position of the node to modify.
          * @param item {*} The new item stored in the node.
          * @return {void}
          */
-        modifyAt(index: any, item: any): void;
+        modifyAt(index: number, item: any): void;
         /**
          * Removes all the items stored in the list.
          * @return {void}
@@ -1234,26 +1234,26 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {boolean} True if the list contains the item that satisfy the condition, false otherwise.
          */
-        contains(item: any, callback?: any): boolean;
+        contains(item: any, callback?: (item: any) => boolean): boolean;
         /**
          * Executes the callback function for each item of the stack.
          * This method modifies the list so if you don't need to modify it you must return the same item of the array.
          * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
          * @return {void}
          */
-        execute(callback: any): void;
+        execute(callback: (item: any) => any): void;
         /**
          * Returns the node at the position index.
          * @param index {number} The position of the node.
          * @return {LLNode} The node stored at the position index. It's undefined if index isn't in the list bounds.
          */
-        getNode(index: any): null | undefined;
+        getNode(index: number): LLNode | undefined;
         /**
          * Returns the item at the position index.
          * @param index {number} The position of the item.
          * @return {*} The item stored at the position index. It's undefined if index isn't in the list bounds.
          */
-        getItem(index: any): any;
+        getItem(index: number): any;
         /**
          * Transforms the list into an array.
          * @return {Array<*>} The array built.
@@ -1269,13 +1269,13 @@ declare namespace ds {
          * @param array {Array<*>} The array from which build the list.
          * @return {void}
          */
-        fromArray(array: any): void;
+        fromArray(array: any[]): void;
         /**
          * Returns the items that satisfy the condition determined by the callback.
          * @param callback {function} The function that implements the condition.
          * @return {Array<*>} The array that contains the items that satisfy the condition.
          */
-        filter(callback: any): any[];
+        filter(callback: (item: any) => boolean): any[];
         /**
          * Checks if the list is empty.
          * @return {boolean} True if the list is empty, false otherwise.
@@ -1287,33 +1287,33 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The first position of the item.
          */
-        indexOf(item: any, callback?: any): number;
+        indexOf(item: any, callback?: (item: any) => boolean): number;
         /**
          * Returns the last position of the item in the list.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The last position of the item.
          */
-        lastIndexOf(item: any, callback?: any): number;
+        lastIndexOf(item: any, callback?: (item: any) => boolean): number;
         /**
          * Returns all the position in which the item has been found in the list.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback?: any): number[];
+        allIndexesOf(item: any, callback?: (item: any) => boolean): number[];
         /**
          * Add the list at the end of this list.
          * @param list {LinkedList} The list to join.
          * @return {void}
          */
-        join(list: any): void;
+        join(list: LinkedList): void;
         /**
          * Divides the list at the index position. The node at the index position is the first new node of the list.
          * @param index {number} The position where to divide the list.
          * @return {LinkedList} The list formed by the nodes from the index position then. If the index is out of bound, the list will be empty.
          */
-        divide(index: any): LinkedList;
+        divide(index: number): LinkedList;
         /**
          * Clones the list into a new list.
          * @return {LinkedList} The list cloned from this list.
@@ -1329,13 +1329,13 @@ declare namespace ds {
          * @param size {number} The size of the lists.
          * @return {Array<LinkedList>} The lists created by splitting the list.
          */
-        split(size: any): LinkedList[];
+        split(size: number): LinkedList[];
         /**
          * Returns the number of items that satisfy the represented by the callback function.
          * @param callback {function} The condition to satisfy.
          * @return {number} The number of items that satisfy the condition.
          */
-        count(callback: any): number;
+        count(callback: (item: any) => boolean): number;
     }
 }
 /**
@@ -1348,22 +1348,22 @@ declare namespace ds {
          * The aggregate relates to this iterator.
          * @type {LinkedList}
          */
-        aggregate: any;
+        aggregate: LinkedList;
         /**
          * The pointer to the position.
          * @type {Node|null}
          */
-        pointer: null;
+        pointer: LLNode;
         /**
          * Class that implements the iterator for a linked list.
          * @param aggregate {LinkedList} The aggregate to scan.
          * @constructor
          */
-        constructor(aggregate: any);
+        constructor(aggregate: LinkedList);
         /**
          * @inheritDoc
          */
-        first(): void;
+        first(): LLNode;
         /**
          * @inheritDoc
          */
@@ -1389,7 +1389,7 @@ declare namespace ds {
          * @abstract
          * @return {Node|null} The node stored or null if it's out of the bounds.
          */
-        getNode(): null;
+        getNode(): LLNode;
     }
 }
 /**

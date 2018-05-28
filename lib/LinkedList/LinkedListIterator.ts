@@ -10,23 +10,23 @@ namespace ds
 		 * The aggregate relates to this iterator.
 		 * @type {LinkedList}
 		 */
-		aggregate;
+		aggregate: LinkedList;
 
 		/**
 		 * The pointer to the position.
 		 * @type {Node|null}
 		 */
-		pointer = null;
+		pointer: LLNode = <any>null;
 
 		/**
 		 * Class that implements the iterator for a linked list.
 		 * @param aggregate {LinkedList} The aggregate to scan.
 		 * @constructor
 		 */
-		constructor(aggregate)
+		constructor(aggregate: LinkedList)
 		{
 			this.aggregate = aggregate;
-			this.pointer = null;
+			this.pointer = <any>null;
 		}
 
 		/**
@@ -34,7 +34,7 @@ namespace ds
 		 */
 		first()
 		{
-			this.pointer = this.aggregate.first;
+			return this.pointer = this.aggregate.first;
 		};
 
 		/**

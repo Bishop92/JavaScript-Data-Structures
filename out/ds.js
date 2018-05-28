@@ -2441,7 +2441,7 @@ var ds;
             }
             else {
                 //builds the list from the parameters of the constructor
-                _this.fromArray(arguments);
+                _this.fromArray(args);
             }
             return _this;
         }
@@ -3038,7 +3038,7 @@ var ds;
          * @inheritDoc
          */
         LinkedListIterator.prototype.first = function () {
-            this.pointer = this.aggregate.first;
+            return this.pointer = this.aggregate.first;
         };
         ;
         /**
