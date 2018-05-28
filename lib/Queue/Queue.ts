@@ -10,7 +10,7 @@ namespace ds
 		 * The list of the items in the queue.
 		 * @type {Array<*>}
 		 */
-		items = [];
+		items: any[] = [];
 
 		/**
 		 * Decreases dequeue big O complexity by shifting starting indexs
@@ -24,7 +24,7 @@ namespace ds
 		 * @param {...*} [args] The items for initializing the queue.
 		 * @constructor
 		 */
-		constructor(...args)
+		constructor(...args: any[])
 		{
 			super();
 			this.items = [];
@@ -38,7 +38,7 @@ namespace ds
 			} else
 			{
 				//builds the list from the parameters of the constructor
-				this.multiEnqueue(arguments);
+				this.multiEnqueue(args);
 			}
 		}
 
@@ -55,7 +55,7 @@ namespace ds
 		 * @param item {*} The item to add.
 		 * @return {void}
 		 */
-		enqueue(item)
+		enqueue(item: any)
 		{
 			this.items.push(item);
 		};
@@ -65,7 +65,7 @@ namespace ds
 		 * @param items {Array<*>} The items to add.
 		 * @return {void}
 		 */
-		multiEnqueue(items)
+		multiEnqueue(items: any[])
 		{
 			for (var i = 0; i < items.length; i++)
 				this.items.push(items[i]);
@@ -100,7 +100,7 @@ namespace ds
 		 * @param times {number} The number of times to repeat the dequeue method.
 		 * @return {Array<*>} The items at the head of the queue.
 		 */
-		multiDequeue(times)
+		multiDequeue(times: number)
 		{
 			var dequeued = []; // Holds variables that have been removed from the array
 			// Dequeue the desired number of items
@@ -130,7 +130,7 @@ namespace ds
 		 * @param [length = 1] {number} The number of items to remove.
 		 * @return {void}
 		 */
-		remove(index, length)
+		remove(index: number, length?: number)
 		{
 			length = length || 1;
 			this.items.splice(index, length);
@@ -141,7 +141,7 @@ namespace ds
 		 * @param index {number} The position of the item.
 		 * @return {*} The item at the position. It's undefined if index isn't in the queue bounds.
 		 */
-		getItem(index)
+		getItem(index: number)
 		{
 			// take offsetIndex into account
 			var index = index + this.offsetIndex;
@@ -176,7 +176,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {boolean} True if the queue contains the item that satisfy the condition, false otherwise.
 		 */
-		contains(item, callback?)
+		contains(item: any, callback?: (item: any) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -194,7 +194,7 @@ namespace ds
 		 * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
 		 * @return {void}
 		 */
-		execute(callback)
+		execute(callback: (item: any) => any)
 		{
 			for (var i = this.offsetIndex; i < this.items.length; i++)
 				this.items[i] = callback(this.items[i]);
@@ -223,7 +223,7 @@ namespace ds
 		 * @param callback {function} The function that implements the condition.
 		 * @return {Array<*>} The array that contains the items that satisfy the condition.
 		 */
-		filter(callback)
+		filter(callback: (item: any) => boolean)
 		{
 			var result = [];
 			for (var i = this.offsetIndex; i < this.items.length; i++)
@@ -238,7 +238,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The first position of the item.
 		 */
-		indexOf(item, callback?)
+		indexOf(item: any, callback?: (item: any) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -260,7 +260,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The last position of the item.
 		 */
-		lastIndexOf(item, callback?)
+		lastIndexOf(item: any, callback?: (item: any) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -283,7 +283,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {Array<number>} The positions in which the item has been found.
 		 */
-		allIndexesOf(item, callback?)
+		allIndexesOf(item: any, callback?: (item: any) => any)
 		{
 			callback = callback || function (it)
 			{

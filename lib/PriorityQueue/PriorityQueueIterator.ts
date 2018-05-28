@@ -10,13 +10,13 @@ namespace ds
 		 * The aggregate relates to this iterator.
 		 * @type {PriorityQueue}
 		 */
-		aggregate;
+		aggregate: PriorityQueue;
 
 		/**
 		 * The pointer to the position of the node.
 		 * @type {RBLNode|null}
 		 */
-		pointerNode = null;
+		pointerNode: RBLNode = <any>null;
 		/**
 		 * The pointer to the position in the node.
 		 * @type {number}
@@ -28,10 +28,10 @@ namespace ds
 		 * @param aggregate {PriorityQueue} The aggregate to scan.
 		 * @constructor
 		 */
-		constructor(aggregate)
+		constructor(aggregate: PriorityQueue)
 		{
 			this.aggregate = aggregate;
-			this.pointerNode = null;
+			this.pointerNode = <any>null;
 			this.pointerPosition = -1;
 		}
 

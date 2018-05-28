@@ -3481,7 +3481,7 @@ var ds;
             }
             else {
                 //builds the list from the parameters of the constructor
-                _this.multiEnqueue(arguments);
+                _this.multiEnqueue(args);
             }
             return _this;
         }

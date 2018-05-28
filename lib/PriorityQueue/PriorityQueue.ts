@@ -199,7 +199,7 @@ namespace ds
 		 * @param [callback = function(p){return(p===priority);}] The condition to satisfy. The callback must accept the current priority to check.
 		 * @return {boolean} True if the queue contains the priority that satisfy the condition, false otherwise.
 		 */
-		containsPriority(priority:number, callback?)
+		containsPriority(priority: number, callback?: (key: number) => boolean)
 		{
 			if (callback)
 				return this.items.fullContains(callback);
@@ -231,7 +231,7 @@ namespace ds
 		 * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
 		 * @return {void}
 		 */
-		execute(callback)
+		execute(callback: (item: any) => any)
 		{
 			var it = this.items.getIterator();
 			for (it.last(); !it.isDone(); it.previous())
@@ -244,7 +244,7 @@ namespace ds
 		 * @param newPriority {number} The new priority.
 		 * @return {void}
 		 */
-		changePriority(index, newPriority)
+		changePriority(index: number, newPriority: number)
 		{
 			var item = this.getItem(index);
 			this.remove(index);
@@ -256,7 +256,7 @@ namespace ds
 		 * @param callback {function} The function that implements the condition.
 		 * @return {Array<*>} The array that contains the items that satisfy the condition.
 		 */
-		filter(callback)
+		filter(callback: (item: any) => any)
 		{
 			var result = [];
 			var it = this.items.getIterator();

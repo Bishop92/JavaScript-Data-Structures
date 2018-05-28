@@ -10,7 +10,7 @@ namespace ds
 		 * The aggregate relates to this iterator.
 		 * @type {Queue}
 		 */
-		aggregate;
+		aggregate: Queue;
 
 		/**
 		 * The pointer to the position.
@@ -22,7 +22,7 @@ namespace ds
 		 * @param aggregate {Queue} The aggregate to scan.
 		 * @constructor
 		 */
-		constructor(aggregate)
+		constructor(aggregate: Queue)
 		{
 			this.aggregate = aggregate;
 			this.pointer = -1;

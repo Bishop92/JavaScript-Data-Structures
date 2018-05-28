@@ -1487,7 +1487,7 @@ declare namespace ds {
          * @param [callback = function(p){return(p===priority);}] The condition to satisfy. The callback must accept the current priority to check.
          * @return {boolean} True if the queue contains the priority that satisfy the condition, false otherwise.
          */
-        containsPriority(priority: number, callback?: any): boolean;
+        containsPriority(priority: number, callback?: (key: number) => boolean): boolean;
         /**
          * Return the queue created by the priority queue with the items in the same order but without the priority.
          * @return {Queue} The queue created.
@@ -1499,20 +1499,20 @@ declare namespace ds {
          * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
          * @return {void}
          */
-        execute(callback: any): void;
+        execute(callback: (item: any) => any): void;
         /**
          * Change the priority of the item at the position index.
          * @param index {number} The position of the item of which increase the priority.
          * @param newPriority {number} The new priority.
          * @return {void}
          */
-        changePriority(index: any, newPriority: any): void;
+        changePriority(index: number, newPriority: number): void;
         /**
          * Returns the items that satisfy the condition determined by the callback.
          * @param callback {function} The function that implements the condition.
          * @return {Array<*>} The array that contains the items that satisfy the condition.
          */
-        filter(callback: any): any[];
+        filter(callback: (item: any) => any): any[];
         /**
          * Clones the queue into a new queue.
          * @return {PriorityQueue} The queue cloned from this queue.
@@ -1535,12 +1535,12 @@ declare namespace ds {
          * The aggregate relates to this iterator.
          * @type {PriorityQueue}
          */
-        aggregate: any;
+        aggregate: PriorityQueue;
         /**
          * The pointer to the position of the node.
          * @type {RBLNode|null}
          */
-        pointerNode: null;
+        pointerNode: RBLNode;
         /**
          * The pointer to the position in the node.
          * @type {number}
@@ -1551,7 +1551,7 @@ declare namespace ds {
          * @param aggregate {PriorityQueue} The aggregate to scan.
          * @constructor
          */
-        constructor(aggregate: any);
+        constructor(aggregate: PriorityQueue);
         /**
          * @inheritDoc
          */
@@ -1588,7 +1588,7 @@ declare namespace ds {
          * The list of the items in the queue.
          * @type {Array<*>}
          */
-        items: never[];
+        items: any[];
         /**
          * Decreases dequeue big O complexity by shifting starting indexs
          * for each dequeue, instead of splicing.
@@ -1616,18 +1616,18 @@ declare namespace ds {
          * @param items {Array<*>} The items to add.
          * @return {void}
          */
-        multiEnqueue(items: any): void;
+        multiEnqueue(items: any[]): void;
         /**
          * Removes the item at the head of the queue.
          * @return {*} The item at the head of the queue. It's undefined if the queue is empty.
          */
-        dequeue(): undefined;
+        dequeue(): any;
         /**
          * Removes the items at the head of the queue.
          * @param times {number} The number of times to repeat the dequeue method.
          * @return {Array<*>} The items at the head of the queue.
          */
-        multiDequeue(times: any): undefined[];
+        multiDequeue(times: number): any[];
         /**
          * Clears array indexs hidden by offset. To free up memory
          * @return {void}
@@ -1639,18 +1639,18 @@ declare namespace ds {
          * @param [length = 1] {number} The number of items to remove.
          * @return {void}
          */
-        remove(index: any, length: any): void;
+        remove(index: number, length?: number): void;
         /**
          * Returns the item at the position index.
          * @param index {number} The position of the item.
          * @return {*} The item at the position. It's undefined if index isn't in the queue bounds.
          */
-        getItem(index: any): undefined;
+        getItem(index: number): any;
         /**
          * Returns the first item in the queue. The item is not removed.
          * @return {*} The first item. It's undefined if the queue is empty.
          */
-        peek(): undefined;
+        peek(): any;
         /**
          * Removes all the items stored in the queue.
          * @return {void}
@@ -1662,14 +1662,14 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {boolean} True if the queue contains the item that satisfy the condition, false otherwise.
          */
-        contains(item: any, callback?: any): boolean;
+        contains(item: any, callback?: (item: any) => boolean): boolean;
         /**
          * Executes the callback function for each item of the queue.
          * This method modifies the queue so if you don't need to modify it you must return the same item of the array.
          * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
          * @return {void}
          */
-        execute(callback: any): void;
+        execute(callback: (item: any) => any): void;
         /**
          * Returns the length of the queue.
          * @return {number} The length of the queue.
@@ -1685,28 +1685,28 @@ declare namespace ds {
          * @param callback {function} The function that implements the condition.
          * @return {Array<*>} The array that contains the items that satisfy the condition.
          */
-        filter(callback: any): any[];
+        filter(callback: (item: any) => boolean): any[];
         /**
          * Returns the first position of the item in the queue.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The first position of the item.
          */
-        indexOf(item: any, callback?: any): number;
+        indexOf(item: any, callback?: (item: any) => boolean): number;
         /**
          * Returns the last position of the item in the queue.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The last position of the item.
          */
-        lastIndexOf(item: any, callback?: any): number;
+        lastIndexOf(item: any, callback?: (item: any) => boolean): number;
         /**
          * Returns all the position in which the item has been found in the queue.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback?: any): number[];
+        allIndexesOf(item: any, callback?: (item: any) => any): number[];
         /**
          * Clones the queue into a new queue.
          * @return {Queue} The queue cloned from this queue.
@@ -1729,7 +1729,7 @@ declare namespace ds {
          * The aggregate relates to this iterator.
          * @type {Queue}
          */
-        aggregate: any;
+        aggregate: Queue;
         /**
          * The pointer to the position.
          * @type {number}
@@ -1740,7 +1740,7 @@ declare namespace ds {
          * @param aggregate {Queue} The aggregate to scan.
          * @constructor
          */
-        constructor(aggregate: any);
+        constructor(aggregate: Queue);
         /**
          * @inheritDoc
          */
