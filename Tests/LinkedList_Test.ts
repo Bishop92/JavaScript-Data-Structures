@@ -145,7 +145,7 @@ QUnit.test("LinkedList - From array test", function (assert)
 
 QUnit.test("LinkedList - Filter test", function (assert)
 {
-	var list = new ds.LinkedList();
+	var list = new ds.LinkedList<number>();
 	const length = 100;
 
 	for (var i = 0; i < length; i++)

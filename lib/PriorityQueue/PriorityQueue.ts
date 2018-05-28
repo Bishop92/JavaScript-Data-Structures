@@ -4,13 +4,13 @@
  */
 namespace ds
 {
-	export class PriorityQueue extends Aggregate
+	export class PriorityQueue<T> extends Aggregate
 	{
 		/**
 		 * The list of the items in the queue.
 		 * @type {RBTreeList}
 		 */
-		items: RBTreeList;
+		items: RBTreeList<Queue<T>>;
 		/**
 		 * The length of the queue.
 		 * @type {number}
@@ -24,17 +24,16 @@ namespace ds
 		constructor()
 		{
 			super()
-			this.items = new RBTreeList();
+			this.items = new RBTreeList<Queue<T>>();
 			this.length = 0;
 		}
-
 
 		/**
 		 * @inheritDoc
 		 */
 		getIterator()
 		{
-			return new PriorityQueueIterator(this);
+			return new PriorityQueueIterator<T>(this);
 		};
 
 		/**
@@ -43,12 +42,12 @@ namespace ds
 		 * @param item {*} The item to add.
 		 * @return {void}
 		 */
-		enqueue(priority: number, item: any)
+		enqueue(priority: number, item: Queue<T>)
 		{
 			var queue = this.items.search(priority);
 			if (!queue)
 			{
-				queue = new Queue();
+				queue = new Queue<Queue<T>>();
 				this.items.insert(priority, queue);
 			}
 			queue.enqueue(item);
@@ -130,7 +129,7 @@ namespace ds
 		 * @param index {number} The index of the item.
 		 * @return {*} The item found. It's undefined if the position index is out of bounds.
 		 */
-		getItem(index: number)
+		getItem(index: number): Queue<T>
 		{
 			var it = this.items.getIterator();
 			for (it.last(); !it.isDone(); it.previous())
@@ -140,7 +139,7 @@ namespace ds
 					return queue.getItem(index);
 				index = index - queue.getLength();
 			}
-			return undefined;
+			return <any>undefined;
 		};
 
 		/**
@@ -213,7 +212,7 @@ namespace ds
 		 */
 		toQueue()
 		{
-			var queue = new Queue();
+			var queue = new Queue<Queue<T>>();
 			var it = this.items.getIterator();
 			for (it.last(); !it.isDone(); it.previous())
 			{
@@ -278,7 +277,7 @@ namespace ds
 		 */
 		clone()
 		{
-			var queue = new PriorityQueue();
+			var queue = new PriorityQueue<T>();
 			queue.items = this.items.clone();
 			queue.length = this.length;
 			return queue;
@@ -290,7 +289,7 @@ namespace ds
 		 */
 		cloneDistinct()
 		{
-			var queue = new PriorityQueue();
+			var queue = new PriorityQueue<T>();
 			queue.items = this.items.cloneDistinct();
 			queue.length = queue.items.getSize();
 			return queue;

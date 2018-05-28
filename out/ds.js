@@ -3728,11 +3728,13 @@ var ds;
          */
         Queue.prototype.clone = function () {
             var queue = new Queue();
-            for (var i = this.offsetIndex; i < this.items.length; i++)
-                if (this.items[i].clone)
-                    queue.enqueue(this.items[i].clone());
+            for (var i = this.offsetIndex; i < this.items.length; i++) {
+                var item = this.items[i];
+                if (item.clone)
+                    queue.enqueue(item.clone());
                 else
-                    queue.enqueue(this.items[i]);
+                    queue.enqueue(item);
+            }
             return queue;
         };
         ;
@@ -3743,13 +3745,15 @@ var ds;
         Queue.prototype.cloneDistinct = function () {
             var queue = new Queue();
             for (var i = this.offsetIndex; i < this.items.length; i++)
-                if (!queue.contains(this.items[i]))
-                    if (this.items[i].cloneDistinct)
-                        queue.enqueue(this.items[i].cloneDistinct());
-                    else if (this.items[i].clone)
-                        queue.enqueue(this.items[i].clone());
+                if (!queue.contains(this.items[i])) {
+                    var item = this.items[i];
+                    if (item.cloneDistinct)
+                        queue.enqueue(item.cloneDistinct());
+                    else if (item.clone)
+                        queue.enqueue(item.clone());
                     else
-                        queue.enqueue(this.items[i]);
+                        queue.enqueue(item);
+                }
             return queue;
         };
         ;
@@ -4252,11 +4256,13 @@ var ds;
         RBTree.prototype.clone = function () {
             var tree = new RBTree();
             var it = this.getIterator();
-            for (it.first(); !it.isDone(); it.next())
-                if (it.getNode().item.clone)
-                    tree.insert(it.getNode().key, it.getNode().item.clone());
+            for (it.first(); !it.isDone(); it.next()) {
+                var item = it.getNode().item;
+                if (item.clone)
+                    tree.insert(it.getNode().key, item.clone());
                 else
-                    tree.insert(it.getNode().key, it.getNode().item);
+                    tree.insert(it.getNode().key, item);
+            }
             return tree;
         };
         ;
@@ -4272,12 +4278,13 @@ var ds;
                     return node.key === it.getNode().key && node.item === it.getNode().item;
                 };
                 if (!tree.contains(it.getNode().key, callback)) {
-                    if (it.getNode().item.cloneDistinct)
-                        tree.insert(it.getNode().key, it.getNode().item.cloneDistinct());
-                    else if (it.getNode().item.clone)
-                        tree.insert(it.getNode().key, it.getNode().item.clone());
+                    var item = it.getNode().item;
+                    if (item.cloneDistinct)
+                        tree.insert(it.getNode().key, item.cloneDistinct());
+                    else if (item.clone)
+                        tree.insert(it.getNode().key, item.clone());
                     else
-                        tree.insert(it.getNode().key, it.getNode().item);
+                        tree.insert(it.getNode().key, item);
                 }
             }
             return tree;
@@ -4966,12 +4973,13 @@ var ds;
                     return node.key === it.getNode().key && node.item === it.getNode().item;
                 };
                 if (!tree.contains(it.getNode().key, callback)) {
-                    if (it.getNode().item.cloneDistinct)
-                        tree.insert(it.getNode().key, it.getNode().item.cloneDistinct());
-                    else if (it.getNode().item.clone)
-                        tree.insert(it.getNode().key, it.getNode().item.clone());
+                    var item = it.getNode().item;
+                    if (item.cloneDistinct)
+                        tree.insert(it.getNode().key, item.cloneDistinct());
+                    else if (item.clone)
+                        tree.insert(it.getNode().key, item.clone());
                     else
-                        tree.insert(it.getNode().key, it.getNode().item);
+                        tree.insert(it.getNode().key, item);
                 }
             }
             return tree;

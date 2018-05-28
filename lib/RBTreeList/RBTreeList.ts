@@ -1,12 +1,12 @@
 namespace ds
 {
-	export class RBLNode
+	export class RBLNode<T>
 	{
 		/**
 		 * The item stored.
 		 * @type {*}
 		 */
-		item: any;
+		item: Queue<T>;
 		/**
 		 * The key of the node.
 		 * @type {number}
@@ -16,27 +16,27 @@ namespace ds
 		 * The parent node. It's null if there's no a parent node.
 		 * @type {RBLNode|null}
 		 */
-		parent: RBLNode = <any>null;
+		parent: RBLNode<T> = <any>null;
 		/**
 		 * The left node. It's null if there's no a left node.
 		 * @type {RBLNode|null}
 		 */
-		left: RBLNode = <any>null;
+		left: RBLNode<T> = <any>null;
 		/**
 		 * The right node. It's null if there's no a right node.
 		 * @type {RBLNode|null}
 		 */
-		right: RBLNode = <any>null;
+		right: RBLNode<T> = <any>null;
 		/**
 		 * The next node. It's null if there's no a next node.
 		 * @type {RBLNode|null}
 		 */
-		next: RBLNode = <any>null;
+		next: RBLNode<T> = <any>null;
 		/**
 		 * The previous node. It's null if there's no a previous node.
 		 * @type {RBLNode|null}
 		 */
-		previous: RBLNode = <any>null;
+		previous: RBLNode<T> = <any>null;
 		/**
 		 * The type of the node. It's or red or black.
 		 * @type {string}
@@ -49,7 +49,7 @@ namespace ds
 		 * @param item {*} The item to store in the node.
 		 * @constructor
 		 */
-		constructor(key: number, item: any)
+		constructor(key: number, item: Queue<T>)
 		{
 			this.item = item;
 			this.key = key;
@@ -62,23 +62,23 @@ namespace ds
 		}
 	}
 
-	export class RBTreeList extends Aggregate
+	export class RBTreeList<T> extends Aggregate
 	{
 		/**
 		 * The root of the tree.
 		 * @type {RBLNode|null}
 		 */
-		root: RBLNode = <any>null;
+		root: RBLNode<T> = <any>null;
 		/**
 		 * The first node of the tree.
 		 * @type {RBLNode|null}
 		 */
-		first: RBLNode = <any>null;
+		first: RBLNode<T> = <any>null;
 		/**
 		 * The last node of the tree.
 		 * @type {RBLNode|null}
 		 */
-		last: RBLNode = <any>null;
+		last: RBLNode<T> = <any>null;
 		/**
 		 * The size of the tree.
 		 * @type {number}
@@ -94,13 +94,12 @@ namespace ds
 			this.size = 0;
 		}
 
-
 		/**
 		 * @inheritDoc
 		 */
 		getIterator()
 		{
-			return new RBTreeListIterator(this);
+			return new RBTreeListIterator<T>(this);
 		};
 
 		/**
@@ -109,7 +108,7 @@ namespace ds
 		 * @param item {*} The item to store.
 		 * @return {void}
 		 */
-		insert(key: number, item: any)
+		insert(key: number, item: Queue<T>)
 		{
 			var node = new RBLNode(key, item);
 			this.size++;
@@ -165,7 +164,7 @@ namespace ds
 		 * @param node {RBLNode} The node to insert.
 		 * @return {void}
 		 */
-		insertFixUp(node: RBLNode)
+		insertFixUp(node: RBLNode<T>)
 		{
 			for (var parent = node.parent; parent && parent.type === 'r'; parent = node.parent)
 			{
@@ -217,7 +216,7 @@ namespace ds
 		 * @param node {RBLNode} The node to delete.
 		 * @return {void}
 		 */
-		deleteNode(node: RBLNode)
+		deleteNode(node: RBLNode<T>)
 		{
 			this.size--;
 			var successor;
@@ -262,7 +261,7 @@ namespace ds
 		 * @param parent {RBLNode} The parent of the node.
 		 * @return {void}
 		 */
-		deleteFixUp(node: RBLNode, parent: RBLNode)
+		deleteFixUp(node: RBLNode<T>, parent: RBLNode<T>)
 		{
 			while (node !== this.root && (!node || node.type === 'b'))
 			{
@@ -336,7 +335,7 @@ namespace ds
 		 * @param node {RBLNode} The node of which search the successor.
 		 * @return {RBLNode} The node found.
 		 */
-		successor(node: RBLNode)
+		successor(node: RBLNode<T>)
 		{
 			if (node.next || node === this.last)
 				return node.next;
@@ -356,7 +355,7 @@ namespace ds
 		 * @param node {RBLNode} The node of which search the predecessor.
 		 * @return {RBLNode} The node found.
 		 */
-		predecessor(node: RBLNode)
+		predecessor(node: RBLNode<T>)
 		{
 			if (node.previous || node === this.first)
 				return node.previous;
@@ -378,7 +377,7 @@ namespace ds
 		 * @param [callback = function(k){return(k===key);}] The condition to satisfy. The callback must accept the current key to check.
 		 * @return {*} The item found or undefined if there isn't the key in the tree.
 		 */
-		search(key: number, node?: RBLNode, callback?: (node: RBLNode) => boolean)
+		search(key: number, node?: RBLNode<T>, callback?: (node: RBLNode<T>) => boolean)
 		{
 			node = node || this.root;
 			callback = callback || function (node)
@@ -402,7 +401,7 @@ namespace ds
 		 * @param [callback = function(node){return(node.key===key);}] The condition to satisfy. The callback must accept the current node to check.
 		 * @return {boolean} True if the tree contains the key or a node that satisfy the condition, false otherwise.
 		 */
-		contains(key: number, callback?: (node: RBLNode) => boolean)
+		contains(key: number, callback?: (node: RBLNode<T>) => boolean)
 		{
 			return this.search(key, <any>null, callback) !== undefined;
 		};
@@ -426,7 +425,7 @@ namespace ds
 		 * @param [node = root] {Node} The node from which start the search.
 		 * @return {RBLNode} The node found.
 		 */
-		minimum(node?: RBLNode)
+		minimum(node?: RBLNode<T>)
 		{
 			if (node)
 				while (node && node.left)
@@ -441,7 +440,7 @@ namespace ds
 		 * @param [node = root] {Node} The node from which start the search.
 		 * @return {RBLNode} The node found.
 		 */
-		maximum(node?: RBLNode)
+		maximum(node?: RBLNode<T>)
 		{
 			if (node)
 				while (node && node.right)
@@ -456,7 +455,7 @@ namespace ds
 		 * @param node {RBLNode} The node to rotate.
 		 * @return {void}
 		 */
-		leftRotate(node: RBLNode)
+		leftRotate(node: RBLNode<T>)
 		{
 			var child = node.right;
 			node.right = child.left;
@@ -478,7 +477,7 @@ namespace ds
 		 * @param node {RBLNode} The node to rotate.
 		 * @return {void}
 		 */
-		rightRotate(node: RBLNode)
+		rightRotate(node: RBLNode<T>)
 		{
 			var child = node.left;
 			node.left = child.right;
@@ -510,7 +509,7 @@ namespace ds
 		 */
 		clone()
 		{
-			var tree = new RBTreeList();
+			var tree = new RBTreeList<T>();
 			var it = this.getIterator();
 			for (it.first(); !it.isDone(); it.next())
 				tree.insert(it.getNode().key, it.getNode().item);
@@ -523,22 +522,23 @@ namespace ds
 		 */
 		cloneDistinct()
 		{
-			var tree = new RBTreeList();
+			var tree = new RBTreeList<T>();
 			var it = this.getIterator();
 			for (it.first(); !it.isDone(); it.next())
 			{
-				var callback = function (node: RBLNode)
+				var callback = function (node: RBLNode<T>)
 				{
 					return node.key === it.getNode().key && node.item === it.getNode().item;
 				};
 				if (!tree.contains(it.getNode().key, callback))
 				{
-					if (it.getNode().item.cloneDistinct)
-						tree.insert(it.getNode().key, it.getNode().item.cloneDistinct());
-					else if (it.getNode().item.clone)
-						tree.insert(it.getNode().key, it.getNode().item.clone());
+					var item: any = it.getNode().item;
+					if (item.cloneDistinct)
+						tree.insert(it.getNode().key, item.cloneDistinct());
+					else if (item.clone)
+						tree.insert(it.getNode().key, item.clone());
 					else
-						tree.insert(it.getNode().key, it.getNode().item);
+						tree.insert(it.getNode().key, item);
 				}
 			}
 			return tree;
@@ -583,7 +583,7 @@ namespace ds
 		 * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
 		 * @return {void}
 		 */
-		execute(callback: (item: any) => any)
+		execute(callback: (item: Queue<T>) => Queue<T>)
 		{
 			for (var node = this.first; node; node = node.next)
 				node.item = callback(node.item);
@@ -594,7 +594,7 @@ namespace ds
 		 * @param callback {function} The function that implements the condition.
 		 * @return {Array<*>} The array that contains the items that satisfy the condition.
 		 */
-		filter(callback: (item: any) => boolean)
+		filter(callback: (item: Queue<T>) => boolean)
 		{
 			var result = [];
 			for (var node = this.first; node; node = node.next)
@@ -609,7 +609,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The first position of the item.
 		 */
-		indexOf(item: any, callback?: (item: any) => boolean)
+		indexOf(item: Queue<T>, callback?: (item: Queue<T>) => boolean)
 		{
 			callback = callback || function (it)
 			{

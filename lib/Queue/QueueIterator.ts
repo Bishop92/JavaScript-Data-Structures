@@ -4,13 +4,13 @@
  */
 namespace ds
 {
-	export class QueueIterator implements Iterator
+	export class QueueIterator<T> implements Iterator
 	{
 		/**
 		 * The aggregate relates to this iterator.
 		 * @type {Queue}
 		 */
-		aggregate: Queue;
+		aggregate: Queue<T>;
 
 		/**
 		 * The pointer to the position.
@@ -22,7 +22,7 @@ namespace ds
 		 * @param aggregate {Queue} The aggregate to scan.
 		 * @constructor
 		 */
-		constructor(aggregate: Queue)
+		constructor(aggregate: Queue<T>)
 		{
 			this.aggregate = aggregate;
 			this.pointer = -1;

@@ -4,19 +4,19 @@
  */
 namespace ds
 {
-	export class PriorityQueueIterator implements Iterator
+	export class PriorityQueueIterator<T> implements Iterator
 	{
 		/**
 		 * The aggregate relates to this iterator.
 		 * @type {PriorityQueue}
 		 */
-		aggregate: PriorityQueue;
+		aggregate: PriorityQueue<T>;
 
 		/**
 		 * The pointer to the position of the node.
 		 * @type {RBLNode|null}
 		 */
-		pointerNode: RBLNode = <any>null;
+		pointerNode: RBLNode<Queue<T>> = <any>null;
 		/**
 		 * The pointer to the position in the node.
 		 * @type {number}
@@ -28,7 +28,7 @@ namespace ds
 		 * @param aggregate {PriorityQueue} The aggregate to scan.
 		 * @constructor
 		 */
-		constructor(aggregate: PriorityQueue)
+		constructor(aggregate: PriorityQueue<T>)
 		{
 			this.aggregate = aggregate;
 			this.pointerNode = <any>null;

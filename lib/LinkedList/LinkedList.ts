@@ -653,7 +653,7 @@ namespace ds
 		 */
 		cloneDistinct()
 		{
-			var list = new LinkedList();
+			var list = new LinkedList<T>();
 			var node = this.first;
 			for (var i = 0; i < this.length; i++ , node = node.next)
 				if (!list.contains(node.item))
@@ -688,7 +688,7 @@ namespace ds
 		 * @param callback {function} The condition to satisfy.
 		 * @return {number} The number of items that satisfy the condition.
 		 */
-		count(callback: (item: any) => boolean)
+		count(callback: (item: T) => boolean)
 		{
 			var count = 0;
 			var node = this.first;

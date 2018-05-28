@@ -4,13 +4,13 @@
  */
 namespace ds
 {
-	export class Queue extends Aggregate
+	export class Queue<T> extends Aggregate
 	{
 		/**
 		 * The list of the items in the queue.
 		 * @type {Array<*>}
 		 */
-		items: any[] = [];
+		items: T[] = [];
 
 		/**
 		 * Decreases dequeue big O complexity by shifting starting indexs
@@ -47,7 +47,7 @@ namespace ds
 		 */
 		getIterator()
 		{
-			return new QueueIterator(this);
+			return new QueueIterator<T>(this);
 		};
 
 		/**
@@ -55,7 +55,7 @@ namespace ds
 		 * @param item {*} The item to add.
 		 * @return {void}
 		 */
-		enqueue(item: any)
+		enqueue(item: T)
 		{
 			this.items.push(item);
 		};
@@ -65,7 +65,7 @@ namespace ds
 		 * @param items {Array<*>} The items to add.
 		 * @return {void}
 		 */
-		multiEnqueue(items: any[])
+		multiEnqueue(items: T[])
 		{
 			for (var i = 0; i < items.length; i++)
 				this.items.push(items[i]);
@@ -141,12 +141,12 @@ namespace ds
 		 * @param index {number} The position of the item.
 		 * @return {*} The item at the position. It's undefined if index isn't in the queue bounds.
 		 */
-		getItem(index: number)
+		getItem(index: number): T
 		{
 			// take offsetIndex into account
 			var index = index + this.offsetIndex;
 			if (index < 0 || index > this.items.length - 1 - this.offsetIndex)
-				return undefined;
+				return <any>undefined;
 			return this.items[index];
 		};
 
@@ -176,7 +176,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {boolean} True if the queue contains the item that satisfy the condition, false otherwise.
 		 */
-		contains(item: any, callback?: (item: any) => boolean)
+		contains(item: T, callback?: (item: T) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -194,7 +194,7 @@ namespace ds
 		 * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
 		 * @return {void}
 		 */
-		execute(callback: (item: any) => any)
+		execute(callback: (item: T) => T)
 		{
 			for (var i = this.offsetIndex; i < this.items.length; i++)
 				this.items[i] = callback(this.items[i]);
@@ -223,7 +223,7 @@ namespace ds
 		 * @param callback {function} The function that implements the condition.
 		 * @return {Array<*>} The array that contains the items that satisfy the condition.
 		 */
-		filter(callback: (item: any) => boolean)
+		filter(callback: (item: T) => boolean)
 		{
 			var result = [];
 			for (var i = this.offsetIndex; i < this.items.length; i++)
@@ -238,7 +238,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The first position of the item.
 		 */
-		indexOf(item: any, callback?: (item: any) => boolean)
+		indexOf(item: T, callback?: (item: T) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -260,7 +260,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {number} The last position of the item.
 		 */
-		lastIndexOf(item: any, callback?: (item: any) => boolean)
+		lastIndexOf(item: T, callback?: (item: T) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -283,7 +283,7 @@ namespace ds
 		 * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
 		 * @return {Array<number>} The positions in which the item has been found.
 		 */
-		allIndexesOf(item: any, callback?: (item: any) => any)
+		allIndexesOf(item: T, callback?: (item: T) => boolean)
 		{
 			callback = callback || function (it)
 			{
@@ -306,12 +306,15 @@ namespace ds
 		 */
 		clone()
 		{
-			var queue = new Queue();
+			var queue = new Queue<T>();
 			for (var i = this.offsetIndex; i < this.items.length; i++)
-				if (this.items[i].clone)
-					queue.enqueue(this.items[i].clone());
+			{
+				var item: any = this.items[i];
+				if (item.clone)
+					queue.enqueue(item.clone());
 				else
-					queue.enqueue(this.items[i]);
+					queue.enqueue(item);
+			}
 
 			return queue;
 		};
@@ -322,15 +325,19 @@ namespace ds
 		 */
 		cloneDistinct()
 		{
-			var queue = new Queue();
+			var queue = new Queue<T>();
 			for (var i = this.offsetIndex; i < this.items.length; i++)
 				if (!queue.contains(this.items[i]))
-					if (this.items[i].cloneDistinct)
-						queue.enqueue(this.items[i].cloneDistinct());
-					else if (this.items[i].clone)
-						queue.enqueue(this.items[i].clone());
+				{
+					var item: any = this.items[i];
+					if (item.cloneDistinct)
+						queue.enqueue(item.cloneDistinct());
+					else if (item.clone)
+						queue.enqueue(item.clone());
 					else
-						queue.enqueue(this.items[i]);
+						queue.enqueue(item);
+				}
+
 			return queue;
 		};
 	}

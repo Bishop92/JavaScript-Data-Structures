@@ -4,25 +4,25 @@
  */
 namespace ds
 {
-	export class RBTreeIterator implements Iterator
+	export class RBTreeIterator<T> implements Iterator
 	{
 		/**
 		 * The aggregate relates to this iterator.
 		 * @type {RBTree}
 		 */
-		aggregate: RBTree;
+		aggregate: RBTree<T>;
 
 		/**
 		 * The pointer to the position.
 		 * @type {RBNode|null}
 		 */
-		pointer: RBNode = <any>null;
+		pointer: RBNode<T> = <any>null;
 		/**
 		 * Class that implements the iterator for a red-black tree.
 		 * @param aggregate {RBTree} The aggregate to scan.
 		 * @constructor
 		 */
-		constructor(aggregate: RBTree)
+		constructor(aggregate: RBTree<T>)
 		{
 			this.aggregate = aggregate;
 			this.pointer = <any>null;

@@ -1335,7 +1335,7 @@ declare namespace ds {
          * Clones the list into a new list without cloning duplicated items.
          * @return {LinkedList} The list cloned from this list.
          */
-        cloneDistinct(): LinkedList<{}>;
+        cloneDistinct(): LinkedList<T>;
         /**
          * Splits the list into lists of desired size.
          * @param size {number} The size of the lists.
@@ -1347,7 +1347,7 @@ declare namespace ds {
          * @param callback {function} The condition to satisfy.
          * @return {number} The number of items that satisfy the condition.
          */
-        count(callback: (item: any) => boolean): number;
+        count(callback: (item: T) => boolean): number;
     }
 }
 /**
@@ -1409,12 +1409,12 @@ declare namespace ds {
  * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
-    class PriorityQueue extends Aggregate {
+    class PriorityQueue<T> extends Aggregate {
         /**
          * The list of the items in the queue.
          * @type {RBTreeList}
          */
-        items: RBTreeList;
+        items: RBTreeList<Queue<T>>;
         /**
          * The length of the queue.
          * @type {number}
@@ -1428,14 +1428,14 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getIterator(): PriorityQueueIterator;
+        getIterator(): PriorityQueueIterator<T>;
         /**
          * Add the item at the tail of the queue.
          * @param priority {number} The priority of the item.
          * @param item {*} The item to add.
          * @return {void}
          */
-        enqueue(priority: number, item: any): void;
+        enqueue(priority: number, item: Queue<T>): void;
         /**
          * Adds the items with the same priority at the tail of the queue.
          * @param priority {number} The priority of the items.
@@ -1447,13 +1447,13 @@ declare namespace ds {
          * Remove the item at the head of the queue.
          * @return {*} The item at the head of the queue. It's undefined if the queue is empty.
          */
-        dequeue(): any;
+        dequeue(): Queue<T> | undefined;
         /**
          * Removes the items at the head of the queue.
          * @param times {number} The number of times to repeat the dequeue method.
          * @return {Array<*>} The items at the head of the queue.
          */
-        multiDequeue(times: number): any[];
+        multiDequeue(times: number): (Queue<T> | undefined)[];
         /**
          * Removes the first length items from the position index.
          * @param index {number} The position where to start to remove the items.
@@ -1466,18 +1466,18 @@ declare namespace ds {
          * @param index {number} The index of the item.
          * @return {*} The item found. It's undefined if the position index is out of bounds.
          */
-        getItem(index: number): any;
+        getItem(index: number): Queue<T>;
         /**
          * Return the items relatives to the priority.
          * @param priority {number} The priority of the items.
          * @return {Array<*>} The items found.
          */
-        getItems(priority: number): any;
+        getItems(priority: number): Queue<T>[];
         /**
          * Return the first item in the queue. The item is not removed.
          * @return {*} The first item. It's undefined if the queue is empty.
          */
-        peek(): any;
+        peek(): Queue<T> | undefined;
         /**
          * Return the length of the queue.
          * @return {number} The length of the queue.
@@ -1504,7 +1504,7 @@ declare namespace ds {
          * Return the queue created by the priority queue with the items in the same order but without the priority.
          * @return {Queue} The queue created.
          */
-        toQueue(): Queue;
+        toQueue(): Queue<Queue<T>>;
         /**
          * Executes the callback function for each item of the queue.
          * This method modifies the queue so if you don't need to modify it you must return the same item of the array.
@@ -1524,17 +1524,17 @@ declare namespace ds {
          * @param callback {function} The function that implements the condition.
          * @return {Array<*>} The array that contains the items that satisfy the condition.
          */
-        filter(callback: (item: any) => any): any[];
+        filter(callback: (item: any) => any): Queue<T>[];
         /**
          * Clones the queue into a new queue.
          * @return {PriorityQueue} The queue cloned from this queue.
          */
-        clone(): PriorityQueue;
+        clone(): PriorityQueue<T>;
         /**
          * Clones the queue into a new queue without cloning duplicated items.
          * @return {PriorityQueue} The queue cloned from this queue.
          */
-        cloneDistinct(): PriorityQueue;
+        cloneDistinct(): PriorityQueue<T>;
     }
 }
 /**
@@ -1542,17 +1542,17 @@ declare namespace ds {
  * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
-    class PriorityQueueIterator implements Iterator {
+    class PriorityQueueIterator<T> implements Iterator {
         /**
          * The aggregate relates to this iterator.
          * @type {PriorityQueue}
          */
-        aggregate: PriorityQueue;
+        aggregate: PriorityQueue<T>;
         /**
          * The pointer to the position of the node.
          * @type {RBLNode|null}
          */
-        pointerNode: RBLNode;
+        pointerNode: RBLNode<Queue<T>>;
         /**
          * The pointer to the position in the node.
          * @type {number}
@@ -1563,7 +1563,7 @@ declare namespace ds {
          * @param aggregate {PriorityQueue} The aggregate to scan.
          * @constructor
          */
-        constructor(aggregate: PriorityQueue);
+        constructor(aggregate: PriorityQueue<T>);
         /**
          * @inheritDoc
          */
@@ -1587,7 +1587,7 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getItem(): any;
+        getItem(): Queue<T>;
     }
 }
 /**
@@ -1595,12 +1595,12 @@ declare namespace ds {
  * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
-    class Queue extends Aggregate {
+    class Queue<T> extends Aggregate {
         /**
          * The list of the items in the queue.
          * @type {Array<*>}
          */
-        items: any[];
+        items: T[];
         /**
          * Decreases dequeue big O complexity by shifting starting indexs
          * for each dequeue, instead of splicing.
@@ -1616,30 +1616,30 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getIterator(): QueueIterator;
+        getIterator(): QueueIterator<T>;
         /**
          * Adds the item at the tail of the queue.
          * @param item {*} The item to add.
          * @return {void}
          */
-        enqueue(item: any): void;
+        enqueue(item: T): void;
         /**
          * Adds the items at the tail of the queue.
          * @param items {Array<*>} The items to add.
          * @return {void}
          */
-        multiEnqueue(items: any[]): void;
+        multiEnqueue(items: T[]): void;
         /**
          * Removes the item at the head of the queue.
          * @return {*} The item at the head of the queue. It's undefined if the queue is empty.
          */
-        dequeue(): any;
+        dequeue(): T | undefined;
         /**
          * Removes the items at the head of the queue.
          * @param times {number} The number of times to repeat the dequeue method.
          * @return {Array<*>} The items at the head of the queue.
          */
-        multiDequeue(times: number): any[];
+        multiDequeue(times: number): (T | undefined)[];
         /**
          * Clears array indexs hidden by offset. To free up memory
          * @return {void}
@@ -1657,12 +1657,12 @@ declare namespace ds {
          * @param index {number} The position of the item.
          * @return {*} The item at the position. It's undefined if index isn't in the queue bounds.
          */
-        getItem(index: number): any;
+        getItem(index: number): T;
         /**
          * Returns the first item in the queue. The item is not removed.
          * @return {*} The first item. It's undefined if the queue is empty.
          */
-        peek(): any;
+        peek(): T | undefined;
         /**
          * Removes all the items stored in the queue.
          * @return {void}
@@ -1674,14 +1674,14 @@ declare namespace ds {
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {boolean} True if the queue contains the item that satisfy the condition, false otherwise.
          */
-        contains(item: any, callback?: (item: any) => boolean): boolean;
+        contains(item: T, callback?: (item: T) => boolean): boolean;
         /**
          * Executes the callback function for each item of the queue.
          * This method modifies the queue so if you don't need to modify it you must return the same item of the array.
          * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
          * @return {void}
          */
-        execute(callback: (item: any) => any): void;
+        execute(callback: (item: T) => T): void;
         /**
          * Returns the length of the queue.
          * @return {number} The length of the queue.
@@ -1697,38 +1697,38 @@ declare namespace ds {
          * @param callback {function} The function that implements the condition.
          * @return {Array<*>} The array that contains the items that satisfy the condition.
          */
-        filter(callback: (item: any) => boolean): any[];
+        filter(callback: (item: T) => boolean): T[];
         /**
          * Returns the first position of the item in the queue.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The first position of the item.
          */
-        indexOf(item: any, callback?: (item: any) => boolean): number;
+        indexOf(item: T, callback?: (item: T) => boolean): number;
         /**
          * Returns the last position of the item in the queue.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The last position of the item.
          */
-        lastIndexOf(item: any, callback?: (item: any) => boolean): number;
+        lastIndexOf(item: T, callback?: (item: T) => boolean): number;
         /**
          * Returns all the position in which the item has been found in the queue.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback?: (item: any) => any): number[];
+        allIndexesOf(item: T, callback?: (item: T) => boolean): number[];
         /**
          * Clones the queue into a new queue.
          * @return {Queue} The queue cloned from this queue.
          */
-        clone(): Queue;
+        clone(): Queue<T>;
         /**
          * Clones the queue into a new queue without cloning duplicated items.
          * @return {Queue} The queue cloned from this queue.
          */
-        cloneDistinct(): Queue;
+        cloneDistinct(): Queue<T>;
     }
 }
 /**
@@ -1736,12 +1736,12 @@ declare namespace ds {
  * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
-    class QueueIterator implements Iterator {
+    class QueueIterator<T> implements Iterator {
         /**
          * The aggregate relates to this iterator.
          * @type {Queue}
          */
-        aggregate: Queue;
+        aggregate: Queue<T>;
         /**
          * The pointer to the position.
          * @type {number}
@@ -1752,7 +1752,7 @@ declare namespace ds {
          * @param aggregate {Queue} The aggregate to scan.
          * @constructor
          */
-        constructor(aggregate: Queue);
+        constructor(aggregate: Queue<T>);
         /**
          * @inheritDoc
          */
@@ -1776,7 +1776,7 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getItem(): any;
+        getItem(): T;
     }
 }
 /**
@@ -1794,12 +1794,12 @@ declare namespace ds {
     function Range(from: number, to: number, step?: number): number[];
 }
 declare namespace ds {
-    class RBNode {
+    class RBNode<T> {
         /**
          * The item stored.
          * @type {*}
          */
-        item: any;
+        item: T;
         /**
          * The key of the node.
          * @type {number}
@@ -1809,17 +1809,17 @@ declare namespace ds {
          * The parent node. It's null if there's no a parent node.
          * @type {RBNode|null}
          */
-        parent: RBNode;
+        parent: RBNode<T>;
         /**
          * The left node. It's null if there's no a left node.
          * @type {RBNode|null}
          */
-        left: RBNode;
+        left: RBNode<T>;
         /**
          * The right node. It's null if there's no a right node.
          * @type {RBNode|null}
          */
-        right: RBNode;
+        right: RBNode<T>;
         /**
          * The type of the node. It's or red or black.
          * @type {string}
@@ -1831,14 +1831,14 @@ declare namespace ds {
          * @param item {*} The item to store in the node.
          * @constructor
          */
-        constructor(key: number, item: any);
+        constructor(key: number, item: T);
     }
-    class RBTree extends Aggregate {
+    class RBTree<T> extends Aggregate {
         /**
          * The root of the tree.
          * @type {RBNode|null}
          */
-        root: RBNode;
+        root: RBNode<T>;
         /**
          * The number of items stored in the tree.
          * @type {number}
@@ -1852,45 +1852,45 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getIterator(): RBTreeIterator;
+        getIterator(): RBTreeIterator<T>;
         /**
          * Insert the item relatives to the key value in the tree.
          * @param key {number} The key to store.
          * @param item {*} The item to store.
          * @return {void}
          */
-        insert(key: number, item: any): void;
+        insert(key: number, item: T): void;
         /**
          * Preserve the properties of the tree after an insert.
          * @param node {RBNode} The node to insert.
          * @return {void}
          */
-        insertFixUp(node: RBNode): void;
+        insertFixUp(node: RBNode<T>): void;
         /**
          * Delete the node from the tree.
          * @param node {RBNode} The node to delete.
          * @return {void}
          */
-        deleteNode(node: RBNode): void;
+        deleteNode(node: RBNode<T>): void;
         /**
          * Preserve the properties of the tree after a deletion.
          * @param node {RBNode} The node to delete.
          * @param parent {RBNode} The parent of the node.
          * @return {void}
          */
-        deleteFixUp(node: RBNode, parent: RBNode): void;
+        deleteFixUp(node: RBNode<T>, parent: RBNode<T>): void;
         /**
          * Get the node with the key next to the param node key.
          * @param node {RBNode} The node of which search the successor.
          * @return {RBNode} The node found.
          */
-        successor(node: RBNode): RBNode;
+        successor(node: RBNode<T>): RBNode<T>;
         /**
          * Get the node with the key previous to the param node key.
          * @param node {RBNode} The node of which search the predecessor.
          * @return {RBNode} The node found.
          */
-        predecessor(node: RBNode): RBNode;
+        predecessor(node: RBNode<T>): RBNode<T>;
         /**
          * Search the item relatives to the key and to the nodes that satisfy the condition represented by the callback function.
          * @param key {number} The key to find.
@@ -1898,7 +1898,7 @@ declare namespace ds {
          * @param [callback = function(node){return(node.key===key);}] The condition to satisfy. The callback must accept the current node to check.
          * @return {*} The item found or undefined if there isn't the key in the tree.
          */
-        search(key: number, node?: RBNode, callback?: (node: RBNode) => boolean): any;
+        search(key: number, node?: RBNode<T>, callback?: (node: RBNode<T>) => boolean): T | undefined;
         /**
          * Checks if the tree contains a key or a node that satisfy the condition represented by the callback function.
          * This method avoid to search in branches where the key won't be found.
@@ -1906,7 +1906,7 @@ declare namespace ds {
          * @param [callback = function(node){return(node.key===key);}] The condition to satisfy. The callback must accept the current node to check.
          * @return {boolean} True if the tree contains the key or a node that satisfy the condition, false otherwise.
          */
-        contains(key: number, callback?: (node: RBNode) => boolean): boolean;
+        contains(key: number, callback?: (node: RBNode<T>) => boolean): boolean;
         /**
          * Checks if the tree contains a node that satisfy the condition represented by the callback function.
          * This method check all the tree avoiding the binary search.
@@ -1919,25 +1919,25 @@ declare namespace ds {
          * @param [node = root] {Node} The node from which start the search.
          * @return {RBNode} The node found.
          */
-        minimum(node?: RBNode): RBNode;
+        minimum(node?: RBNode<T>): RBNode<T>;
         /**
          * Get the item relatives to the maximum key stored in the tree.
          * @param [node = root] {Node} The node from which start the search.
          * @return {RBNode} The node found.
          */
-        maximum(node?: RBNode): RBNode;
+        maximum(node?: RBNode<T>): RBNode<T>;
         /**
          * Rotate the node with its right child.
          * @param node {RBNode} The node to rotate.
          * @return {void}
          */
-        leftRotate(node: RBNode): void;
+        leftRotate(node: RBNode<T>): void;
         /**
          * Rotate the node with its left child.
          * @param node {RBNode} The node to rotate.
          * @return {void}
          */
-        rightRotate(node: RBNode): void;
+        rightRotate(node: RBNode<T>): void;
         /**
          * Returns the size of the tree.
          * @return {number} The size of the tree.
@@ -1947,17 +1947,17 @@ declare namespace ds {
          * Clones the queue into a new queue.
          * @return {RBTree} The tree cloned from this queue.
          */
-        clone(): RBTree;
+        clone(): RBTree<T>;
         /**
          * Clones the tree into a new tree without cloning duplicated items.
          * @return {RBTree} The tree cloned from this tree.
          */
-        cloneDistinct(): RBTree;
+        cloneDistinct(): RBTree<T>;
         /**
          * Transform the tree into an array without preserving keys.
          * @return {Array<*>} The array that represents the tree.
          */
-        toArray(): any[];
+        toArray(): T[];
         /**
          * Removes all the items stored in the tree.
          * @return {void}
@@ -1974,40 +1974,40 @@ declare namespace ds {
          * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
          * @return {void}
          */
-        execute(callback: (item: any) => any): void;
+        execute(callback: (item: T) => T): void;
         /**
          * Returns the items that satisfy the condition determined by the callback.
          * @param callback {function} The function that implements the condition.
          * @return {Array<*>} The array that contains the items that satisfy the condition.
          */
-        filter(callback: (item: any) => boolean): any[];
+        filter(callback: (item: T) => boolean): T[];
         /**
          * Returns the first position of the item in the tree.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The first position of the item.
          */
-        indexOf(item: any, callback?: (item: any) => boolean): number;
+        indexOf(item: T, callback?: (item: T) => boolean): number;
         /**
          * Returns the last position of the item in the tree.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The last position of the item.
          */
-        lastIndexOf(item: any, callback?: (item: any) => boolean): number;
+        lastIndexOf(item: T, callback?: (item: T) => boolean): number;
         /**
          * Returns all the position in which the item has been found in the tree.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {Array<number>} The positions in which the item has been found.
          */
-        allIndexesOf(item: any, callback?: (item: any) => boolean): number[];
+        allIndexesOf(item: T, callback?: (item: T) => boolean): number[];
         /**
          * Returns the item at the position index.
          * @param index {number} The position of the item.
          * @return {*} The item at the position. It's undefined if index isn't in the tree bounds.
          */
-        getItem(index: number): any;
+        getItem(index: number): T | undefined;
     }
 }
 /**
@@ -2015,23 +2015,23 @@ declare namespace ds {
  * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
-    class RBTreeIterator implements Iterator {
+    class RBTreeIterator<T> implements Iterator {
         /**
          * The aggregate relates to this iterator.
          * @type {RBTree}
          */
-        aggregate: RBTree;
+        aggregate: RBTree<T>;
         /**
          * The pointer to the position.
          * @type {RBNode|null}
          */
-        pointer: RBNode;
+        pointer: RBNode<T>;
         /**
          * Class that implements the iterator for a red-black tree.
          * @param aggregate {RBTree} The aggregate to scan.
          * @constructor
          */
-        constructor(aggregate: RBTree);
+        constructor(aggregate: RBTree<T>);
         /**
          * @inheritDoc
          */
@@ -2055,22 +2055,22 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getItem(): any;
+        getItem(): T;
         /**
          * Return the node stored at the position pointed by the iterator.
          * @abstract
          * @return {RBNode|null} The node stored or null if it's out of the bounds.
          */
-        getNode(): RBNode;
+        getNode(): RBNode<T>;
     }
 }
 declare namespace ds {
-    class RBLNode {
+    class RBLNode<T> {
         /**
          * The item stored.
          * @type {*}
          */
-        item: any;
+        item: Queue<T>;
         /**
          * The key of the node.
          * @type {number}
@@ -2080,27 +2080,27 @@ declare namespace ds {
          * The parent node. It's null if there's no a parent node.
          * @type {RBLNode|null}
          */
-        parent: RBLNode;
+        parent: RBLNode<T>;
         /**
          * The left node. It's null if there's no a left node.
          * @type {RBLNode|null}
          */
-        left: RBLNode;
+        left: RBLNode<T>;
         /**
          * The right node. It's null if there's no a right node.
          * @type {RBLNode|null}
          */
-        right: RBLNode;
+        right: RBLNode<T>;
         /**
          * The next node. It's null if there's no a next node.
          * @type {RBLNode|null}
          */
-        next: RBLNode;
+        next: RBLNode<T>;
         /**
          * The previous node. It's null if there's no a previous node.
          * @type {RBLNode|null}
          */
-        previous: RBLNode;
+        previous: RBLNode<T>;
         /**
          * The type of the node. It's or red or black.
          * @type {string}
@@ -2112,24 +2112,24 @@ declare namespace ds {
          * @param item {*} The item to store in the node.
          * @constructor
          */
-        constructor(key: number, item: any);
+        constructor(key: number, item: Queue<T>);
     }
-    class RBTreeList extends Aggregate {
+    class RBTreeList<T> extends Aggregate {
         /**
          * The root of the tree.
          * @type {RBLNode|null}
          */
-        root: RBLNode;
+        root: RBLNode<T>;
         /**
          * The first node of the tree.
          * @type {RBLNode|null}
          */
-        first: RBLNode;
+        first: RBLNode<T>;
         /**
          * The last node of the tree.
          * @type {RBLNode|null}
          */
-        last: RBLNode;
+        last: RBLNode<T>;
         /**
          * The size of the tree.
          * @type {number}
@@ -2139,45 +2139,45 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getIterator(): RBTreeListIterator;
+        getIterator(): RBTreeListIterator<T>;
         /**
          * Insert the item relatives to the key value in the tree.
          * @param key {number} The key to store.
          * @param item {*} The item to store.
          * @return {void}
          */
-        insert(key: number, item: any): void;
+        insert(key: number, item: Queue<T>): void;
         /**
          * Preserve the properties of the tree after an insert.
          * @param node {RBLNode} The node to insert.
          * @return {void}
          */
-        insertFixUp(node: RBLNode): void;
+        insertFixUp(node: RBLNode<T>): void;
         /**
          * Delete the node from the tree.
          * @param node {RBLNode} The node to delete.
          * @return {void}
          */
-        deleteNode(node: RBLNode): void;
+        deleteNode(node: RBLNode<T>): void;
         /**
          * Preserve the properties of the tree after a deletion.
          * @param node {RBLNode} The node to delete.
          * @param parent {RBLNode} The parent of the node.
          * @return {void}
          */
-        deleteFixUp(node: RBLNode, parent: RBLNode): void;
+        deleteFixUp(node: RBLNode<T>, parent: RBLNode<T>): void;
         /**
          * Get the node with the key next to the param node key.
          * @param node {RBLNode} The node of which search the successor.
          * @return {RBLNode} The node found.
          */
-        successor(node: RBLNode): RBLNode;
+        successor(node: RBLNode<T>): RBLNode<T>;
         /**
          * Get the node with the key previous to the param node key.
          * @param node {RBLNode} The node of which search the predecessor.
          * @return {RBLNode} The node found.
          */
-        predecessor(node: RBLNode): RBLNode;
+        predecessor(node: RBLNode<T>): RBLNode<T>;
         /**
          * Search the item relatives to the key that satisfy the condition represented by the callback function.
          * @param key {number} The key to find.
@@ -2185,7 +2185,7 @@ declare namespace ds {
          * @param [callback = function(k){return(k===key);}] The condition to satisfy. The callback must accept the current key to check.
          * @return {*} The item found or undefined if there isn't the key in the tree.
          */
-        search(key: number, node?: RBLNode, callback?: (node: RBLNode) => boolean): any;
+        search(key: number, node?: RBLNode<T>, callback?: (node: RBLNode<T>) => boolean): Queue<T> | undefined;
         /**
          * Checks if the tree contains a key or a node that satisfy the condition represented by the callback function.
          * This method avoid to search in branches where the key won't be found.
@@ -2193,7 +2193,7 @@ declare namespace ds {
          * @param [callback = function(node){return(node.key===key);}] The condition to satisfy. The callback must accept the current node to check.
          * @return {boolean} True if the tree contains the key or a node that satisfy the condition, false otherwise.
          */
-        contains(key: number, callback?: (node: RBLNode) => boolean): boolean;
+        contains(key: number, callback?: (node: RBLNode<T>) => boolean): boolean;
         /**
          * Checks if the tree contains a node that satisfy the condition represented by the callback function.
          * This method check all the tree avoiding the binary search.
@@ -2206,25 +2206,25 @@ declare namespace ds {
          * @param [node = root] {Node} The node from which start the search.
          * @return {RBLNode} The node found.
          */
-        minimum(node?: RBLNode): RBLNode;
+        minimum(node?: RBLNode<T>): RBLNode<T>;
         /**
          * Get the item relatives to the maximum key stored in the tree.
          * @param [node = root] {Node} The node from which start the search.
          * @return {RBLNode} The node found.
          */
-        maximum(node?: RBLNode): RBLNode;
+        maximum(node?: RBLNode<T>): RBLNode<T>;
         /**
          * Rotate the node with its right child.
          * @param node {RBLNode} The node to rotate.
          * @return {void}
          */
-        leftRotate(node: RBLNode): void;
+        leftRotate(node: RBLNode<T>): void;
         /**
          * Rotate the node with its left child.
          * @param node {RBLNode} The node to rotate.
          * @return {void}
          */
-        rightRotate(node: RBLNode): void;
+        rightRotate(node: RBLNode<T>): void;
         /**
          * Returns the size of the tree.
          * @return {number} The size of the tree.
@@ -2234,17 +2234,17 @@ declare namespace ds {
          * Clones the tree into a new tree.
          * @return {RBTreeList} The tree cloned from this tree.
          */
-        clone(): RBTreeList;
+        clone(): RBTreeList<T>;
         /**
          * Clones the tree into a new tree without cloning duplicated items.
          * @return {RBTreeList} The tree cloned from this tree.
          */
-        cloneDistinct(): RBTreeList;
+        cloneDistinct(): RBTreeList<T>;
         /**
          * Transform the tree into an array without preserving keys.
          * @return {Array<*>} The array that represents the tree.
          */
-        toArray(): any[];
+        toArray(): Queue<T>[];
         /**
          * Removes all the items stored in the tree.
          * @return {void}
@@ -2261,20 +2261,20 @@ declare namespace ds {
          * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
          * @return {void}
          */
-        execute(callback: (item: any) => any): void;
+        execute(callback: (item: Queue<T>) => Queue<T>): void;
         /**
          * Returns the items that satisfy the condition determined by the callback.
          * @param callback {function} The function that implements the condition.
          * @return {Array<*>} The array that contains the items that satisfy the condition.
          */
-        filter(callback: (item: any) => boolean): any[];
+        filter(callback: (item: Queue<T>) => boolean): Queue<T>[];
         /**
          * Returns the first position of the item in the tree.
          * @param item {*} The item to search.
          * @param [callback = function(item){return(it===item);}] The condition to satisfy. The callback must accept the current item to check.
          * @return {number} The first position of the item.
          */
-        indexOf(item: any, callback?: (item: any) => boolean): number;
+        indexOf(item: Queue<T>, callback?: (item: Queue<T>) => boolean): number;
         /**
          * Returns the last position of the item in the tree.
          * @param item {*} The item to search.
@@ -2294,7 +2294,7 @@ declare namespace ds {
          * @param index {number} The position of the item.
          * @return {*} The item at the position. It's undefined if index isn't in the tree bounds.
          */
-        getItem(index: number): any;
+        getItem(index: number): Queue<T> | undefined;
     }
 }
 /**
@@ -2302,23 +2302,23 @@ declare namespace ds {
  * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
-    class RBTreeListIterator implements Iterator {
+    class RBTreeListIterator<T> implements Iterator {
         /**
          * The aggregate relates to this iterator.
          * @type {RBTreeList}
          */
-        aggregate: RBTreeList;
+        aggregate: RBTreeList<T>;
         /**
          * The pointer to the position.
          * @type {RBLNode|null}
          */
-        pointer: RBLNode;
+        pointer: RBLNode<T>;
         /**
          * Class that implements the iterator for a red-black tree.
          * @param aggregate {RBTreeList} The aggregate to scan.
          * @constructor
          */
-        constructor(aggregate: RBTreeList);
+        constructor(aggregate: RBTreeList<T>);
         /**
          * @inheritDoc
          */
@@ -2342,13 +2342,13 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getItem(): any;
+        getItem(): Queue<T>;
         /**
          * Return the node stored at the position pointed by the iterator.
          * @abstract
          * @return {RBNode|null} The node stored or null if it's out of the bounds.
          */
-        getNode(): RBLNode;
+        getNode(): RBLNode<T>;
     }
 }
 /**
