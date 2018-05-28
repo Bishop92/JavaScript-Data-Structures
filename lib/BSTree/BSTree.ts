@@ -4,7 +4,7 @@
 namespace ds
 {
 
-	class BSNode
+	export class BSNode
 	{
 		/**
 		 * The item stored.
@@ -49,7 +49,7 @@ namespace ds
 
 	}
 
-	class BSTree extends Aggregate
+	export class BSTree extends Aggregate
 	{
 		/**
 		 * The root of the tree.

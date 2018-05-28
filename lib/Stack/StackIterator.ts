@@ -3,7 +3,7 @@
  */
 namespace ds
 {
-	class StackIterator implements Iterator
+	export class StackIterator implements Iterator
 	{
 		/**
 		 * The aggregate relates to this iterator.

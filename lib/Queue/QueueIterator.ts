@@ -3,7 +3,7 @@
  */
 namespace ds
 {
-	class QueueIterator implements Iterator
+	export class QueueIterator implements Iterator
 	{
 		/**
 		 * The aggregate relates to this iterator.

@@ -3,7 +3,7 @@
  */
 namespace ds
 {
-	class Queue extends Aggregate
+	export class Queue extends Aggregate
 	{
 		/**
 		 * The list of the items in the queue.

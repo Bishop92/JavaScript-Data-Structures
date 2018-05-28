@@ -3,7 +3,7 @@
  */
 namespace ds
 {
-	class HashTable
+	export class HashTable
 	{
 
 		/**

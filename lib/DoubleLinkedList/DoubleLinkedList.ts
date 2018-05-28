@@ -3,7 +3,7 @@
  */
 namespace ds
 {
-	class DLLNode
+	export class DLLNode
 	{
 		/**
 		 * The item stored.
@@ -33,7 +33,7 @@ namespace ds
 
 	}
 
-	class DoubleLinkedList extends Aggregate
+	export class DoubleLinkedList extends Aggregate
 	{
 		/**
 		 * The first node of the list.

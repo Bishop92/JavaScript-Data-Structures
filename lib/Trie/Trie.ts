@@ -3,7 +3,7 @@
  */
 namespace ds
 {
-    class TNode
+    export class TNode
     {
         /**
          * The item stored.
@@ -43,7 +43,7 @@ namespace ds
 
     }
 
-    class Trie extends Aggregate
+    export class Trie extends Aggregate
     {
         /**
          * The root of the trie.

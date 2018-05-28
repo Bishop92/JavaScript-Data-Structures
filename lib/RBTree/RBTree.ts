@@ -1,6 +1,6 @@
 namespace ds
 {
-	class RBNode
+	export class RBNode
 	{
 		/**
 		 * The item stored.
@@ -51,7 +51,7 @@ namespace ds
 
 	}
 
-	class RBTree extends Aggregate
+	export class RBTree extends Aggregate
 	{
 		/**
 		 * The root of the tree.

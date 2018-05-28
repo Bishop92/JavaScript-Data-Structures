@@ -3,7 +3,7 @@
  */
 namespace ds
 {
-	class PriorityQueue extends Aggregate
+	export class PriorityQueue extends Aggregate
 	{
 		/**
 		 * The list of the items in the queue.

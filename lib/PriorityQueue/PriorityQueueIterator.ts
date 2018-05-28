@@ -4,7 +4,7 @@
  */
 namespace ds
 {
-	class PriorityQueueIterator implements Iterator
+	export class PriorityQueueIterator implements Iterator
 	{
 		/**
 		 * The aggregate relates to this iterator.

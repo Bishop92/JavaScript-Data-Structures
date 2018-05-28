@@ -10,7 +10,7 @@ namespace ds
      * @constructor
      * @interface
      */
-    interface Iterator
+    export interface Iterator
     {
         /**
          * Moves the iterator to the first position of the aggregate.

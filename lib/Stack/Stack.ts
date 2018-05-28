@@ -3,7 +3,7 @@
  */
 namespace ds
 {
-	class Stack extends Aggregate
+	export class Stack extends Aggregate
 	{
 		/**
 		 * The list of the items in the stack.

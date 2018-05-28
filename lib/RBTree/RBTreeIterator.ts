@@ -3,7 +3,7 @@
  */
 namespace ds
 {
-	class RBTreeIterator implements Iterator
+	export class RBTreeIterator implements Iterator
 	{
 		/**
 		 * The aggregate relates to this iterator.

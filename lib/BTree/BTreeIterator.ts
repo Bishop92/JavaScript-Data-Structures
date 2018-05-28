@@ -4,7 +4,7 @@ namespace ds
 	 * Created by Stefano on 06/04/2014.
 	 */
 
-	class BTreeIterator implements Iterator
+	export class BTreeIterator implements Iterator
 	{
 		/**
 		 * The aggregate relates to this iterator.

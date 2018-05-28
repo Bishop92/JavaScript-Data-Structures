@@ -18,6 +18,7 @@ var ds;
         }
         return Aggregate;
     }());
+    ds.Aggregate = Aggregate;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 05/04/2014.
@@ -40,6 +41,7 @@ var ds;
         }
         return BSNode;
     }());
+    ds.BSNode = BSNode;
     var BSTree = /** @class */ (function (_super) {
         __extends(BSTree, _super);
         function BSTree() {
@@ -51,7 +53,7 @@ var ds;
          * @inheritDoc
          */
         BSTree.prototype.getIterator = function () {
-            return new BSTreeIterator(this);
+            return new ds.BSTreeIterator(this);
         };
         /**
          * Insert the item relatives to the key value in the tree.
@@ -196,7 +198,8 @@ var ds;
             }
         };
         return BSTree;
-    }(Aggregate));
+    }(ds.Aggregate));
+    ds.BSTree = BSTree;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 06/04/2014.
@@ -266,6 +269,7 @@ var ds;
         ;
         return BSTreeIterator;
     }());
+    ds.BSTreeIterator = BSTreeIterator;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 08/04/2014.
@@ -296,6 +300,7 @@ var ds;
         }
         return BNode;
     }());
+    ds.BNode = BNode;
     var BTree = /** @class */ (function (_super) {
         __extends(BTree, _super);
         /**
@@ -322,7 +327,7 @@ var ds;
          * @inheritDoc
          */
         BTree.prototype.getIterator = function () {
-            return new BTreeIterator(this);
+            return new ds.BTreeIterator(this);
         };
         ;
         /**
@@ -955,7 +960,8 @@ var ds;
         };
         ;
         return BTree;
-    }(Aggregate));
+    }(ds.Aggregate));
+    ds.BTree = BTree;
 })(ds || (ds = {}));
 var ds;
 (function (ds) {
@@ -1028,6 +1034,7 @@ var ds;
         ;
         return BTreeIterator;
     }());
+    ds.BTreeIterator = BTreeIterator;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 31/03/14.
@@ -1076,7 +1083,7 @@ var ds;
          * @inheritDoc
          */
         CircularBuffer.prototype.getIterator = function () {
-            return new CircularBufferIterator(this);
+            return new ds.CircularBufferIterator(this);
         };
         ;
         /**
@@ -1232,7 +1239,8 @@ var ds;
         };
         ;
         return CircularBuffer;
-    }(Aggregate));
+    }(ds.Aggregate));
+    ds.CircularBuffer = CircularBuffer;
 })(ds || (ds = {}));
 var ds;
 (function (ds) {
@@ -1302,6 +1310,7 @@ var ds;
         ;
         return CircularBufferIterator;
     }());
+    ds.CircularBufferIterator = CircularBufferIterator;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 31/03/14.
@@ -1329,6 +1338,7 @@ var ds;
         }
         return DLLNode;
     }());
+    ds.DLLNode = DLLNode;
     var DoubleLinkedList = /** @class */ (function (_super) {
         __extends(DoubleLinkedList, _super);
         /**
@@ -1371,7 +1381,7 @@ var ds;
          * @inheritDoc
          */
         DoubleLinkedList.prototype.getIterator = function () {
-            return new DoubleLinkedListIterator(this);
+            return new ds.DoubleLinkedListIterator(this);
         };
         ;
         /**
@@ -2101,7 +2111,8 @@ var ds;
         };
         ;
         return DoubleLinkedList;
-    }(Aggregate));
+    }(ds.Aggregate));
+    ds.DoubleLinkedList = DoubleLinkedList;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 04/04/2014.
@@ -2175,6 +2186,7 @@ var ds;
         ;
         return DoubleLinkedListIterator;
     }());
+    ds.DoubleLinkedListIterator = DoubleLinkedListIterator;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 05/04/2014.
@@ -2337,7 +2349,7 @@ var ds;
         HashTable.prototype.clear = function () {
             this.items = [];
             for (var i = 0; i < this.size; i++)
-                this.items[i] = new DoubleLinkedList();
+                this.items[i] = new ds.DoubleLinkedList();
             this.keyLength = 0;
         };
         ;
@@ -2402,6 +2414,7 @@ var ds;
         ;
         return HashTable;
     }());
+    ds.HashTable = HashTable;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 31/03/14.
@@ -2424,6 +2437,7 @@ var ds;
         }
         return LLNode;
     }());
+    ds.LLNode = LLNode;
     var LinkedList = /** @class */ (function (_super) {
         __extends(LinkedList, _super);
         /**
@@ -2469,7 +2483,7 @@ var ds;
          * @inheritDoc
          */
         LinkedList.prototype.getIterator = function () {
-            return new LinkedListIterator(this);
+            return new ds.LinkedListIterator(this);
         };
         ;
         /**
@@ -3030,7 +3044,8 @@ var ds;
         };
         ;
         return LinkedList;
-    }(Aggregate));
+    }(ds.Aggregate));
+    ds.LinkedList = LinkedList;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 04/04/2014.
@@ -3107,6 +3122,7 @@ var ds;
         ;
         return LinkedListIterator;
     }());
+    ds.LinkedListIterator = LinkedListIterator;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 31/03/14.
@@ -3126,7 +3142,7 @@ var ds;
              * @type {number}
              */
             _this.length = 0;
-            _this.items = new RBTreeList();
+            _this.items = new ds.RBTreeList();
             _this.length = 0;
             return _this;
         }
@@ -3134,7 +3150,7 @@ var ds;
          * @inheritDoc
          */
         PriorityQueue.prototype.getIterator = function () {
-            return new PriorityQueueIterator(this);
+            return new ds.PriorityQueueIterator(this);
         };
         ;
         /**
@@ -3146,7 +3162,7 @@ var ds;
         PriorityQueue.prototype.enqueue = function (priority, item) {
             var queue = this.items.search(priority);
             if (!queue) {
-                queue = new Queue();
+                queue = new ds.Queue();
                 this.items.insert(priority, queue);
             }
             queue.enqueue(item);
@@ -3274,7 +3290,7 @@ var ds;
          * @return {void}
          */
         PriorityQueue.prototype.clear = function () {
-            this.items = new RBTreeList();
+            this.items = new ds.RBTreeList();
             this.length = 0;
         };
         ;
@@ -3296,7 +3312,7 @@ var ds;
          * @return {Queue} The queue created.
          */
         PriorityQueue.prototype.toQueue = function () {
-            var queue = new Queue();
+            var queue = new ds.Queue();
             var it = this.items.getIterator();
             for (it.last(); !it.isDone(); it.previous()) {
                 var item = it.getItem();
@@ -3372,7 +3388,8 @@ var ds;
         };
         ;
         return PriorityQueue;
-    }(Aggregate));
+    }(ds.Aggregate));
+    ds.PriorityQueue = PriorityQueue;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 04/04/2014.
@@ -3455,6 +3472,7 @@ var ds;
         ;
         return PriorityQueueIterator;
     }());
+    ds.PriorityQueueIterator = PriorityQueueIterator;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 31/03/14.
@@ -3501,7 +3519,7 @@ var ds;
          * @inheritDoc
          */
         Queue.prototype.getIterator = function () {
-            return new QueueIterator(this);
+            return new ds.QueueIterator(this);
         };
         ;
         /**
@@ -3756,7 +3774,8 @@ var ds;
         };
         ;
         return Queue;
-    }(Aggregate));
+    }(ds.Aggregate));
+    ds.Queue = Queue;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 04/04/2014.
@@ -3822,6 +3841,7 @@ var ds;
         ;
         return QueueIterator;
     }());
+    ds.QueueIterator = QueueIterator;
 })(ds || (ds = {}));
 var ds;
 (function (ds) {
@@ -3862,6 +3882,7 @@ var ds;
         }
         return RBNode;
     }());
+    ds.RBNode = RBNode;
     var RBTree = /** @class */ (function (_super) {
         __extends(RBTree, _super);
         /**
@@ -3888,7 +3909,7 @@ var ds;
          * @inheritDoc
          */
         RBTree.prototype.getIterator = function () {
-            return new RBTreeIterator(this);
+            return new ds.RBTreeIterator(this);
         };
         ;
         /**
@@ -4385,7 +4406,8 @@ var ds;
         };
         ;
         return RBTree;
-    }(Aggregate));
+    }(ds.Aggregate));
+    ds.RBTree = RBTree;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 06/04/2014.
@@ -4460,6 +4482,7 @@ var ds;
         ;
         return RBTreeIterator;
     }());
+    ds.RBTreeIterator = RBTreeIterator;
 })(ds || (ds = {}));
 var ds;
 (function (ds) {
@@ -4512,6 +4535,7 @@ var ds;
         }
         return RBLNode;
     }());
+    ds.RBLNode = RBLNode;
     var RBTreeList = /** @class */ (function (_super) {
         __extends(RBTreeList, _super);
         function RBTreeList() {
@@ -4546,7 +4570,7 @@ var ds;
          * @inheritDoc
          */
         RBTreeList.prototype.getIterator = function () {
-            return new RBTreeListIterator(this);
+            return new ds.RBTreeListIterator(this);
         };
         ;
         /**
@@ -5077,7 +5101,8 @@ var ds;
         };
         ;
         return RBTreeList;
-    }(Aggregate));
+    }(ds.Aggregate));
+    ds.RBTreeList = RBTreeList;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 06/04/2014.
@@ -5152,6 +5177,7 @@ var ds;
         ;
         return RBTreeListIterator;
     }());
+    ds.RBTreeListIterator = RBTreeListIterator;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 12/04/2014.
@@ -5165,11 +5191,12 @@ var ds;
          * @constructor
          */
         function Element(item) {
-            this.parents = new DoubleLinkedList();
+            this.parents = new ds.DoubleLinkedList();
             this.item = item;
         }
         return Element;
     }());
+    ds.Element = Element;
     var Set = /** @class */ (function () {
         /**
          * Class for managing a set.
@@ -5181,9 +5208,9 @@ var ds;
              * @type {number}
              */
             this.size = 0;
-            this.parents = new DoubleLinkedList();
-            this.elements = new DoubleLinkedList();
-            this.sets = new DoubleLinkedList();
+            this.parents = new ds.DoubleLinkedList();
+            this.elements = new ds.DoubleLinkedList();
+            this.sets = new ds.DoubleLinkedList();
             this.size = 0;
         }
         /**
@@ -5369,6 +5396,7 @@ var ds;
         ;
         return Set;
     }());
+    ds.Set = Set;
 })(ds || (ds = {}));
 /**
  * Created by Battistella Stefano on 31/03/14.
@@ -5408,7 +5436,7 @@ var ds;
          * @inheritDoc
          */
         Stack.prototype.getIterator = function () {
-            return new StackIterator(this);
+            return new ds.StackIterator(this);
         };
         ;
         /**
@@ -5629,7 +5657,8 @@ var ds;
         };
         ;
         return Stack;
-    }(Aggregate));
+    }(ds.Aggregate));
+    ds.Stack = Stack;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 04/04/2014.
@@ -5695,6 +5724,7 @@ var ds;
         ;
         return StackIterator;
     }());
+    ds.StackIterator = StackIterator;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 02/02/2015.
@@ -5736,6 +5766,7 @@ var ds;
         }
         return TNode;
     }());
+    ds.TNode = TNode;
     var Trie = /** @class */ (function (_super) {
         __extends(Trie, _super);
         /**
@@ -5757,7 +5788,7 @@ var ds;
          * @inheritDoc
          */
         Trie.prototype.getIterator = function () {
-            return new TrieIterator(this);
+            return new ds.TrieIterator(this);
         };
         ;
         /**
@@ -5889,7 +5920,8 @@ var ds;
         };
         ;
         return Trie;
-    }(Aggregate));
+    }(ds.Aggregate));
+    ds.Trie = Trie;
 })(ds || (ds = {}));
 /**
  * Created by Stefano on 06/04/2014.
@@ -5955,4 +5987,5 @@ var ds;
         ;
         return TrieIterator;
     }());
+    ds.TrieIterator = TrieIterator;
 })(ds || (ds = {}));

@@ -4,7 +4,7 @@
  */
 namespace ds
 {
-	class CircularBuffer extends Aggregate
+	export class CircularBuffer extends Aggregate
 	{
 
 		/**

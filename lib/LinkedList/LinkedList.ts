@@ -3,7 +3,7 @@
  */
 namespace ds
 {
-	class LLNode
+	export class LLNode
 	{
 		/**
 		 * The item stored.
@@ -27,7 +27,7 @@ namespace ds
 		}
 	}
 
-	class LinkedList extends Aggregate
+	export class LinkedList extends Aggregate
 	{
 
 		/**

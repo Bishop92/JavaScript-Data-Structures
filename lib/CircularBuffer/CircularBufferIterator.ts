@@ -4,7 +4,7 @@ namespace ds
 	 * Created by Stefano on 06/04/2014.
 	 */
 
-	class CircularBufferIterator implements Iterator
+	export class CircularBufferIterator implements Iterator
 	{
 		/**
 		 * The aggregate relates to this iterator.

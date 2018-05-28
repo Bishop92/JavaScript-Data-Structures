@@ -3,7 +3,7 @@
  */
 namespace ds
 {
-	class DoubleLinkedListIterator implements Iterator
+	export class DoubleLinkedListIterator implements Iterator
 	{
 		/**
 		 * The aggregate relates to this iterator.

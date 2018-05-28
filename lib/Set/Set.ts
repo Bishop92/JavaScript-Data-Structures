@@ -3,7 +3,7 @@
  */
 namespace ds
 {
-	class Element
+	export class Element
 	{
 		parents: DoubleLinkedList;
 		item;
@@ -19,7 +19,7 @@ namespace ds
 		}
 	}
 
-	class Set
+	export class Set
 	{
 
 		/**
