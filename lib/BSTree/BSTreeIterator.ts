@@ -4,26 +4,26 @@
  */
 namespace ds
 {
-	export class BSTreeIterator implements Iterator
+	export class BSTreeIterator<T> implements Iterator
 	{
 		/**
 		 * The aggregate relates to this iterator.
 		 * @type {BSTree}
 		 */
-		aggregate: BSTree;
+		aggregate: BSTree<T>;
 
 		/**
 		 * The pointer to the position.
 		 * @type {BSNode|null}
 		 */
-		pointer: BSNode;
+		pointer: BSNode<T>;
 
 		/**
 		 * Class that implements the iterator for a binary search tree.
 		 * @param aggregate {BSTree} The aggregate to scan.
 		 * @constructor
 		 */
-		constructor(aggregate: BSTree)
+		constructor(aggregate: BSTree<T>)
 		{
 			this.aggregate = aggregate;
 			this.pointer = <any>null;

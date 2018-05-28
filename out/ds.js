@@ -173,6 +173,7 @@ var ds;
                 else
                     node = node.childs[i];
             }
+            return undefined;
         };
         ;
         /**
@@ -605,8 +606,8 @@ var ds;
             var it = this.getIterator();
             for (it.first(); !it.isDone(); it.next()) {
                 var item = it.getItem();
-                if (item.clone)
-                    item = item.clone();
+                if (item["clone"])
+                    item = item["clone"]();
                 tree.insert(it.getKey(), item);
             }
             return tree;
@@ -624,12 +625,13 @@ var ds;
                     return item === it.getItem();
                 };
                 if (!tree.fullContains(callback)) {
-                    if (it.getItem().cloneDistinct)
-                        tree.insert(it.getKey(), it.getItem().cloneDistinct());
-                    else if (it.getItem().clone)
-                        tree.insert(it.getKey(), it.getItem().clone());
+                    var item = it.getItem();
+                    if (item.cloneDistinct)
+                        tree.insert(it.getKey(), item.cloneDistinct());
+                    else if (item.clone)
+                        tree.insert(it.getKey(), item.clone());
                     else
-                        tree.insert(it.getKey(), it.getItem());
+                        tree.insert(it.getKey(), item);
                 }
             }
             return tree;

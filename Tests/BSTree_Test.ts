@@ -4,7 +4,7 @@
 
 QUnit.test("BSTree - Insert test", function (assert)
 {
-	var tree = new ds.BSTree();
+	var tree = new ds.BSTree<number>();
 	var keys = [];
 	for (var i = 0; i < 20; i++)
 	{

@@ -5,7 +5,7 @@
  */
 namespace ds
 {
-	export class BNode
+	export class BNode<T>
 	{
 		/**
 		 * The keys stored it the node.
@@ -16,12 +16,12 @@ namespace ds
 		 * The items stored in the node.
 		 * @type {Array<*>}
 		 */
-		items: any[] = [];
+		items: T[] = [];
 		/**
 		 * The nodes child of the node.
 		 * @type {Array<BNode>}
 		 */
-		childs: BNode[] = [];
+		childs: BNode<T>[] = [];
 		/**
 		 * The single node of the tree.
 		 * @constructor
@@ -31,13 +31,13 @@ namespace ds
 		}
 	}
 
-	export class BTree extends Aggregate
+	export class BTree<T> extends Aggregate
 	{
 		/**
 		 * The root of the tree.
 		 * @type {BNode}
 		 */
-		root = new BNode();
+		root = new BNode<T>();
 
 		/**
 		 * The minimum number of the keys of a node.
@@ -68,7 +68,7 @@ namespace ds
 		 */
 		getIterator()
 		{
-			return new BTreeIterator(this);
+			return new BTreeIterator<T>(this);
 		};
 
 		/**
@@ -77,12 +77,12 @@ namespace ds
 		 * @param item {*} The item to store.
 		 * @return {void}
 		 */
-		insert(key: number, item: any)
+		insert(key: number, item: T)
 		{
 			var node = this.root;
 			if (node.keys.length === 2 * this.t - 1)
 			{
-				var newNode = new BNode();
+				var newNode = new BNode<T>();
 				newNode.childs.push(node);
 				this.root = newNode;
 				this.splitChild(newNode, 0);
@@ -99,7 +99,7 @@ namespace ds
 		 * @param item {*} The item to store.
 		 * @return {void}
 		 */
-		insertNonFull(node: BNode, key: number, item: any)
+		insertNonFull(node: BNode<T>, key: number, item: any)
 		{
 			while (node)
 			{
@@ -144,7 +144,7 @@ namespace ds
 		 * @param [callback = function(node,index){return(node.keys[index]===key);}] The condition to satisfy. The callback must accept the current node to check and optionally the position of the key.
 		 * @return {*} The item found or undefined if there isn't the key in the tree.
 		 */
-		search(key: number, node?: BNode, callback?: (node: BNode, index: number) => boolean)
+		search(key: number, node?: BNode<T>, callback?: (node: BNode<T>, index: number) => boolean): T
 		{
 			node = node || this.root;
 			callback = callback || function (node, index)
@@ -166,10 +166,11 @@ namespace ds
 				if (i < n && callback(node, i))
 					return node.items[i];
 				else if (!node.childs.length)
-					return undefined;
+					return <any>undefined;
 				else
 					node = node.childs[i];
 			}
+			return <any>undefined;
 		};
 
 		/**
@@ -178,9 +179,9 @@ namespace ds
 		 * @param index {number} The position of the child to split.
 		 * @return {void}
 		 */
-		splitChild(node: BNode, index: number)
+		splitChild(node: BNode<T>, index: number)
 		{
-			var newNode = new BNode();
+			var newNode = new BNode<T>();
 			var child = node.childs[index];
 			//copy of the last t - 1 keys and items in the new node
 			for (var i = 0; i < this.t - 1; i++)
@@ -233,7 +234,7 @@ namespace ds
 		 * @param key {number} The key to delete.
 		 * @return {void}
 		 */
-		deleteNonMin(node: BNode, key: number)
+		deleteNonMin(node: BNode<T>, key: number)
 		{
 			var i = 0, j = node.keys.length;
 			while (i < j)
@@ -297,7 +298,7 @@ namespace ds
 		 * @param index {number} The key to delete in the node.
 		 * @return {void}
 		 */
-		deleteMax(node: BNode, index: number)
+		deleteMax(node: BNode<T>, index: number)
 		{
 			var child = node.childs[index];
 			var goAhead = true;
@@ -326,10 +327,10 @@ namespace ds
 		 * @param index {number} The index of the position to augment.
 		 * @return {void}
 		 */
-		augmentChild(node: BNode, index: number)
+		augmentChild(node: BNode<T>, index: number)
 		{
 			var child = node.childs[index];
-			var brother: BNode = <any>null;
+			var brother: BNode<T> = <any>null;
 			if (index)
 				brother = node.childs[index - 1];
 			if (index && brother.keys.length > this.t - 1)
@@ -422,7 +423,7 @@ namespace ds
 		 * @param [callback = function(node,index){return(node.keys[index]===key);}] The condition to satisfy. The callback must accept the current node to check and optionally the position of the key.
 		 * @return {boolean} True if the tree contains the key.
 		 */
-		contains(key: number, callback?: (node: BNode, index: number) => boolean)
+		contains(key: number, callback?: (node: BNode<T>, index: number) => boolean)
 		{
 			return this.search(key, <any>null, callback) !== undefined;
 		};
@@ -433,7 +434,7 @@ namespace ds
 		 * @param callback {function} The condition to satisfy. The callback must accept the current node to check.
 		 * @return {boolean} True if the tree contains the node that satisfy the condition, false otherwise.
 		 */
-		fullContains(callback: (item: BNode) => boolean)
+		fullContains(callback: (item: T) => boolean)
 		{
 			var key = this.minimumKey();
 			while (key !== -1 && !callback(this.search(key)))
@@ -447,7 +448,7 @@ namespace ds
 		 * @param [node = root] The node from start the search of the successor.
 		 * @return {number} The key found.
 		 */
-		successor(key: number, node?: BNode): number
+		successor(key: number, node?: BNode<T>): number
 		{
 			node = node || this.root;
 			var i = 0, j = node.keys.length;
@@ -488,7 +489,7 @@ namespace ds
 		 * @param [node = root] The node from start the search of the predecessor.
 		 * @return {number} The key found.
 		 */
-		predecessor(key: number, node?: BNode): number
+		predecessor(key: number, node?: BNode<T>): number
 		{
 			node = node || this.root;
 			var i = 0, j = node.keys.length;
@@ -595,7 +596,7 @@ namespace ds
 		 * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
 		 * @return {void}
 		 */
-		execute(callback: (item: any) => any, node?: BNode)
+		execute(callback: (item: any) => any, node?: BNode<T>)
 		{
 			node = node || this.root;
 			for (var i = 0; i < node.items.length; i++)
@@ -619,9 +620,9 @@ namespace ds
 		 * @param callback {function} The function that implements the condition.
 		 * @return {Array<*>} The array that contains the items that satisfy the condition.
 		 */
-		filter(callback: (node: any) => boolean, node?: BNode)
+		filter(callback: (node: any) => boolean, node?: BNode<T>)
 		{
-			var result: BNode[] = [];
+			var result: T[] = [];
 			node = node || this.root;
 			for (var i = 0; i < node.items.length; i++)
 			{
@@ -645,9 +646,9 @@ namespace ds
 			var it = this.getIterator();
 			for (it.first(); !it.isDone(); it.next())
 			{
-				var item = it.getItem();
-				if (item.clone)
-					item = item.clone();
+				var item: any = it.getItem();
+				if (item["clone"])
+					item = item["clone"]();
 				tree.insert(it.getKey(), item);
 			}
 			return tree;
@@ -659,22 +660,23 @@ namespace ds
 		 */
 		cloneDistinct()
 		{
-			var tree = new BTree(this.t);
+			var tree = new BTree<T>(this.t);
 			var it = this.getIterator();
 			for (it.first(); !it.isDone(); it.next())
 			{
-				var callback = function (item: BNode)
+				var callback = function (item: T)
 				{
 					return item === it.getItem();
 				};
 				if (!tree.fullContains(callback))
 				{
-					if (it.getItem().cloneDistinct)
-						tree.insert(it.getKey(), it.getItem().cloneDistinct());
-					else if (it.getItem().clone)
-						tree.insert(it.getKey(), it.getItem().clone());
+					var item: any = it.getItem();
+					if (item.cloneDistinct)
+						tree.insert(it.getKey(), item.cloneDistinct());
+					else if (item.clone)
+						tree.insert(it.getKey(), item.clone());
 					else
-						tree.insert(it.getKey(), it.getItem());
+						tree.insert(it.getKey(), item);
 				}
 			}
 			return tree;
@@ -772,7 +774,7 @@ namespace ds
 		{
 			if (index < 0 || index > this.size - 1)
 				return undefined;
-			var key = this.minimum();
+			var key: number = <any>this.minimum();
 			for (var i = 0; i < index; i++)
 				key = this.successor(key);
 			return this.search(key);

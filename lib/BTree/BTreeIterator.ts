@@ -4,13 +4,13 @@
  */
 namespace ds
 {
-	export class BTreeIterator implements Iterator
+	export class BTreeIterator<T> implements Iterator
 	{
 		/**
 		 * The aggregate relates to this iterator.
 		 * @type {BTree}
 		 */
-		aggregate: BTree;
+		aggregate: BTree<T>;
 
 		/**
 		 * The pointer to the position.
@@ -23,7 +23,7 @@ namespace ds
 		 * @param aggregate {BTree} The aggregate to scan.
 		 * @constructor
 		 */
-		constructor(aggregate: BTree)
+		constructor(aggregate: BTree<T>)
 		{
 			this.aggregate = aggregate;
 		}

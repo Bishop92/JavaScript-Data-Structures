@@ -5,13 +5,13 @@
 namespace ds
 {
 
-	export class BSNode
+	export class BSNode<T>
 	{
 		/**
 		 * The item stored.
 		 * @type {*}
 		 */
-		item: any;
+		item: T;
 		/**
 		 * The key of the node.
 		 * @type {number}
@@ -21,17 +21,17 @@ namespace ds
 		 * The parent node. It's null if there's no a parent node.
 		 * @type {BSNode|null}
 		 */
-		parent: BSNode;
+		parent: BSNode<T>;
 		/**
 		 * The left node. It's null if there's no a left node.
 		 * @type {BSNode|null}
 		 */
-		left: BSNode;
+		left: BSNode<T>;
 		/**
 		 * The right node. It's null if there's no a right node.
 		 * @type {BSNode|null}
 		 */
-		right: BSNode;
+		right: BSNode<T>;
 
 		/**
 		 * The single node of the tree.
@@ -39,7 +39,7 @@ namespace ds
 		 * @param item {*} The item to store in the node.
 		 * @constructor
 		 */
-		constructor(key: number, item: any)
+		constructor(key: number, item: T)
 		{
 			this.item = item;
 			this.key = key;
@@ -47,29 +47,27 @@ namespace ds
 			this.left = <any>null;
 			this.right = <any>null;
 		}
-
 	}
 
-	export class BSTree extends Aggregate
+	export class BSTree<T> extends Aggregate
 	{
 		/**
 		 * The root of the tree.
 		 * @type {BSNode|null}
 		 */
-		root: BSNode;
+		root: BSNode<T>;
 		constructor()
 		{
 			super();
 			this.root = <any>null;
 		}
 
-
 		/**
 		 * @inheritDoc
 		 */
 		getIterator()
 		{
-			return new BSTreeIterator(this);
+			return new BSTreeIterator<T>(this);
 		}
 
 		/**
@@ -78,9 +76,9 @@ namespace ds
 		 * @param item {*} The item to store.
 		 * @return {void}
 		 */
-		insert(key: number, item: any)
+		insert(key: number, item: T)
 		{
-			var node = new BSNode(key, item);
+			var node = new BSNode<T>(key, item);
 			var p = this.root;
 			for (var n = this.root; n;)
 			{
@@ -105,7 +103,7 @@ namespace ds
 		 * @param [node = root] {BSNode} The node from which start the search.
 		 * @return {*} The item found or undefined if there isn't the key in the tree.
 		 */
-		search(key: number, node: BSNode | null = null)
+		search(key: number, node: BSNode<T> | null = null)
 		{
 			node = node || this.root;
 			while (node && key !== node.key)
@@ -123,7 +121,7 @@ namespace ds
 		 * @param [node = root] {Node} The node from which start the search.
 		 * @return {BSNode} The node found.
 		 */
-		minimum(node: BSNode | null = null)
+		minimum(node: BSNode<T> | null = null)
 		{
 			node = node || this.root;
 			while (node && node.left)
@@ -136,7 +134,7 @@ namespace ds
 		 * @param [node = root] {Node} The node from which start the search.
 		 * @return {BSNode} The node found.
 		 */
-		maximum(node: BSNode | null = null)
+		maximum(node: BSNode<T> | null = null)
 		{
 			node = node || this.root;
 			while (node && node.right)
@@ -149,7 +147,7 @@ namespace ds
 		 * @param node {BSNode} The node of which search the successor.
 		 * @return {BSNode} The node found.
 		 */
-		successor(node: BSNode)
+		successor(node: BSNode<T>)
 		{
 			if (node.right)
 				return this.minimum(node.right);
@@ -167,7 +165,7 @@ namespace ds
 		 * @param node {BSNode} The node of which search the predecessor.
 		 * @return {BSNode} The node found.
 		 */
-		predecessor(node: BSNode)
+		predecessor(node: BSNode<T>)
 		{
 			if (node.left)
 				return this.maximum(node.left);
@@ -185,7 +183,7 @@ namespace ds
 		 * @param node {BSNode} The node to delete.
 		 * @return {void}
 		 */
-		deleteNode(node: BSNode)
+		deleteNode(node: BSNode<T>)
 		{
 			if (!node.left && !node.right)
 			{

@@ -69,7 +69,7 @@ declare namespace ds {
  * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
-    class BNode {
+    class BNode<T> {
         /**
          * The keys stored it the node.
          * @type {Array<*>}
@@ -79,24 +79,24 @@ declare namespace ds {
          * The items stored in the node.
          * @type {Array<*>}
          */
-        items: any[];
+        items: T[];
         /**
          * The nodes child of the node.
          * @type {Array<BNode>}
          */
-        childs: BNode[];
+        childs: BNode<T>[];
         /**
          * The single node of the tree.
          * @constructor
          */
         constructor();
     }
-    class BTree extends Aggregate {
+    class BTree<T> extends Aggregate {
         /**
          * The root of the tree.
          * @type {BNode}
          */
-        root: BNode;
+        root: BNode<T>;
         /**
          * The minimum number of the keys of a node.
          * @type {number}
@@ -116,14 +116,14 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getIterator(): BTreeIterator;
+        getIterator(): BTreeIterator<T>;
         /**
          * Insert the item relatives to the key value in the tree.
          * @param key {number} The key to store.
          * @param item {*} The item to store.
          * @return {void}
          */
-        insert(key: number, item: any): void;
+        insert(key: number, item: T): void;
         /**
          * Insert the new node in the right position if the node is not full.
          * @param node {BNode} The node from which start to check the insertion.
@@ -131,7 +131,7 @@ declare namespace ds {
          * @param item {*} The item to store.
          * @return {void}
          */
-        insertNonFull(node: BNode, key: number, item: any): void;
+        insertNonFull(node: BNode<T>, key: number, item: any): void;
         /**
          * Search the item relatives to the key that satisfy the condition represented by the callback function.
          * @param key {Number} The key to find.
@@ -139,14 +139,14 @@ declare namespace ds {
          * @param [callback = function(node,index){return(node.keys[index]===key);}] The condition to satisfy. The callback must accept the current node to check and optionally the position of the key.
          * @return {*} The item found or undefined if there isn't the key in the tree.
          */
-        search(key: number, node?: BNode, callback?: (node: BNode, index: number) => boolean): any;
+        search(key: number, node?: BNode<T>, callback?: (node: BNode<T>, index: number) => boolean): T;
         /**
          * Split the child of the node at the position index.
          * @param node {BNode} The parent of the child to split.
          * @param index {number} The position of the child to split.
          * @return {void}
          */
-        splitChild(node: BNode, index: number): void;
+        splitChild(node: BNode<T>, index: number): void;
         /**
          * Delete the key from the tree.
          * @param key {*} The key to delete.
@@ -159,49 +159,49 @@ declare namespace ds {
          * @param key {number} The key to delete.
          * @return {void}
          */
-        deleteNonMin(node: BNode, key: number): void;
+        deleteNonMin(node: BNode<T>, key: number): void;
         /**
          * Deletes a node that have the maximum number of keys for node.
          * @param node {BNode} The node to delete.
          * @param index {number} The key to delete in the node.
          * @return {void}
          */
-        deleteMax(node: BNode, index: number): void;
+        deleteMax(node: BNode<T>, index: number): void;
         /**
          * Augments the number of keys stored in the node preserving the order.
          * @param node {BNode} The node to delete.
          * @param index {number} The index of the position to augment.
          * @return {void}
          */
-        augmentChild(node: BNode, index: number): void;
+        augmentChild(node: BNode<T>, index: number): void;
         /**
          * Checks if the tree contains the key.
          * @param key {number} The key to find.
          * @param [callback = function(node,index){return(node.keys[index]===key);}] The condition to satisfy. The callback must accept the current node to check and optionally the position of the key.
          * @return {boolean} True if the tree contains the key.
          */
-        contains(key: number, callback?: (node: BNode, index: number) => boolean): boolean;
+        contains(key: number, callback?: (node: BNode<T>, index: number) => boolean): boolean;
         /**
          * Checks if the tree contains a node that satisfy the condition represented by the callback function.
          * This method check all the tree avoiding the binary search.
          * @param callback {function} The condition to satisfy. The callback must accept the current node to check.
          * @return {boolean} True if the tree contains the node that satisfy the condition, false otherwise.
          */
-        fullContains(callback: (item: BNode) => boolean): boolean;
+        fullContains(callback: (item: T) => boolean): boolean;
         /**
          * Get the key next to the param node key.
          * @param key {number} The key of which search the successor.
          * @param [node = root] The node from start the search of the successor.
          * @return {number} The key found.
          */
-        successor(key: number, node?: BNode): number;
+        successor(key: number, node?: BNode<T>): number;
         /**
          * Get the key previous to the param key.
          * @param key {number} The key of which search the predecessor.
          * @param [node = root] The node from start the search of the predecessor.
          * @return {number} The key found.
          */
-        predecessor(key: number, node?: BNode): number;
+        predecessor(key: number, node?: BNode<T>): number;
         /**
          * Gets the minimum key stored in the tree.
          * @return {number} The key found.
@@ -216,12 +216,12 @@ declare namespace ds {
          * Gets the item relatives to the minimum key stored in the tree.
          * @return {number} The item found.
          */
-        minimum(): any;
+        minimum(): T;
         /**
          * Gets the item relatives to the maximum key stored in the tree.
          * @return {node} The item found.
          */
-        maximum(): any;
+        maximum(): T;
         /**
          * Returns the size of the tree.
          * @return {number} The size of the tree.
@@ -238,7 +238,7 @@ declare namespace ds {
          * @param callback {function} The function to execute for each item. The function must accept the current item on which execute the function.
          * @return {void}
          */
-        execute(callback: (item: any) => any, node?: BNode): void;
+        execute(callback: (item: any) => any, node?: BNode<T>): void;
         /**
          * Removes all the items stored in the tree.
          * @return {void}
@@ -249,22 +249,22 @@ declare namespace ds {
          * @param callback {function} The function that implements the condition.
          * @return {Array<*>} The array that contains the items that satisfy the condition.
          */
-        filter(callback: (node: any) => boolean, node?: BNode): BNode[];
+        filter(callback: (node: any) => boolean, node?: BNode<T>): T[];
         /**
          * Clones the tree into a new tree.
          * @return {BTree} The tree cloned from this tree.
          */
-        clone(): BTree;
+        clone(): BTree<{}>;
         /**
          * Clones the tree into a new tree without cloning duplicated items.
          * @return {BTree} The tree cloned from this tree.
          */
-        cloneDistinct(): BTree;
+        cloneDistinct(): BTree<T>;
         /**
          * Transform the tree into an array without preserving keys.
          * @return {Array<*>} The array that represents the tree.
          */
-        toArray(): any[];
+        toArray(): T[];
         /**
          * Returns the first position of the item in the tree.
          * @param item {*} The item to search.
@@ -291,7 +291,7 @@ declare namespace ds {
          * @param index {number} The position of the item.
          * @return {*} The item at the position. It's undefined if index isn't in the tree bounds.
          */
-        getItem(index: number): any;
+        getItem(index: number): T | undefined;
     }
 }
 /**
@@ -299,12 +299,12 @@ declare namespace ds {
  * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
-    class BTreeIterator implements Iterator {
+    class BTreeIterator<T> implements Iterator {
         /**
          * The aggregate relates to this iterator.
          * @type {BTree}
          */
-        aggregate: BTree;
+        aggregate: BTree<T>;
         /**
          * The pointer to the position.
          * @type {number}
@@ -315,7 +315,7 @@ declare namespace ds {
          * @param aggregate {BTree} The aggregate to scan.
          * @constructor
          */
-        constructor(aggregate: BTree);
+        constructor(aggregate: BTree<T>);
         /**
          * @inheritDoc
          */
@@ -339,7 +339,7 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getItem(): any;
+        getItem(): T;
         /**
          * Return the key stored at the position pointed by the iterator.
          * @abstract
@@ -353,12 +353,12 @@ declare namespace ds {
  * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
-    class BSNode {
+    class BSNode<T> {
         /**
          * The item stored.
          * @type {*}
          */
-        item: any;
+        item: T;
         /**
          * The key of the node.
          * @type {number}
@@ -368,80 +368,80 @@ declare namespace ds {
          * The parent node. It's null if there's no a parent node.
          * @type {BSNode|null}
          */
-        parent: BSNode;
+        parent: BSNode<T>;
         /**
          * The left node. It's null if there's no a left node.
          * @type {BSNode|null}
          */
-        left: BSNode;
+        left: BSNode<T>;
         /**
          * The right node. It's null if there's no a right node.
          * @type {BSNode|null}
          */
-        right: BSNode;
+        right: BSNode<T>;
         /**
          * The single node of the tree.
          * @param key {number} The key of the node.
          * @param item {*} The item to store in the node.
          * @constructor
          */
-        constructor(key: number, item: any);
+        constructor(key: number, item: T);
     }
-    class BSTree extends Aggregate {
+    class BSTree<T> extends Aggregate {
         /**
          * The root of the tree.
          * @type {BSNode|null}
          */
-        root: BSNode;
+        root: BSNode<T>;
         constructor();
         /**
          * @inheritDoc
          */
-        getIterator(): BSTreeIterator;
+        getIterator(): BSTreeIterator<T>;
         /**
          * Insert the item relatives to the key value in the tree.
          * @param key {number} The key to store.
          * @param item {*} The item to store.
          * @return {void}
          */
-        insert(key: number, item: any): void;
+        insert(key: number, item: T): void;
         /**
          * Search the item relatives to the key.
          * @param key {Number} The key to find.
          * @param [node = root] {BSNode} The node from which start the search.
          * @return {*} The item found or undefined if there isn't the key in the tree.
          */
-        search(key: number, node?: BSNode | null): any;
+        search(key: number, node?: BSNode<T> | null): T | undefined;
         /**
          * Get the item relatives to the minimum key stored in the tree.
          * @param [node = root] {Node} The node from which start the search.
          * @return {BSNode} The node found.
          */
-        minimum(node?: BSNode | null): BSNode;
+        minimum(node?: BSNode<T> | null): BSNode<T>;
         /**
          * Get the item relatives to the maximum key stored in the tree.
          * @param [node = root] {Node} The node from which start the search.
          * @return {BSNode} The node found.
          */
-        maximum(node?: BSNode | null): BSNode;
+        maximum(node?: BSNode<T> | null): BSNode<T>;
         /**
          * Get the node with the key next to the param node key.
          * @param node {BSNode} The node of which search the successor.
          * @return {BSNode} The node found.
          */
-        successor(node: BSNode): BSNode;
+        successor(node: BSNode<T>): BSNode<T>;
         /**
          * Get the node with the key previous to the param node key.
          * @param node {BSNode} The node of which search the predecessor.
          * @return {BSNode} The node found.
          */
-        predecessor(node: BSNode): BSNode;
+        predecessor(node: BSNode<T>): BSNode<T>;
         /**
          * Delete the node from the tree.
          * @param node {BSNode} The node to delete.
          * @return {void}
          */
-        deleteNode(node: BSNode): void;
+        deleteNode(node: BSNode<T>): void;
     }
 }
 /**
@@ -449,23 +449,23 @@ declare namespace ds {
  * Modified by feng(http://feng3d.com) on 28/05/2018
  */
 declare namespace ds {
-    class BSTreeIterator implements Iterator {
+    class BSTreeIterator<T> implements Iterator {
         /**
          * The aggregate relates to this iterator.
          * @type {BSTree}
          */
-        aggregate: BSTree;
+        aggregate: BSTree<T>;
         /**
          * The pointer to the position.
          * @type {BSNode|null}
          */
-        pointer: BSNode;
+        pointer: BSNode<T>;
         /**
          * Class that implements the iterator for a binary search tree.
          * @param aggregate {BSTree} The aggregate to scan.
          * @constructor
          */
-        constructor(aggregate: BSTree);
+        constructor(aggregate: BSTree<T>);
         /**
          * @inheritDoc
          */
@@ -489,13 +489,13 @@ declare namespace ds {
         /**
          * @inheritDoc
          */
-        getItem(): any;
+        getItem(): T;
         /**
          * Return the node stored at the position pointed by the iterator.
          * @abstract
          * @return {BSNode|null} The node stored or null if it's out of the bounds.
          */
-        getNode(): BSNode;
+        getNode(): BSNode<T>;
     }
 }
 /**
